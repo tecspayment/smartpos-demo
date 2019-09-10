@@ -1,0 +1,42 @@
+stages:
+  - build
+  - deployment
+
+image: localhost:5000/android:28.0.2
+
+build:
+  stage: build
+  script:
+   - ./gradlew build
+  tags:
+    - linux
+  artifacts:
+    expire_in: 1 week
+    paths:
+     - ls
+     - ./app/build/outputs/apk/debug/app-debug.apk
+  except:
+    - tags
+
+buildtag:
+  stage: build
+  script:
+   - ./gradlew build
+  tags:
+    - linux
+  artifacts:
+    paths:
+     - ./app/build/outputs/apk/debug/app-debug.apk
+  only:
+    - tags
+
+
+deployment:
+  stage: deployment
+  script:
+    - git push --mirror https://tecs-at-publish:${GITHUB_TOKEN}@github.com/tecspayment/smartpos-demo
+  tags:
+    - linux
+  only:
+    - tags
+
