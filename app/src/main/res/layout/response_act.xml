@@ -3,6 +3,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,7 +36,8 @@
                     android:id="@+id/creaditCardIssuer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/credit_card_issuer_and_acquirer_company" />
+                    android:hint="@string/credit_card_issuer_and_acquirer_company"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -54,7 +56,8 @@
                     android:id="@+id/cardNum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/card_number" />
+                    android:hint="@string/card_number"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -73,7 +76,8 @@
                     android:id="@+id/transactionType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/transaction_type" />
+                    android:hint="@string/transaction_type"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -92,7 +96,8 @@
                     android:id="@+id/responseText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/response_text" />
+                    android:hint="@string/response_text"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -112,7 +117,8 @@
                     android:id="@+id/responseCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/response_code" />
+                    android:hint="@string/response_code"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -131,23 +137,9 @@
                     android:id="@+id/authorNum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/authorization_number" />
+                    android:hint="@string/authorization_number"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="@string/response"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout22"
@@ -155,18 +147,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/length"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/length" />
+                    android:hint="@string/length"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -185,7 +178,8 @@
                     android:id="@+id/transID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/transaction_id" />
+                    android:hint="@string/transaction_id"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -205,7 +199,8 @@
                     android:id="@+id/msgType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/message_type" />
+                    android:hint="@string/message_type"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -225,7 +220,8 @@
                     android:id="@+id/transactionDateTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/transaction_datetime" />
+                    android:hint="@string/transaction_datetime"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -245,7 +241,8 @@
                     android:id="@+id/VUNum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/vu_nummer" />
+                    android:hint="@string/vu_nummer"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -265,7 +262,8 @@
                     android:id="@+id/operatorID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/operator_id" />
+                    android:hint="@string/operator_id"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -285,7 +283,8 @@
                     android:id="@+id/serienNR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/serien_nr" />
+                    android:hint="@string/serien_nr"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -305,7 +304,8 @@
                     android:id="@+id/origTXID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/orig_tx_id" />
+                    android:hint="@string/orig_tx_id"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -325,7 +325,8 @@
                     android:id="@+id/stan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/stan" />
+                    android:hint="@string/stan"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -345,7 +346,8 @@
                     android:id="@+id/origStan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/orig_stan" />
+                    android:hint="@string/orig_stan"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -365,7 +367,8 @@
                     android:id="@+id/svc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/svc" />
+                    android:hint="@string/svc"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -385,7 +388,8 @@
                     android:id="@+id/ecrData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ecr_data" />
+                    android:hint="@string/ecr_data"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -405,7 +409,8 @@
                     android:id="@+id/exchangeRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/exchange_rate" />
+                    android:hint="@string/exchange_rate"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -425,7 +430,8 @@
                     android:id="@+id/foreignTXAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/foreign_tx_amount" />
+                    android:hint="@string/foreign_tx_amount"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -445,7 +451,8 @@
                     android:id="@+id/balanceAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/balance_amount" />
+                    android:hint="@string/balance_amount"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -465,7 +472,8 @@
                     android:id="@+id/merchantName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/merchant_name" />
+                    android:hint="@string/merchant_name"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -485,7 +493,8 @@
                     android:id="@+id/merchantAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/merchant_address" />
+                    android:hint="@string/merchant_address"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -505,7 +514,8 @@
                     android:id="@+id/receiptHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/receipt_header" />
+                    android:hint="@string/receipt_header"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -525,7 +535,8 @@
                     android:id="@+id/receiptFooter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/receipt_footer" />
+                    android:hint="@string/receipt_footer"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -545,7 +556,8 @@
                     android:id="@+id/bonusPoints"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/bonus_points" />
+                    android:hint="@string/bonus_points"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -566,7 +578,8 @@
                     android:id="@+id/exFee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/ex_fee" />
+                    android:hint="@string/ex_fee"
+                    android:imeOptions="actionDone" />
             </android.support.design.widget.TextInputLayout>
 
         </android.support.constraint.ConstraintLayout>
