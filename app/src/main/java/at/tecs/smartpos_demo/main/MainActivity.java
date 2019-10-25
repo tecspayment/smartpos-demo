@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -18,15 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.adapter.TabAdapter;
 import at.tecs.smartpos_demo.main.fragments.Callback;
-import at.tecs.smartpos_demo.response.ResponseActivity;
 
 import static at.tecs.smartpos.data.Response.Code.*;
-import static at.tecs.smartpos_demo.response.ResponseActivity.RESPONSE_KEY;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -41,19 +39,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private TextView onlineStatus;
     private ImageView connectImage;
 
-    private Button sendButton;
-
     private Button nataliButton;
     private Button connectButton;
 
-    private TabAdapter tabAdapter;
     private ViewPager viewPager;
-    private TabLayout tabLayout;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main_act2);
 
         registerReceiver(broadcastReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
@@ -62,12 +56,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter.takeView(this);
 
-        sendButton = findViewById(R.id.sendButton);
-
         viewPager = findViewById(R.id.viewpager);
-        tabLayout = findViewById(R.id.tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
 
-        tabAdapter = new TabAdapter(getSupportFragmentManager());
+        TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
 
         tabAdapter.setConnectionTabCallback(connectionTabCallback);
         tabAdapter.setTransactionTabCallback(transactionTabCallback);
@@ -78,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
-        sendButton = findViewById(R.id.sendButton);
+        Button sendButton = findViewById(R.id.sendButton);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         connectButton = findViewById(R.id.connectButton2);
 
+        if(presenter.isConnected()) {
+            showConnected();
+        } else {
+            showDisconnected();
+        }
+
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     protected void onDestroy() {
+        presenter.disconnect();
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }

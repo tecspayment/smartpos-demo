@@ -2,6 +2,7 @@ package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -78,7 +79,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Saves transaction to database.
-     * @param transaction
+     * @param transaction Transaction data object.
+     * @param name Name of transaction.
      */
     @Override
     public void saveTransaction(Transaction transaction, String name) {
@@ -119,7 +121,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Saves terminal number to database.
-     * @param terminalNum
+     * @param terminalNum Terminal number.
      */
     @Override
     public void saveTermNum(String terminalNum) {
@@ -135,7 +137,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Saves hostname to database.
-     * @param hostname
+     * @param hostname Hostname address.
      */
     @Override
     public void saveHostName(String hostname) {
@@ -151,7 +153,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Saves port to database.
-     * @param port
+     * @param port Port number.
      */
     @Override
     public void savePort(String port) {
@@ -167,7 +169,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Starts or terminates automatic incrementation of parameters.
-     * @param automatic
+     * @param automatic Automatic incrementation.
      */
     @Override
     public void startAutomatic(boolean automatic) {
@@ -248,7 +250,9 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void send() {
         if(connectionView.checkConnectionInputs() && transactionView.checkTransactionInputs()) {
-            paymentService.sendTransaction(transactionView.createTransaction());
+            Transaction transaction = transactionView.createTransaction();
+            transaction.terminalNum = TID;
+            paymentService.sendTransaction(transaction);
 
             view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
         }
@@ -276,7 +280,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Load transaction from database.
-     * @param name
+     * @param name Name of saved transaction.
      */
     @Override
     public void loadTransaction(String name) {
