@@ -9,56 +9,106 @@ import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
-
 public interface MainContract {
 
     interface View {
 
-        void showTransactionAuto(final String transactionID, final String dateTime);
-        void showTransaction(TransactionEntity transactionEntity);
         void showResponse(Response response);
 
         void showConnected();
+
         void showDisconnected();
 
         void showToast(String msg);
-
-        void setTransactionAdapter(ArrayAdapter<String> transactionAdapter);
-        void setTerminalNumAdapter(ArrayAdapter<String> terminalNumAdapter);
-        void setHostnameAdapter(ArrayAdapter<String> hostnameAdapter);
-        void setPortAdapter(ArrayAdapter<String> portAdapter);
 
         void showNataliStatus(int status);
 
         void showTemplates();
 
         Context getContext();
+
+        interface ConnectionTab {
+
+            void setTerminalNumAdapter(ArrayAdapter<String> terminalNumAdapter);
+
+            void setHostnameAdapter(ArrayAdapter<String> hostnameAdapter);
+
+            void setPortAdapter(ArrayAdapter<String> portAdapter);
+
+            boolean checkConnectionInputs();
+        }
+
+        interface TransactionTab {
+
+            void setTransactionAdapter(ArrayAdapter<String> transactionAdapter);
+
+            Transaction createTransaction();
+
+            void showTransaction(TransactionEntity transactionEntity);
+
+            void showTransactionAuto(final String transactionID, final String dateTime);
+
+            boolean checkTransactionInputs();
+        }
+
+        interface ResponseTab {
+            void showResponse(Response response);
+        }
+
+        interface TemplatesTab {
+
+
+        }
     }
 
     interface Presenter {
 
         void start();
+
         void initialize();
+
         void takeView(MainContract.View view);
-        void saveTransaction(Transaction transaction);
+
+        void saveTransaction(Transaction transaction, String name);
+
         void saveTermNum(String terminalNum);
+
         void saveHostName(String hostname);
+
         void savePort(String port);
 
         void setHostname(String hostname);
+
         void setPort(String port);
+
+        void setTID(String TID);
 
         boolean isConnected();
 
         void startAutomatic(boolean automatic);
+
         void connect();
+
         void disconnect();
-        void send(Transaction transaction);
+
+        //void send(Transaction transaction);
+        void send();
+
         void loadTransaction(String name);
 
         int startNatali(Context context);
 
         Response getLastResponse();
+
         PaymentService getPaymentService();
+
+        void takeConnectionView(MainContract.View.ConnectionTab view);
+
+        void takeTransactionView(MainContract.View.TransactionTab view);
+
+        void takeResponseView(MainContract.View.ResponseTab view);
+
+        void takeTemplatesView(MainContract.View.TemplatesTab view);
+
     }
 }

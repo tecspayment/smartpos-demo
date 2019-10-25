@@ -40,8 +40,6 @@ public class TemplatesActivity extends AppCompatActivity {
         paymentService = (PaymentService) getIntent().getSerializableExtra(PAYMENT_SERVICE_KEY);
         TID = getIntent().getStringExtra(TID_KEY);
 
-        TextView TIDtextView = findViewById(R.id.TIDtextView);
-
         saleAmountInput = findViewById(R.id.saleAmountInput);
         saleCurrencyInput = findViewById(R.id.saleCurrencyInput);
         Button saleSendButton = findViewById(R.id.saleSendButton);
@@ -56,8 +54,6 @@ public class TemplatesActivity extends AppCompatActivity {
         Button cancelSendButton = findViewById(R.id.cancelSendButton);
 
         Button abortSendButton = findViewById(R.id.abortSendButton);
-
-        TIDtextView.setText(String.format("%s%s", getString(tid_), TID));
 
         saleSendButton.setOnClickListener(new View.OnClickListener() {
             @Override

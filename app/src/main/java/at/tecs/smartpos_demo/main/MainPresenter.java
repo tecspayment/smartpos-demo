@@ -2,6 +2,7 @@ package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -27,6 +28,10 @@ import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
+    private MainContract.View.ConnectionTab connectionView;
+    private MainContract.View.TransactionTab transactionView;
+    private MainContract.View.ResponseTab responseView;
+    private MainContract.View.TemplatesTab templatesView;
 
     private Repository repository;
 
@@ -35,6 +40,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     private String transactionID;
     private String dateTime;
+
+    private String TID;
 
     private Response lastResponse;
 
@@ -68,8 +75,6 @@ public class MainPresenter implements MainContract.Presenter {
 
         timer = new Timer();
         repository = new Repository(view.getContext());
-
-        initializeSpinners();
     }
 
     /**
@@ -77,10 +82,11 @@ public class MainPresenter implements MainContract.Presenter {
      * @param transaction
      */
     @Override
-    public void saveTransaction(Transaction transaction) {
+    public void saveTransaction(Transaction transaction, String name) {
 
         TransactionEntity trans = new TransactionEntity();
 
+        trans.name = name;
         trans.ID = transaction.ID;
         trans.msgType = transaction.msgType;
         trans.dateTime = transaction.dateTime;
@@ -89,7 +95,7 @@ public class MainPresenter implements MainContract.Presenter {
         trans.cvc2 = transaction.cvc2;
         trans.amount = transaction.amount;
         trans.currency = transaction.currency;
-        trans.terminalNum = transaction.terminalNum;
+        trans.terminalNum = TID;
         trans.receiptNum = transaction.receiptNum;
         trans.transPlace = transaction.transPlace;
         trans.authorNum = transaction.authorNum;
@@ -109,7 +115,7 @@ public class MainPresenter implements MainContract.Presenter {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, transactionNames);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        view.setTransactionAdapter(arrayAdapter);
+        transactionView.setTransactionAdapter(arrayAdapter);
     }
 
     /**
@@ -125,7 +131,7 @@ public class MainPresenter implements MainContract.Presenter {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        view.setTerminalNumAdapter(arrayAdapter);
+        connectionView.setTerminalNumAdapter(arrayAdapter);
     }
 
     /**
@@ -141,7 +147,7 @@ public class MainPresenter implements MainContract.Presenter {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        view.setHostnameAdapter(arrayAdapter);
+        connectionView.setHostnameAdapter(arrayAdapter);
     }
 
     /**
@@ -157,7 +163,7 @@ public class MainPresenter implements MainContract.Presenter {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        view.setPortAdapter(arrayAdapter);
+        connectionView.setPortAdapter(arrayAdapter);
     }
 
     /**
@@ -178,44 +184,45 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void connect() {
-        paymentService.connect(new ConnectionListener() {
-            @Override
-            public void onConnected() {
-                view.showConnected();
+        if(connectionView.checkConnectionInputs())
+            paymentService.connect(new ConnectionListener() {
+                @Override
+                public void onConnected() {
+                    view.showConnected();
 
-                view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
 
-                paymentService.listen(new ResponseListener() {
-                    @Override
-                    public void onResponseReceived(Response response) {     //Readed response
-                        lastResponse = response;
-                        view.showResponse(response);
-                    }
+                    paymentService.listen(new ResponseListener() {
+                        @Override
+                        public void onResponseReceived(Response response) {     //Readed response
+                            lastResponse = response;
+                            Log.d("DEBUG","Respnse received !");
+                            responseView.showResponse(response);
+                        }
 
-                    @Override
-                    public void onReadFailed() {
-                        view.showToast("Read Failed !");
-                    }
-                });
-            }
+                        @Override
+                        public void onReadFailed() {
+                            view.showToast("Read Failed !");
+                        }
+                    });
+                }
 
-            @Override
-            public void onUnknownHost(UnknownHostException e) {
-                e.printStackTrace();
+                @Override
+                public void onUnknownHost(UnknownHostException e) {
+                    e.printStackTrace();
 
-                view.showToast("Unknown Host !");
-                view.showDisconnected();
-            }
+                    view.showToast("Unknown Host !");
+                    view.showDisconnected();
+                }
 
-            @Override
-            public void onSocketFail(IOException e) {
-                e.printStackTrace();
+                @Override
+                public void onSocketFail(IOException e) {
+                    e.printStackTrace();
 
-                view.showToast("Socket Failed !");
-                view.showDisconnected();
-            }
-        });
-
+                    view.showToast("Socket Failed !");
+                    view.showDisconnected();
+                }
+            });
     }
 
     /**
@@ -236,14 +243,14 @@ public class MainPresenter implements MainContract.Presenter {
 
     /**
      * Send transaction.
-     * @param transaction
      */
     @Override
-    public void send(Transaction transaction) {
+    public void send() {
+        if(connectionView.checkConnectionInputs() && transactionView.checkTransactionInputs()) {
+            paymentService.sendTransaction(transactionView.createTransaction());
 
-        paymentService.sendTransaction(transaction);
-
-        view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
+            view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
+        }
     }
 
     /**
@@ -254,7 +261,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void loadTransaction(String name) {
         TransactionEntity transactionEntity = repository.getTransaction(name);
 
-        view.showTransaction(transactionEntity);
+        transactionView.showTransaction(transactionEntity);
     }
 
     @Override
@@ -265,6 +272,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setPort(String port) {
         paymentService.setPort(Integer.valueOf(port));
+    }
+
+    @Override
+    public void setTID(String TID) {
+        this.TID = TID;
     }
 
     @Override
@@ -285,6 +297,30 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public PaymentService getPaymentService() {
         return paymentService;
+    }
+
+    @Override
+    public void takeConnectionView(MainContract.View.ConnectionTab view) {
+        connectionView = view;
+
+        initializeConnectionSpinners();
+    }
+
+    @Override
+    public void takeTransactionView(MainContract.View.TransactionTab view) {
+        transactionView = view;
+
+        initializeTransactionSpinners();
+    }
+
+    @Override
+    public void takeResponseView(MainContract.View.ResponseTab view) {
+        responseView = view;
+    }
+
+    @Override
+    public void takeTemplatesView(MainContract.View.TemplatesTab view) {
+        templatesView = view;
     }
 
     private class Incrementer extends TimerTask {
@@ -312,21 +348,12 @@ public class MainPresenter implements MainContract.Presenter {
                 Date date = new Date(System.currentTimeMillis());
                 transactionID = formatter.format(date) + "000000";
                 dateTime = formatter.format(date);
-                view.showTransactionAuto(transactionID, dateTime);
+                transactionView.showTransactionAuto(transactionID, dateTime);
             }
         }
     }
 
-    private void initializeSpinners() {
-        transactionNames = repository.getTransactionsNames();
-
-        if (!transactionNames.isEmpty()) {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, transactionNames);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            view.setTransactionAdapter(arrayAdapter);
-            view.showTransaction(repository.getTransaction(transactionNames.get(0)));
-        }
+    private void initializeConnectionSpinners() {
 
         terminalNums = repository.getTerminalNumbers();
 
@@ -334,7 +361,7 @@ public class MainPresenter implements MainContract.Presenter {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            view.setTerminalNumAdapter(arrayAdapter);
+            connectionView.setTerminalNumAdapter(arrayAdapter);
         }
 
         hostnames = repository.getHostnames();
@@ -343,7 +370,7 @@ public class MainPresenter implements MainContract.Presenter {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            view.setHostnameAdapter(arrayAdapter);
+            connectionView.setHostnameAdapter(arrayAdapter);
         }
 
         ports = repository.getPorts();
@@ -352,7 +379,19 @@ public class MainPresenter implements MainContract.Presenter {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            view.setPortAdapter(arrayAdapter);
+            connectionView.setPortAdapter(arrayAdapter);
+        }
+    }
+
+    private void initializeTransactionSpinners() {
+        transactionNames = repository.getTransactionsNames();
+
+        if (!transactionNames.isEmpty()) {
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, transactionNames);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            transactionView.setTransactionAdapter(arrayAdapter);
+            transactionView.showTransaction(repository.getTransaction(transactionNames.get(0)));
         }
     }
 }
