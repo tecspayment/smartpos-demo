@@ -21,6 +21,11 @@ public interface Callback {
 
     interface TemplatesTabCallback {
         void onAttach(MainContract.View.TemplatesTab view);
+
+        void performSale(String amount, String currency);
+        void performRefund(String amount, String currecy);
+        void performCancellation(String transID, String amount, String currency);
+        void performAbort();
     }
 
     interface TransactionTabCallback {

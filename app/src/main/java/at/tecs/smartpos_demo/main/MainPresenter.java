@@ -2,7 +2,6 @@ package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -196,8 +195,10 @@ public class MainPresenter implements MainContract.Presenter {
                         @Override
                         public void onResponseReceived(Response response) {     //Readed response
                             lastResponse = response;
-                            Log.d("DEBUG","Respnse received !");
-                            responseView.showResponse(response);
+                            view.showResponseTab(Integer.valueOf(response.responseCode));
+                            if(responseView != null) {
+                                responseView.showResponse(response);
+                            }
                         }
 
                         @Override
@@ -251,6 +252,26 @@ public class MainPresenter implements MainContract.Presenter {
 
             view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
         }
+    }
+
+    @Override
+    public void sale(String amount, String currency) {
+        paymentService.sale(Integer.valueOf(TID), Integer.valueOf(amount), currency);
+    }
+
+    @Override
+    public void refund(String amount, String currecy) {
+        paymentService.refund(Integer.valueOf(TID), Integer.valueOf(amount), currecy);
+    }
+
+    @Override
+    public void cancellation(String transID, String amount, String currency) {
+        paymentService.cancellation(Integer.valueOf(TID), transID,  Integer.valueOf(amount), currency);
+    }
+
+    @Override
+    public void abort() {
+        paymentService.abort();
     }
 
     /**
@@ -316,6 +337,10 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void takeResponseView(MainContract.View.ResponseTab view) {
         responseView = view;
+
+        if(lastResponse != null) {
+            responseView.showResponse(lastResponse);
+        }
     }
 
     @Override

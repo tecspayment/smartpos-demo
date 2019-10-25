@@ -190,14 +190,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     /**
-     * Shows terminal response through Toasts or through new Activity.
-     *
-     * @param response Response from terminal.
+     * Shows terminal response through Toasts or through new Activity.*
      */
     @Override
-    public void showResponse(Response response) {
-        if (response != null) {
-            int code = Integer.valueOf(response.responseCode);
+    public void showResponseTab(int code) {
 
             switch (code) { //Show status response
                 case TX_WAITING_FOR_CARD:
@@ -239,18 +235,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     break;
 
                 default:    //Show normal response
-                    Intent intent = new Intent(this, ResponseActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(RESPONSE_KEY, response);
-                    intent.putExtras(bundle);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewPager.setCurrentItem(2);
+                        }
+                    });
 
-                    startActivity(intent);
                     break;
             }
-        } else {
-            Toast toast = Toast.makeText(getContext(), "Response does not exist !", Toast.LENGTH_LONG);
-            toast.show();
-        }
     }
 
     @Override
@@ -280,24 +273,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 break;
         }
     }
-
-    @Override
-    public void showTemplates() {
-        /*
-        Intent intent = new Intent(this, TemplatesActivity.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(PAYMENT_SERVICE_KEY, presenter.getPaymentService());
-        intent.putExtras(bundle);
-
-        intent.putExtra(TID_KEY, terminalSpinner.getSelectedItem().toString());
-
-        startActivity(intent);
-
-         */
-    }
-
-
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
@@ -372,14 +347,34 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private Callback.ResponseTabCallback responseTabCallback = new Callback.ResponseTabCallback() {
         @Override
         public void onAttach(ResponseTab view) {
-
+            presenter.takeResponseView(view);
         }
     };
 
     private Callback.TemplatesTabCallback templatesTabCallback = new Callback.TemplatesTabCallback() {
         @Override
         public void onAttach(TemplatesTab view) {
+            presenter.takeTemplatesView(view);
+        }
 
+        @Override
+        public void performSale(String amount, String currency) {
+            presenter.sale(amount, currency);
+        }
+
+        @Override
+        public void performRefund(String amount, String currecy) {
+            presenter.refund(amount, currecy);
+        }
+
+        @Override
+        public void performCancellation(String transID, String amount, String currency) {
+            presenter.cancellation(transID, amount, currency);
+        }
+
+        @Override
+        public void performAbort() {
+            presenter.abort();
         }
     };
 }

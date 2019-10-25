@@ -1,5 +1,6 @@
 package at.tecs.smartpos_demo.main.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -85,34 +86,44 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
     }
 
     @Override
-    public void showResponse(Response response) {
-        creaditCardIssuer.setText(response.creditCardIssuer);
-        cardNum.setText(response.cardNum);
-        transactionType.setText(response.transactionType);
-        responseText.setText(response.responseText);
-        responseCode.setText(response.responseCode);
-        authorNum.setText(response.authorNum);
-        length.setText(response.length);
-        transID.setText(response.transID);
-        msgType.setText(response.msgType);
-        transactionDateTime.setText(response.transactionDateTime);
-        VUNum.setText(response.VUNum);
-        operatorID.setText(response.operatorID);
-        serienNR.setText(response.serienNR);
-        origTXID.setText(response.origTXID);
-        stan.setText(response.stan);
-        origStan.setText(response.origStan);
-        svc.setText(response.svc);
-        ecrData.setText(response.ecrData);
-        exchangeRate.setText(response.exchangeRate);
-        foreignTXAmount.setText(response.foreignTXAmount);
-        balanceAmount.setText(response.balanceAmount);
-        merchantName.setText(response.merchantName);
-        merchantAddress.setText(response.merchantAddress);
-        receiptHeader.setText(response.receiptHeader);
-        receiptFooter.setText(response.receiptFooter);
-        bonusPoints.setText(response.bonusPoints);
-        exFee.setText(response.exFee);
+    public void showResponse(final Response response) {
+
+        Activity activity = getActivity();
+
+        if(activity != null)
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    creaditCardIssuer.setText(response.creditCardIssuer);
+                    cardNum.setText(response.cardNum);
+                    transactionType.setText(response.transactionType);
+                    responseText.setText(response.responseText);
+                    responseCode.setText(response.responseCode);
+                    authorNum.setText(response.authorNum);
+                    length.setText(response.length);
+                    transID.setText(response.transID);
+                    msgType.setText(response.msgType);
+                    transactionDateTime.setText(response.transactionDateTime);
+                    VUNum.setText(response.VUNum);
+                    operatorID.setText(response.operatorID);
+                    serienNR.setText(response.serienNR);
+                    origTXID.setText(response.origTXID);
+                    stan.setText(response.stan);
+                    origStan.setText(response.origStan);
+                    svc.setText(response.svc);
+                    ecrData.setText(response.ecrData);
+                    exchangeRate.setText(response.exchangeRate);
+                    foreignTXAmount.setText(response.foreignTXAmount);
+                    balanceAmount.setText(response.balanceAmount);
+                    merchantName.setText(response.merchantName);
+                    merchantAddress.setText(response.merchantAddress);
+                    receiptHeader.setText(response.receiptHeader);
+                    receiptFooter.setText(response.receiptFooter);
+                    bonusPoints.setText(response.bonusPoints);
+                    exFee.setText(response.exFee);
+                }
+            });
+
     }
 
     public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {

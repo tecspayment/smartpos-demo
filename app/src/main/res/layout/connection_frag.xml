@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="true"
                 android:hint="@string/port_"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
@@ -115,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="true"
                 android:hint="@string/ip"
+                android:imeOptions="actionDone"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
@@ -201,6 +203,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="true"
                 android:hint="@string/terminal_number_"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>

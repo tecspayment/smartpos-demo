@@ -13,7 +13,7 @@ public interface MainContract {
 
     interface View {
 
-        void showResponse(Response response);
+        void showResponseTab(int code);
 
         void showConnected();
 
@@ -22,8 +22,6 @@ public interface MainContract {
         void showToast(String msg);
 
         void showNataliStatus(int status);
-
-        void showTemplates();
 
         Context getContext();
 
@@ -91,8 +89,12 @@ public interface MainContract {
 
         void disconnect();
 
-        //void send(Transaction transaction);
         void send();
+
+        void sale(String amount, String currency);
+        void refund(String amount, String currecy);
+        void cancellation(String transID, String amount, String currency);
+        void abort();
 
         void loadTransaction(String name);
 
