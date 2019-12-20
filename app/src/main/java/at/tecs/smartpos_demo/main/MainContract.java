@@ -69,11 +69,19 @@ public interface MainContract {
 
         void saveTransaction(Transaction transaction, String name);
 
+        void deleteTransaction(String name);
+
         void saveTermNum(String terminalNum);
+
+        void deleteTermNum(String terminalNum);
 
         void saveHostName(String hostname);
 
+        void deleteHostName(String hostname);
+
         void savePort(String port);
+
+        void deletePort(String port);
 
         void setHostname(String hostname);
 

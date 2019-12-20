@@ -14,6 +14,9 @@ public interface PortDAO {
     @Query("SELECT * FROM PortEntity")
     List<PortEntity> getAllPorts();
 
+    @Query("DELETE FROM PortEntity WHERE port=:port")
+    void deletePort(String port);
+
     @Insert
     void insertPort(PortEntity portEntity);
 }

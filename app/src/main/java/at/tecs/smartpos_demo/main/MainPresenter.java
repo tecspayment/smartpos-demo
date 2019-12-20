@@ -2,7 +2,6 @@ package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -119,6 +118,23 @@ public class MainPresenter implements MainContract.Presenter {
         transactionView.setTransactionAdapter(arrayAdapter);
     }
 
+    @Override
+    public void deleteTransaction(String name) {
+        repository.deleteTransation(name);
+
+        transactionNames = repository.getTransactionsNames();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, transactionNames);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        transactionView.setTransactionAdapter(arrayAdapter);
+        if(transactionNames.isEmpty()) {
+            transactionView.showTransaction(new TransactionEntity());
+        } else {
+            transactionView.showTransaction(repository.getTransaction(transactionNames.get(0)));
+        }
+    }
+
     /**
      * Saves terminal number to database.
      * @param terminalNum Terminal number.
@@ -128,6 +144,18 @@ public class MainPresenter implements MainContract.Presenter {
         repository.saveTerminalNum(new TerminalNumberEntity(terminalNum));
 
         terminalNums.add(terminalNum);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionView.setTerminalNumAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void deleteTermNum(String terminalNum) {
+        repository.deleteTerminalNum(new TerminalNumberEntity(terminalNum));
+
+        terminalNums = repository.getTerminalNumbers();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -151,6 +179,18 @@ public class MainPresenter implements MainContract.Presenter {
         connectionView.setHostnameAdapter(arrayAdapter);
     }
 
+    @Override
+    public void deleteHostName(String hostname) {
+        repository.deleteHostname(new HostnameEntity(hostname));
+
+        hostnames = repository.getHostnames();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionView.setHostnameAdapter(arrayAdapter);
+    }
+
     /**
      * Saves port to database.
      * @param port Port number.
@@ -160,6 +200,18 @@ public class MainPresenter implements MainContract.Presenter {
         repository.savePort(new PortEntity(port));
 
         ports.add(port);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionView.setPortAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void deletePort(String port) {
+        repository.deletePort(new PortEntity(port));
+
+        ports = repository.getPorts();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

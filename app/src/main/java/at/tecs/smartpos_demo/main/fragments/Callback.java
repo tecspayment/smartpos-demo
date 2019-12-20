@@ -7,8 +7,11 @@ public interface Callback {
 
     interface ConnectionTabCallback {
         void saveTerminalNumber(String terminalNum);
+        void deleteTerminalNumber(String terminalNum);
         void saveHostname(String hostname);
+        void deleteHostname(String hostname);
         void savePort(String port);
+        void deletePort(String port);
         void selectTID(String TID);
         void selectHostname(String hostname);
         void selectPort(String port);
@@ -30,6 +33,7 @@ public interface Callback {
 
     interface TransactionTabCallback {
         void saveTransaction(Transaction transaction, String name);
+        void deleteTransaction(String name);
         void startAutomatic(boolean start);
         void loadTransaction(String transactionID);
         void onAttach(MainContract.View.TransactionTab view);
