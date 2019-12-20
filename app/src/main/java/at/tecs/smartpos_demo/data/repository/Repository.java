@@ -230,9 +230,13 @@ public class Repository {
 
         List<TransactionEntity> transactionEntities = database.transactionDAO().getAllTransactions();
 
-        for (TransactionEntity transactionEntity :
-                transactionEntities) {
+        for (TransactionEntity transactionEntity : transactionEntities) {
             names.add(transactionEntity.name);
+        }
+
+        if(names.get(names.size() - 1).equals("Last Transaction")) {
+            names.add(0, names.get(names.size() - 1));
+            names.remove(names.size() - 1);
         }
 
         return names;

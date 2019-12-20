@@ -91,29 +91,7 @@ public class MainPresenter implements MainContract.Presenter {
             }
         }
 
-        TransactionEntity trans = new TransactionEntity();
-
-        trans.name = name;
-        trans.ID = transaction.ID;
-        trans.msgType = transaction.msgType;
-        trans.dateTime = transaction.dateTime;
-        trans.sourceID = transaction.sourceID;
-        trans.cardNum = transaction.cardNum;
-        trans.cvc2 = transaction.cvc2;
-        trans.amount = transaction.amount;
-        trans.currency = transaction.currency;
-        trans.terminalNum = TID;
-        trans.receiptNum = transaction.receiptNum;
-        trans.transPlace = transaction.transPlace;
-        trans.authorNum = transaction.authorNum;
-        trans.originInd = transaction.originInd;
-        trans.password = transaction.password;
-        trans.userdata = transaction.userdata;
-        trans.langCode = transaction.langCode;
-        trans.desCurrency = transaction.desCurrency;
-        trans.receiptLayout = transaction.receiptLayout;
-        trans.txOrigin = transaction.txOrigin;
-        trans.personalID = transaction.personalID;
+        TransactionEntity trans = convertTransaction(transaction, name);
 
         repository.saveTransaction(trans);
 
@@ -335,6 +313,18 @@ public class MainPresenter implements MainContract.Presenter {
         if(connectionView.checkConnectionInputs() && transactionView.checkTransactionInputs()) {
             Transaction transaction = transactionView.createTransaction();
             transaction.terminalNum = TID;
+
+            TransactionEntity lastTransaction = repository.getTransaction("Last Transaction");
+
+            if(lastTransaction == null) {
+                repository.saveTransaction(convertTransaction(transaction, "Last Transaction"));
+            } else {
+                repository.deleteTransation("Last Transaction");
+                repository.saveTransaction(convertTransaction(transaction, "Last Transaction"));
+            }
+
+            initializeTransactionSpinners();
+
             paymentService.sendTransaction(transaction);
 
             view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
@@ -505,5 +495,33 @@ public class MainPresenter implements MainContract.Presenter {
             transactionView.setTransactionAdapter(arrayAdapter);
             transactionView.showTransaction(repository.getTransaction(transactionNames.get(0)));
         }
+    }
+
+    private TransactionEntity convertTransaction(Transaction transaction,String name) {
+        TransactionEntity trans = new TransactionEntity();
+
+        trans.name = name;
+        trans.ID = transaction.ID;
+        trans.msgType = transaction.msgType;
+        trans.dateTime = transaction.dateTime;
+        trans.sourceID = transaction.sourceID;
+        trans.cardNum = transaction.cardNum;
+        trans.cvc2 = transaction.cvc2;
+        trans.amount = transaction.amount;
+        trans.currency = transaction.currency;
+        trans.terminalNum = TID;
+        trans.receiptNum = transaction.receiptNum;
+        trans.transPlace = transaction.transPlace;
+        trans.authorNum = transaction.authorNum;
+        trans.originInd = transaction.originInd;
+        trans.password = transaction.password;
+        trans.userdata = transaction.userdata;
+        trans.langCode = transaction.langCode;
+        trans.desCurrency = transaction.desCurrency;
+        trans.receiptLayout = transaction.receiptLayout;
+        trans.txOrigin = transaction.txOrigin;
+        trans.personalID = transaction.personalID;
+
+        return trans;
     }
 }
