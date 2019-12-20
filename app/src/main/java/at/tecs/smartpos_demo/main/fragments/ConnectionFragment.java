@@ -119,6 +119,10 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                 if(terminalSpinner.getSelectedItem()!= null && !terminalSpinner.getSelectedItem().toString().isEmpty()) {
                     callback.deleteTerminalNumber(terminalSpinner.getSelectedItem().toString());
                 }
+
+                terminalAdd.setText(getString(R.string.add));
+
+                terminalAdd.setOnClickListener(showTerminalEdit);
             }
         });
 
@@ -134,6 +138,10 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                     callback.saveTerminalNumber(terminalInput.getEditableText().toString());
                     terminalInput.getText().clear();
                 }
+
+                terminalAdd.setText(getString(R.string.add));
+
+                terminalAdd.setOnClickListener(showTerminalEdit);
             }
         });
 
@@ -153,6 +161,9 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                     ipInput.getText().clear();
                 }
 
+                hostnameAdd.setText(getString(R.string.add));
+
+                hostnameAdd.setOnClickListener(showHostnamesEdit);
             }
         });
 
@@ -167,6 +178,10 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                 if(hostnameSpinner.getSelectedItem() != null && !hostnameSpinner.getSelectedItem().toString().isEmpty()) {
                     callback.deleteHostname(hostnameSpinner.getSelectedItem().toString());
                 }
+
+                hostnameAdd.setText(getString(R.string.add));
+
+                hostnameAdd.setOnClickListener(showHostnamesEdit);
             }
         });
 
@@ -186,6 +201,9 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                     portInput.getText().clear();
                 }
 
+                portAdd.setText(getString(R.string.add));
+
+                portAdd.setOnClickListener(showPortEdit);
             }
         });
 
@@ -199,6 +217,10 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                 if(portSpinner.getSelectedItem() != null && !portSpinner.getSelectedItem().toString().isEmpty()) {
                     callback.deletePort(portSpinner.getSelectedItem().toString());
                 }
+
+                portAdd.setText(getString(R.string.add));
+
+                portAdd.setOnClickListener(showPortEdit);
             }
         });
 

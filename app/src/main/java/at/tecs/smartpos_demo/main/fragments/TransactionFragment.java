@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.main.fragments;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -126,6 +127,10 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
                     callback.saveTransaction(transaction, transactionInput.getEditableText().toString());
                     transactionInput.getText().clear();
                 }
+
+                transactionAdd.setText(R.string.add);
+
+                transactionAdd.setOnClickListener(showTransactionEdit);
             }
         });
 
@@ -139,6 +144,10 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
                 if(transactionSpinner.getSelectedItem() != null && !transactionSpinner.getSelectedItem().toString().isEmpty()) {
                     callback.deleteTransaction(transactionSpinner.getSelectedItem().toString());
                 }
+
+                transactionAdd.setText(R.string.add);
+
+                transactionAdd.setOnClickListener(showTransactionEdit);
             }
         });
 

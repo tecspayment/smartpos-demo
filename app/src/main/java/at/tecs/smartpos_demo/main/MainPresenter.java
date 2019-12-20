@@ -84,6 +84,13 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void saveTransaction(Transaction transaction, String name) {
 
+        for(int i = 0; i < transactionNames.size(); i ++) {
+            if(name.equals(transactionNames.get(i))) {
+                view.showToast("Transaction with this name is already saved !");
+                return;
+            }
+        }
+
         TransactionEntity trans = new TransactionEntity();
 
         trans.name = name;
@@ -141,6 +148,14 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void saveTermNum(String terminalNum) {
+
+        for(int i = 0; i < terminalNums.size(); i ++) {
+            if(terminalNum.equals(terminalNums.get(i))) {
+                view.showToast("Terminal number is already saved !");
+                return;
+            }
+        }
+
         repository.saveTerminalNum(new TerminalNumberEntity(terminalNum));
 
         terminalNums.add(terminalNum);
@@ -169,6 +184,14 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void saveHostName(String hostname) {
+
+        for(int i = 0; i < hostnames.size(); i ++) {
+            if(hostname.equals(hostnames.get(i))) {
+                view.showToast("Hostname is already saved !");
+                return;
+            }
+        }
+
         repository.saveHostname(new HostnameEntity(hostname));
 
         hostnames.add(hostname);
@@ -197,6 +220,14 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void savePort(String port) {
+
+        for(int i = 0; i < ports.size(); i ++) {
+            if(port.equals(ports.get(i))) {
+                view.showToast("Port is already saved !");
+                return;
+            }
+        }
+
         repository.savePort(new PortEntity(port));
 
         ports.add(port);
