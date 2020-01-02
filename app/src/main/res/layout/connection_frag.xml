@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +9,19 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/portSave2"
+            android:id="@+id/portDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/portAdd" />
+
+        <Button
+            android:id="@+id/portSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -20,7 +31,7 @@
             android:text="@string/save"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/portAdd2" />
+            app:layout_constraintTop_toBottomOf="@+id/portDelete" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/portInputLayout"
@@ -32,9 +43,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/portSave2"
+            app:layout_constraintEnd_toStartOf="@+id/portSave"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/portAdd2">
+            app:layout_constraintTop_toBottomOf="@+id/portDelete">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/portInput"
@@ -45,10 +56,11 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:singleLine="true" />
+
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/portAdd2"
+            android:id="@+id/portAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -58,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
         <Spinner
-            android:id="@+id/portSpinner3"
+            android:id="@+id/portSpinner"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
@@ -67,7 +79,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:spinnerMode="dialog"
-            app:layout_constraintEnd_toStartOf="@+id/portAdd2"
+            app:layout_constraintEnd_toStartOf="@+id/portAdd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -84,7 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/IPInputLayout" />
 
         <Button
-            android:id="@+id/hostnameSave2"
+            android:id="@+id/hostnameSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -94,7 +106,7 @@
             android:text="@string/save"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hostnameAdd2" />
+            app:layout_constraintTop_toBottomOf="@+id/hostnameDelete" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/IPInputLayout"
@@ -106,9 +118,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/hostnameSave2"
+            app:layout_constraintEnd_toStartOf="@+id/hostnameSave"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hostnameAdd2">
+            app:layout_constraintTop_toBottomOf="@+id/hostnameDelete">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/ipInput"
@@ -121,7 +133,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/hostnameAdd2"
+            android:id="@+id/hostnameAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -131,7 +143,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <Spinner
-            android:id="@+id/hostnameSpinner2"
+            android:id="@+id/hostnameSpinner"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
@@ -140,7 +152,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:spinnerMode="dialog"
-            app:layout_constraintEnd_toStartOf="@+id/hostnameAdd2"
+            app:layout_constraintEnd_toStartOf="@+id/hostnameAdd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -154,10 +166,10 @@
             android:text="@string/hostname"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/termInputLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/termInputLayout" />
 
         <Button
-            android:id="@+id/terminalSave2"
+            android:id="@+id/terminalSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -167,10 +179,10 @@
             android:text="@string/save"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/terminalAdd2" />
+            app:layout_constraintTop_toBottomOf="@+id/terminalDelete" />
 
         <Button
-            android:id="@+id/terminalAdd2"
+            android:id="@+id/terminalAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -180,7 +192,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/termInputLayout2"
+            android:id="@+id/termInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -193,9 +205,9 @@
             android:inputType="number"
             android:singleLine="true"
             android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/terminalSave2"
+            app:layout_constraintEnd_toStartOf="@+id/terminalSave"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/terminalAdd2">
+            app:layout_constraintTop_toBottomOf="@+id/terminalDelete">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/terminalInput"
@@ -209,7 +221,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <Spinner
-            android:id="@+id/terminalSpinner2"
+            android:id="@+id/terminalSpinner"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
@@ -218,7 +230,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:spinnerMode="dialog"
-            app:layout_constraintEnd_toStartOf="@+id/terminalAdd2"
+            app:layout_constraintEnd_toStartOf="@+id/terminalAdd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -233,5 +245,29 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/terminalDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/terminalAdd" />
+
+        <Button
+            android:id="@+id/hostnameDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hostnameAdd" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

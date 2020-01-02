@@ -26,15 +26,21 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
     private Spinner hostnameSpinner;
     private Spinner portSpinner;
 
+    private Button terminalAdd;
     private Button terminalSave;
+    private Button terminalDelete;
     private TextInputEditText terminalInput;
     private TextInputLayout termInputLayout;
 
+    private Button hostnameAdd;
     private Button hostnameSave;
+    private Button hostnameDelete;
     private TextInputEditText ipInput;
     private TextInputLayout IPInputLayout;
 
+    private Button portAdd;
     private Button portSave;
+    private Button portDelete;
     private TextInputEditText portInput;
     private TextInputLayout portInputLayout;
 
@@ -45,19 +51,22 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.connection_frag, container, false);
 
-        terminalSpinner = view.findViewById(R.id.terminalSpinner2);
-        hostnameSpinner = view.findViewById(R.id.hostnameSpinner2);
-        portSpinner = view.findViewById(R.id.portSpinner3);
+        terminalSpinner = view.findViewById(R.id.terminalSpinner);
+        hostnameSpinner = view.findViewById(R.id.hostnameSpinner);
+        portSpinner = view.findViewById(R.id.portSpinner);
 
-        terminalSave = view.findViewById(R.id.terminalSave2);
+        terminalSave = view.findViewById(R.id.terminalSave);
+        terminalDelete = view.findViewById(R.id.terminalDelete);
         terminalInput = view.findViewById(R.id.terminalInput);
-        termInputLayout = view.findViewById(R.id.termInputLayout2);
+        termInputLayout = view.findViewById(R.id.termInputLayout);
 
-        hostnameSave = view.findViewById(R.id.hostnameSave2);
+        hostnameSave = view.findViewById(R.id.hostnameSave);
+        hostnameDelete = view.findViewById(R.id.hostnameDelete);
         ipInput = view.findViewById(R.id.ipInput);
         IPInputLayout = view.findViewById(R.id.IPInputLayout);
 
-        portSave = view.findViewById(R.id.portSave2);
+        portSave = view.findViewById(R.id.portSave);
+        portDelete = view.findViewById(R.id.portDelete);
         portInput = view.findViewById(R.id.portInput);
         portInputLayout = view.findViewById(R.id.portInputLayout);
 
@@ -100,31 +109,45 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
             }
         });
 
+        terminalDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                terminalSave.setVisibility(View.GONE);
+                termInputLayout.setVisibility(View.GONE);
+                terminalDelete.setVisibility(View.GONE);
+
+                if(terminalSpinner.getSelectedItem()!= null && !terminalSpinner.getSelectedItem().toString().isEmpty()) {
+                    callback.deleteTerminalNumber(terminalSpinner.getSelectedItem().toString());
+                }
+
+                terminalAdd.setText(getString(R.string.add));
+
+                terminalAdd.setOnClickListener(showTerminalEdit);
+            }
+        });
+
         terminalSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 terminalSave.setVisibility(View.GONE);
                 termInputLayout.setVisibility(View.GONE);
+                terminalDelete.setVisibility(View.GONE);
 
                 if (terminalInput.getText() != null && !terminalInput.getText().toString().isEmpty()) {
                     callback.saveTerminalNumber(terminalInput.getEditableText().toString());
                     terminalInput.getText().clear();
                 }
+
+                terminalAdd.setText(getString(R.string.add));
+
+                terminalAdd.setOnClickListener(showTerminalEdit);
             }
         });
 
-        final Button terminalAdd = view.findViewById(R.id.terminalAdd2);
+        terminalAdd = view.findViewById(R.id.terminalAdd);
 
-        terminalAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                termInputLayout.setVisibility(View.VISIBLE);
-                terminalSave.setVisibility(View.VISIBLE);
-
-            }
-        });
+        terminalAdd.setOnClickListener(showTerminalEdit);
 
         hostnameSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,45 +161,72 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                     ipInput.getText().clear();
                 }
 
+                hostnameAdd.setText(getString(R.string.add));
+
+                hostnameAdd.setOnClickListener(showHostnamesEdit);
             }
         });
 
-        final Button hostnameAdd = view.findViewById(R.id.hostnameAdd2);
-
-        hostnameAdd.setOnClickListener(new View.OnClickListener() {
+        hostnameDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                IPInputLayout.setVisibility(View.VISIBLE);
-                hostnameSave.setVisibility(View.VISIBLE);
+                IPInputLayout.setVisibility(GONE);
+                hostnameSave.setVisibility(GONE);
+                hostnameDelete.setVisibility(GONE);
 
+                if(hostnameSpinner.getSelectedItem() != null && !hostnameSpinner.getSelectedItem().toString().isEmpty()) {
+                    callback.deleteHostname(hostnameSpinner.getSelectedItem().toString());
+                }
+
+                hostnameAdd.setText(getString(R.string.add));
+
+                hostnameAdd.setOnClickListener(showHostnamesEdit);
             }
         });
+
+        hostnameAdd = view.findViewById(R.id.hostnameAdd);
+
+        hostnameAdd.setOnClickListener(showHostnamesEdit);
 
         portSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 portSave.setVisibility(GONE);
                 portInputLayout.setVisibility(GONE);
+                portDelete.setVisibility(GONE);
 
                 if(portInput.getText() != null && !portInput.getText().toString().isEmpty()) {
                     callback.savePort(portInput.getEditableText().toString());
                     portInput.getText().clear();
                 }
 
+                portAdd.setText(getString(R.string.add));
+
+                portAdd.setOnClickListener(showPortEdit);
             }
         });
 
-        final Button portAdd = view.findViewById(R.id.portAdd2);
-
-        portAdd.setOnClickListener(new View.OnClickListener() {
+        portDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                portSave.setVisibility(GONE);
+                portInputLayout.setVisibility(GONE);
+                portDelete.setVisibility(GONE);
 
-                portSave.setVisibility(View.VISIBLE);
-                portInputLayout.setVisibility(View.VISIBLE);
+                if(portSpinner.getSelectedItem() != null && !portSpinner.getSelectedItem().toString().isEmpty()) {
+                    callback.deletePort(portSpinner.getSelectedItem().toString());
+                }
+
+                portAdd.setText(getString(R.string.add));
+
+                portAdd.setOnClickListener(showPortEdit);
             }
         });
+
+        portAdd = view.findViewById(R.id.portAdd);
+
+        portAdd.setOnClickListener(showPortEdit);
 
         return view;
     }
@@ -222,5 +272,83 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
     public void setCallback(Callback.ConnectionTabCallback callback) {
         this.callback = callback;
     }
+
+    private View.OnClickListener showHostnamesEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            IPInputLayout.setVisibility(View.VISIBLE);
+            hostnameSave.setVisibility(View.VISIBLE);
+            hostnameDelete.setVisibility(View.VISIBLE);
+
+            hostnameAdd.setText(getString(R.string.cancel));
+
+            hostnameAdd.setOnClickListener(cancelHostnamesEdit);
+        }
+    };
+
+    private View.OnClickListener cancelHostnamesEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            IPInputLayout.setVisibility(View.GONE);
+            hostnameSave.setVisibility(View.GONE);
+            hostnameDelete.setVisibility(View.GONE);
+
+            hostnameAdd.setText(getString(R.string.add));
+
+            hostnameAdd.setOnClickListener(showHostnamesEdit);
+        }
+    };
+
+    private View.OnClickListener showPortEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            portInputLayout.setVisibility(View.VISIBLE);
+            portSave.setVisibility(View.VISIBLE);
+            portDelete.setVisibility(View.VISIBLE);
+
+            portAdd.setText(getString(R.string.cancel));
+
+            portAdd.setOnClickListener(cancelPortEdit);
+        }
+    };
+
+    private View.OnClickListener cancelPortEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            portInputLayout.setVisibility(View.GONE);
+            portSave.setVisibility(View.GONE);
+            portDelete.setVisibility(View.GONE);
+
+            portAdd.setText(getString(R.string.add));
+
+            portAdd.setOnClickListener(showPortEdit);
+        }
+    };
+
+    private View.OnClickListener showTerminalEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            termInputLayout.setVisibility(View.VISIBLE);
+            terminalSave.setVisibility(View.VISIBLE);
+            terminalDelete.setVisibility(View.VISIBLE);
+
+            terminalAdd.setText(getString(R.string.cancel));
+
+            terminalAdd.setOnClickListener(cancelTerminalEdit);
+        }
+    };
+
+    private View.OnClickListener cancelTerminalEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            termInputLayout.setVisibility(View.GONE);
+            terminalSave.setVisibility(View.GONE);
+            terminalDelete.setVisibility(View.GONE);
+
+            terminalAdd.setText(getString(R.string.add));
+
+            terminalAdd.setOnClickListener(showTerminalEdit);
+        }
+    };
 
 }

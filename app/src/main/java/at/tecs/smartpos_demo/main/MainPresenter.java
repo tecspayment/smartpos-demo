@@ -2,7 +2,6 @@ package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -85,29 +84,14 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void saveTransaction(Transaction transaction, String name) {
 
-        TransactionEntity trans = new TransactionEntity();
+        for(int i = 0; i < transactionNames.size(); i ++) {
+            if(name.equals(transactionNames.get(i))) {
+                view.showToast("Transaction with this name is already saved !");
+                return;
+            }
+        }
 
-        trans.name = name;
-        trans.ID = transaction.ID;
-        trans.msgType = transaction.msgType;
-        trans.dateTime = transaction.dateTime;
-        trans.sourceID = transaction.sourceID;
-        trans.cardNum = transaction.cardNum;
-        trans.cvc2 = transaction.cvc2;
-        trans.amount = transaction.amount;
-        trans.currency = transaction.currency;
-        trans.terminalNum = TID;
-        trans.receiptNum = transaction.receiptNum;
-        trans.transPlace = transaction.transPlace;
-        trans.authorNum = transaction.authorNum;
-        trans.originInd = transaction.originInd;
-        trans.password = transaction.password;
-        trans.userdata = transaction.userdata;
-        trans.langCode = transaction.langCode;
-        trans.desCurrency = transaction.desCurrency;
-        trans.receiptLayout = transaction.receiptLayout;
-        trans.txOrigin = transaction.txOrigin;
-        trans.personalID = transaction.personalID;
+        TransactionEntity trans = convertTransaction(transaction, name);
 
         repository.saveTransaction(trans);
 
@@ -119,15 +103,52 @@ public class MainPresenter implements MainContract.Presenter {
         transactionView.setTransactionAdapter(arrayAdapter);
     }
 
+    @Override
+    public void deleteTransaction(String name) {
+        repository.deleteTransation(name);
+
+        transactionNames = repository.getTransactionsNames();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, transactionNames);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        transactionView.setTransactionAdapter(arrayAdapter);
+        if(transactionNames.isEmpty()) {
+            transactionView.showTransaction(new TransactionEntity());
+        } else {
+            transactionView.showTransaction(repository.getTransaction(transactionNames.get(0)));
+        }
+    }
+
     /**
      * Saves terminal number to database.
      * @param terminalNum Terminal number.
      */
     @Override
     public void saveTermNum(String terminalNum) {
+
+        for(int i = 0; i < terminalNums.size(); i ++) {
+            if(terminalNum.equals(terminalNums.get(i))) {
+                view.showToast("Terminal number is already saved !");
+                return;
+            }
+        }
+
         repository.saveTerminalNum(new TerminalNumberEntity(terminalNum));
 
         terminalNums.add(terminalNum);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionView.setTerminalNumAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void deleteTermNum(String terminalNum) {
+        repository.deleteTerminalNum(new TerminalNumberEntity(terminalNum));
+
+        terminalNums = repository.getTerminalNumbers();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -141,9 +162,29 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void saveHostName(String hostname) {
+
+        for(int i = 0; i < hostnames.size(); i ++) {
+            if(hostname.equals(hostnames.get(i))) {
+                view.showToast("Hostname is already saved !");
+                return;
+            }
+        }
+
         repository.saveHostname(new HostnameEntity(hostname));
 
         hostnames.add(hostname);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionView.setHostnameAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void deleteHostName(String hostname) {
+        repository.deleteHostname(new HostnameEntity(hostname));
+
+        hostnames = repository.getHostnames();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -157,9 +198,29 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void savePort(String port) {
+
+        for(int i = 0; i < ports.size(); i ++) {
+            if(port.equals(ports.get(i))) {
+                view.showToast("Port is already saved !");
+                return;
+            }
+        }
+
         repository.savePort(new PortEntity(port));
 
         ports.add(port);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionView.setPortAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void deletePort(String port) {
+        repository.deletePort(new PortEntity(port));
+
+        ports = repository.getPorts();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -252,6 +313,18 @@ public class MainPresenter implements MainContract.Presenter {
         if(connectionView.checkConnectionInputs() && transactionView.checkTransactionInputs()) {
             Transaction transaction = transactionView.createTransaction();
             transaction.terminalNum = TID;
+
+            TransactionEntity lastTransaction = repository.getTransaction("Last Transaction");
+
+            if(lastTransaction == null) {
+                repository.saveTransaction(convertTransaction(transaction, "Last Transaction"));
+            } else {
+                repository.deleteTransation("Last Transaction");
+                repository.saveTransaction(convertTransaction(transaction, "Last Transaction"));
+            }
+
+            initializeTransactionSpinners();
+
             paymentService.sendTransaction(transaction);
 
             view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
@@ -422,5 +495,33 @@ public class MainPresenter implements MainContract.Presenter {
             transactionView.setTransactionAdapter(arrayAdapter);
             transactionView.showTransaction(repository.getTransaction(transactionNames.get(0)));
         }
+    }
+
+    private TransactionEntity convertTransaction(Transaction transaction,String name) {
+        TransactionEntity trans = new TransactionEntity();
+
+        trans.name = name;
+        trans.ID = transaction.ID;
+        trans.msgType = transaction.msgType;
+        trans.dateTime = transaction.dateTime;
+        trans.sourceID = transaction.sourceID;
+        trans.cardNum = transaction.cardNum;
+        trans.cvc2 = transaction.cvc2;
+        trans.amount = transaction.amount;
+        trans.currency = transaction.currency;
+        trans.terminalNum = TID;
+        trans.receiptNum = transaction.receiptNum;
+        trans.transPlace = transaction.transPlace;
+        trans.authorNum = transaction.authorNum;
+        trans.originInd = transaction.originInd;
+        trans.password = transaction.password;
+        trans.userdata = transaction.userdata;
+        trans.langCode = transaction.langCode;
+        trans.desCurrency = transaction.desCurrency;
+        trans.receiptLayout = transaction.receiptLayout;
+        trans.txOrigin = transaction.txOrigin;
+        trans.personalID = transaction.personalID;
+
+        return trans;
     }
 }

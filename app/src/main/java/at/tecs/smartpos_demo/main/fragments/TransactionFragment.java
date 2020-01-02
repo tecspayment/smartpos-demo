@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.main.fragments;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,9 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
 
     private Spinner transactionSpinner;
 
+    private Button transactionAdd;
     private Button transactionSave;
+    private Button transactionDelete;
     private TextInputEditText transactionInput;
     private TextInputLayout transInputLayout;
 
@@ -64,7 +67,7 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
 
         View view = inflater.inflate(R.layout.transaction_frag, container, false);
 
-        transactionSpinner = view.findViewById(R.id.transactionSpinner2);
+        transactionSpinner = view.findViewById(R.id.transactionSpinner);
 
         transactionIDInput = view.findViewById(R.id.transactionIDInput);
         dateTimeInput = view.findViewById(R.id.dateTimeInput);
@@ -89,7 +92,8 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
         txOriginInput = view.findViewById(R.id.txOriginInput);
         personalIDInput = view.findViewById(R.id.personalIDInput);
 
-        transactionSave = view.findViewById(R.id.transactionSave2);
+        transactionSave = view.findViewById(R.id.transactionSave);
+        transactionDelete = view.findViewById(R.id.transactionDelete);
         transactionInput = view.findViewById(R.id.transactionInput);
         transInputLayout = view.findViewById(R.id.transInputLayout);
 
@@ -105,15 +109,9 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
             }
         });
 
-        final Button transactionAdd = view.findViewById(R.id.transactionAdd2);
+        transactionAdd = view.findViewById(R.id.transactionAdd);
 
-        transactionAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                transactionSave.setVisibility(View.VISIBLE);
-                transInputLayout.setVisibility(View.VISIBLE);
-            }
-        });
+        transactionAdd.setOnClickListener(showTransactionEdit);
 
         transactionSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,11 +121,33 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
 
                 transactionSave.setVisibility(GONE);
                 transInputLayout.setVisibility(GONE);
+                transactionDelete.setVisibility(GONE);
 
                 if(transactionInput.getText() != null && !transactionInput.getText().toString().isEmpty()) {
                     callback.saveTransaction(transaction, transactionInput.getEditableText().toString());
                     transactionInput.getText().clear();
                 }
+
+                transactionAdd.setText(R.string.add);
+
+                transactionAdd.setOnClickListener(showTransactionEdit);
+            }
+        });
+
+        transactionDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transactionSave.setVisibility(GONE);
+                transInputLayout.setVisibility(GONE);
+                transactionDelete.setVisibility(GONE);
+
+                if(transactionSpinner.getSelectedItem() != null && !transactionSpinner.getSelectedItem().toString().isEmpty()) {
+                    callback.deleteTransaction(transactionSpinner.getSelectedItem().toString());
+                }
+
+                transactionAdd.setText(R.string.add);
+
+                transactionAdd.setOnClickListener(showTransactionEdit);
             }
         });
 
@@ -241,5 +261,30 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
         this.callback = callback;
     }
 
+    private View.OnClickListener showTransactionEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            transInputLayout.setVisibility(View.VISIBLE);
+            transactionSave.setVisibility(View.VISIBLE);
+            transactionDelete.setVisibility(View.VISIBLE);
+
+            transactionAdd.setText(getString(R.string.cancel));
+
+            transactionAdd.setOnClickListener(cancelTransactionEdit);
+        }
+    };
+
+    private View.OnClickListener cancelTransactionEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            transInputLayout.setVisibility(View.GONE);
+            transactionSave.setVisibility(View.GONE);
+            transactionDelete.setVisibility(View.GONE);
+
+            transactionAdd.setText(getString(R.string.add));
+
+            transactionAdd.setOnClickListener(showTransactionEdit);
+        }
+    };
 
 }

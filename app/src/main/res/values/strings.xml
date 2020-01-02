@@ -39,7 +39,8 @@
     <string name="hostname">Hostname :</string>
     <string name="ip">IP</string>
     <string name="port">Port :</string>
-    <string name="add">Add</string>
+    <string name="add">Edit</string>
+    <string name="cancel">Cancel</string>
     <string name="port_">Port</string>
     <string name="connect">Connect</string>
     <string name="launch_natali">Launch NaTALI</string>
@@ -80,4 +81,8 @@
     <string name="len_1">508</string>
     <string name="len_2">450</string>
     <string name="presence_offline">presence_offline</string>
+    <string name="delete">Delete</string>
+    <string name="connection">Connection</string>
+    <string name="trans">Trans</string>
+    <string name="responses">Response</string>
 </resources>

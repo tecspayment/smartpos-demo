@@ -14,6 +14,9 @@ public interface TransactionDAO {
     @Query("SELECT * FROM TransactionEntity")
     List<TransactionEntity> getAllTransactions();
 
+    @Query("DELETE FROM TransactionEntity WHERE name=:name")
+    void deleteTransaction(String name);
+
     @Query("SELECT * FROM TransactionEntity WHERE name =:name")
     TransactionEntity getTransaction(String name);
 

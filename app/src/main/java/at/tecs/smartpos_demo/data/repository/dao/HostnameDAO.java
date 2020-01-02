@@ -13,6 +13,9 @@ public interface HostnameDAO {
     @Query("SELECT * FROM HostnameEntity")
     List<HostnameEntity> getAllHostnames();
 
+    @Query("DELETE FROM HostnameEntity WHERE hostname=:name")
+    void deleteHostname(String name);
+
     @Insert
     void insertHostname(HostnameEntity hostnameEntity);
 }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_act2);
+        setContentView(R.layout.main_act);
 
         registerReceiver(broadcastReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
 
@@ -291,13 +290,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
 
         @Override
+        public void deleteTerminalNumber(String terminalNum) {
+            presenter.deleteTermNum(terminalNum);
+        }
+
+        @Override
         public void saveHostname(String hostname) {
             presenter.saveHostName(hostname);
         }
 
         @Override
+        public void deleteHostname(String hostname) {
+            presenter.deleteHostName(hostname);
+        }
+
+        @Override
         public void savePort(String port) {
             presenter.savePort(port);
+        }
+
+        @Override
+        public void deletePort(String port) {
+            presenter.deletePort(port);
         }
 
         @Override
@@ -325,6 +339,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void saveTransaction(Transaction transaction, String name) {
             presenter.saveTransaction(transaction, name);
+        }
+
+        @Override
+        public void deleteTransaction(String name) {
+            presenter.deleteTransaction(name);
         }
 
         @Override

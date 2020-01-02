@@ -15,6 +15,9 @@ public interface TerminalNumberDAO {
     @Query("SELECT * FROM TerminalNumberEntity")
     List<TerminalNumberEntity> getAllTerminalNums();
 
+    @Query("DELETE FROM TerminalNumberEntity WHERE termNum=:termNum")
+    void deleteTerminalNum(String termNum);
+
     @Insert
     void insertTerminalNum(TerminalNumberEntity terminalNumberEntity);
 }

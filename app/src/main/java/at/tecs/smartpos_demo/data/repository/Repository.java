@@ -2,6 +2,7 @@ package at.tecs.smartpos_demo.data.repository;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,16 +193,32 @@ public class Repository {
         database.transactionDAO().insertTransaction(transactionEntity);
     }
 
+    public void deleteTransation(String name) {
+        database.transactionDAO().deleteTransaction(name);
+    }
+
     public void savePort(PortEntity portEntity) {
         database.portDAO().insertPort(portEntity);
+    }
+
+    public void deletePort(PortEntity portEntity) {
+        database.portDAO().deletePort(portEntity.port);
     }
 
     public void saveTerminalNum(TerminalNumberEntity terminalNumberEntity) {
         database.terminalNumberDAO().insertTerminalNum(terminalNumberEntity);
     }
 
+    public void deleteTerminalNum(TerminalNumberEntity terminalNumberEntity) {
+        database.terminalNumberDAO().deleteTerminalNum(terminalNumberEntity.termNum);
+    }
+
     public void saveHostname(HostnameEntity hostnameEntity) {
         database.hostnameDAO().insertHostname(hostnameEntity);
+    }
+
+    public void deleteHostname(HostnameEntity hostnameEntity) {
+        database.hostnameDAO().deleteHostname(hostnameEntity.hostname);
     }
 
     public TransactionEntity getTransaction(String name) {
@@ -213,9 +230,13 @@ public class Repository {
 
         List<TransactionEntity> transactionEntities = database.transactionDAO().getAllTransactions();
 
-        for (TransactionEntity transactionEntity :
-                transactionEntities) {
+        for (TransactionEntity transactionEntity : transactionEntities) {
             names.add(transactionEntity.name);
+        }
+
+        if(names.get(names.size() - 1).equals("Last Transaction")) {
+            names.add(0, names.get(names.size() - 1));
+            names.remove(names.size() - 1);
         }
 
         return names;
