@@ -173,6 +173,42 @@ public class Repository {
             saveTransaction(abort);
         }
 
+        if(getTransaction("Moto") == null) {
+            TransactionEntity moto = new TransactionEntity();
+            moto.name = "Moto";
+            moto.msgType = "1";
+            moto.sourceID = "1";
+            moto.amount = "1";
+            moto.currency = "EUR";
+            moto.receiptNum = "1";
+            moto.paymentReason = "EMV transaction test";
+            moto.transPlace = "Test Place";
+            moto.originInd = "0";
+
+            moto.langCode = "EN";
+            moto.receiptLayout = "1";
+            moto.desCurrency = "EUR";
+            moto.txOrigin = "2";
+
+            saveTransaction(moto);
+        }
+
+        if(getTransaction("Connection Status") == null) {
+            TransactionEntity connection = new TransactionEntity();
+            connection.name = "Connection Status";
+            connection.msgType = "2667";
+
+            saveTransaction(connection);
+        }
+
+        if(getTransaction("Kill Natali") == null) {
+            TransactionEntity kill = new TransactionEntity();
+            kill.name = "Kill Natali";
+            kill.msgType = "4544";
+
+            saveTransaction(kill);
+        }
+
         if(getHostname("localhost") == null) {
             HostnameEntity hostname = new HostnameEntity();
             hostname.hostname = "localhost";
