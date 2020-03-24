@@ -1,8 +1,11 @@
 package at.tecs.smartpos_demo.main;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+
+import java.util.Set;
 
 import at.tecs.smartpos.PaymentService;
 import at.tecs.smartpos.data.Response;
@@ -34,6 +37,10 @@ public interface MainContract {
             void setPortAdapter(ArrayAdapter<String> portAdapter);
 
             boolean checkConnectionInputs();
+
+            void showTCP();
+
+            void showBluetooth();
         }
 
         interface TransactionTab {
@@ -98,6 +105,16 @@ public interface MainContract {
         void disconnect();
 
         void send();
+
+        void selectConnection(String type);
+
+        void setBluetoothDevice(BluetoothDevice bluetoothDevice);
+
+        void startScan();
+
+        void stopScan();
+
+        Set<BluetoothDevice> getPairedDevices();
 
         void sale(String amount, String currency);
         void refund(String amount, String currecy);

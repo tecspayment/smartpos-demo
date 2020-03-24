@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.main;
 
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +12,19 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.util.ArrayList;
+import java.util.Set;
 
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
@@ -38,18 +46,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private TextView onlineStatus;
     private ImageView connectImage;
 
-    private Button nataliButton;
+    //private Button nataliButton;
+    private Spinner connectionSpinner;
     private Button connectButton;
 
     private ViewPager viewPager;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_act);
 
-        registerReceiver(broadcastReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
+        //registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
+        //registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -81,10 +90,36 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter.initialize();
 
-        onlineStatus = findViewById(R.id.onlineStatus2);
-        connectImage = findViewById(R.id.connectImage2);
+        onlineStatus = findViewById(R.id.onlineStatus);
+        connectImage = findViewById(R.id.connectImage);
 
-        nataliButton = findViewById(R.id.nataliButton2);
+        //nataliButton = findViewById(R.id.nataliButton);
+
+        connectionSpinner = findViewById(R.id.connectionSpinner);
+
+        ArrayList<String> connectionTypes = new ArrayList<>();
+        connectionTypes.add("TCP");
+        connectionTypes.add("Bluetooth");
+
+        connectionSpinner.setSelection(0);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, connectionTypes);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        connectionSpinner.setAdapter(arrayAdapter);
+
+        connectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                presenter.selectConnection(connectionSpinner.getSelectedItem().toString());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         int status = presenter.startNatali(getContext());       //Launch NaTALI at launch
 
@@ -92,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             showToast("NaTALI not found !");
         }
 
+        /*
         nataliButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,8 +138,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 }
             }
         });
+        */
 
-        connectButton = findViewById(R.id.connectButton2);
+        connectButton = findViewById(R.id.connectButton);
 
         if(presenter.isConnected()) {
             showConnected();
@@ -115,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onClick(View v) {
                 if (!presenter.isConnected()) {
-                        presenter.connect();
+                    presenter.connect();
                 } else {
                     presenter.disconnect();
                 }
@@ -128,7 +165,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onDestroy() {
         presenter.disconnect();
-        unregisterReceiver(broadcastReceiver);
+        //unregisterReceiver(nataliReceiver);
+        //unregisterReceiver(bluetoothReceiver);
         super.onDestroy();
     }
 
@@ -246,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showNataliStatus(int status) {
-
+        /*
         switch (status) {
             case SERVICE_ALIVE:
                 nataliButton.setText(getString(R.string.service_alive));
@@ -270,9 +308,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 nataliButton.setBackgroundResource(R.color.disconnected);
                 break;
         }
+        */
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver nataliReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -332,6 +371,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void onAttach(ConnectionTab view) {
             presenter.takeConnectionView(view);
+        }
+
+        @Override
+        public void startScan() {
+            presenter.startScan();
+        }
+
+        @Override
+        public void stopScan() {
+            presenter.stopScan();
+        }
+
+        @Override
+        public void selectDevice(BluetoothDevice bluetoothDevice) {
+            presenter.setBluetoothDevice(bluetoothDevice);
+        }
+
+        @Override
+        public Set<BluetoothDevice> getPairedDevices() {
+            return presenter.getPairedDevices();
         }
     };
 
@@ -395,4 +454,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.abort();
         }
     };
+
+    /*
+    private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+
+                Log.d("DBG", "Device found " + deviceName);
+
+                showToast("Device found : " + deviceName + ":" + deviceHardwareAddress);
+
+                presenter.setBluetoothDevice(device);
+            }
+        }
+    };
+    */
+
+
 }
