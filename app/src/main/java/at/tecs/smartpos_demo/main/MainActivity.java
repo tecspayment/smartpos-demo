@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.adapter.TabAdapter;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         viewPager = findViewById(R.id.viewpager);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
 
-        TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
+        final TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
 
         tabAdapter.setConnectionTabCallback(connectionTabCallback);
         tabAdapter.setTransactionTabCallback(transactionTabCallback);
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 presenter.selectConnection(connectionSpinner.getSelectedItem().toString());
-
+                tabAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -391,6 +392,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public Set<BluetoothDevice> getPairedDevices() {
             return presenter.getPairedDevices();
+        }
+
+        @Override
+        public ConnectionType selectedConnection() {
+            return presenter.getSelected();
         }
     };
 

@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import java.util.Set;
 
 import at.tecs.smartpos.PaymentService;
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
@@ -137,5 +138,6 @@ public interface MainContract {
 
         void takeTemplatesView(MainContract.View.TemplatesTab view);
 
+        ConnectionType getSelected();
     }
 }

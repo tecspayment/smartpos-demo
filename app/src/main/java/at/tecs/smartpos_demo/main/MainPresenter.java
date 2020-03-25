@@ -28,6 +28,9 @@ import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
+import static at.tecs.smartpos.data.ConnectionType.BLUETOOTH;
+import static at.tecs.smartpos.data.ConnectionType.TCP;
+
 
 public class MainPresenter implements MainContract.Presenter {
 
@@ -63,6 +66,8 @@ public class MainPresenter implements MainContract.Presenter {
     private BluetoothDevice bluetoothDevice;
 
     private BluetoothAdapter bluetoothAdapter;
+
+    private ConnectionType selected = TCP;
 
     MainPresenter() {
         paymentService = new PaymentService();
@@ -350,33 +355,37 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void selectConnection(String type) {
-        if(type.equals("Bluetooth") && paymentService.getType() != ConnectionType.BLUETOOTH ) {
+        if(type.equals("Bluetooth") && paymentService.getType() != BLUETOOTH ) {
             try {
                 view.showToast("Changed to bluetooth");
 
                 paymentService.disconnect();
                 view.showDisconnected();
 
-                paymentService = new PaymentService(ConnectionType.BLUETOOTH);
+                paymentService = new PaymentService(BLUETOOTH);
                 paymentService.setDevice(bluetoothDevice);
 
                 connectionView.showBluetooth();
 
+                connectionType = BLUETOOTH;
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (type.equals("TCP") && paymentService.getType() != ConnectionType.TCP) {
+        } else if (type.equals("TCP") && paymentService.getType() != TCP) {
             try {
                 view.showToast("Changed to TCP");
 
                 paymentService.disconnect();
                 view.showDisconnected();
 
-                paymentService = new PaymentService(ConnectionType.TCP);
+                paymentService = new PaymentService(TCP);
                 paymentService.setHostname(hostname);
                 paymentService.setPort(Integer.valueOf(port));
 
                 connectionView.showTCP();
+
+                connectionType = TCP;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -504,6 +513,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public Set<BluetoothDevice> getPairedDevices() {
         return bluetoothAdapter.getBondedDevices();
+    }
+
+    @Override
+    public ConnectionType getSelected() {
+        return selected;
     }
 
     private class Incrementer extends TimerTask {

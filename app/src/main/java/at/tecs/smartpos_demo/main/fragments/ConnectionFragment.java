@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.MainContract;
 
@@ -264,6 +265,12 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
                 callback.selectDevice(pairedDevices.get(0));
             }
         });
+
+        if(callback.selectedConnection() == ConnectionType.BLUETOOTH) {
+            showBluetooth();
+        } else {
+            showTCP();
+        }
 
         return view;
     }

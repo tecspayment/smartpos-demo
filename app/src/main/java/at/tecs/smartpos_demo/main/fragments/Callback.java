@@ -5,12 +5,15 @@ import android.widget.ArrayAdapter;
 
 import java.util.Set;
 
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.main.MainContract;
 
 public interface Callback {
 
     interface ConnectionTabCallback {
+
+        ConnectionType selectedConnection();
         void saveTerminalNumber(String terminalNum);
         void deleteTerminalNumber(String terminalNum);
         void saveHostname(String hostname);
