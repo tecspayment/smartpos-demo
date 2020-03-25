@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -248,33 +247,21 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (BluetoothDevice device : callback.getPairedDevices()) {
-                    callback.selectDevice(device);
-                }
+                refreshPairedDevices();
             }
         });
 
-        ArrayAdapter<BluetoothDevice> arrayAdapter = new ArrayAdapter<BluetoothDevice>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<>(callback.getPairedDevices()));
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        devicesSpinner.setAdapter(arrayAdapter);
-
-        devicesSpinner.setSelection(0);
+        refreshPairedDevices();
 
         devicesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("DBG","Selected : " + pairedDevices.get(position).getName() + ":" + pairedDevices.get(position).getAddress());
-                for (BluetoothDevice device : callback.getPairedDevices()) {
-                    callback.selectDevice(device);
-                }
+                    callback.selectDevice(pairedDevices.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                for (BluetoothDevice device : callback.getPairedDevices()) {
-                    callback.selectDevice(device);
-                }
+                callback.selectDevice(pairedDevices.get(0));
             }
         });
 
@@ -435,4 +422,22 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
         }
     };
 
-}
+    private void refreshPairedDevices() {
+        pairedDevices = new ArrayList<>(callback.getPairedDevices());
+
+        ArrayList<String> names = new ArrayList<>();
+
+        for(BluetoothDevice device : pairedDevices) {
+            names.add(device.getName() + "-" + device.getAddress());
+        }
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, names);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        devicesSpinner.setAdapter(arrayAdapter);
+
+        devicesSpinner.setSelection(0);
+
+        callback.selectDevice(pairedDevices.get(0));
+    }
+ }
