@@ -272,7 +272,10 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onConnected() {
                     view.showConnected();
 
-                    view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    if(paymentService.getType() == TCP)
+                        view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    else
+                        view.showToast("Connected to " + paymentService.getDeviceName() + ":" + paymentService.getDeviceAddress());
 
                     paymentService.listen(new ResponseListener() {
                         @Override
