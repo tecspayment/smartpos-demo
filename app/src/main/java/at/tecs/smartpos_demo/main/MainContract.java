@@ -139,5 +139,7 @@ public interface MainContract {
         void takeTemplatesView(MainContract.View.TemplatesTab view);
 
         ConnectionType getSelected();
+
+        boolean isBluetooth();
     }
 }

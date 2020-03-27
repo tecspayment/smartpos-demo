@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         ArrayList<String> connectionTypes = new ArrayList<>();
         connectionTypes.add("TCP");
-        connectionTypes.add("Bluetooth");
+        if(presenter.isBluetooth())
+            connectionTypes.add("Bluetooth");
 
         connectionSpinner.setSelection(0);
 

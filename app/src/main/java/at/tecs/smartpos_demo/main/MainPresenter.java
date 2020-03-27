@@ -69,10 +69,16 @@ public class MainPresenter implements MainContract.Presenter {
 
     private ConnectionType selected = TCP;
 
+    private boolean bluetooth = false;
+
     MainPresenter() {
         paymentService = new PaymentService();
         connectionType = paymentService.getType();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if(bluetoothAdapter != null) {
+            bluetooth = true;
+        }
     }
 
     @Override
@@ -515,12 +521,18 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public Set<BluetoothDevice> getPairedDevices() {
-        return bluetoothAdapter.getBondedDevices();
+        if(bluetoothAdapter != null)
+            return bluetoothAdapter.getBondedDevices();
+        else return null;
     }
 
     @Override
     public ConnectionType getSelected() {
         return selected;
+    }
+
+    public boolean isBluetooth() {
+        return bluetooth;
     }
 
     private class Incrementer extends TimerTask {
