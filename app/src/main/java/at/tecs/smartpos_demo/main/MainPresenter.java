@@ -22,6 +22,7 @@ import at.tecs.smartpos.connector.ResponseListener;
 import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
+import at.tecs.smartpos.exception.BluetoothException;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
@@ -380,6 +381,9 @@ public class MainPresenter implements MainContract.Presenter {
 
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (BluetoothException e) {
+                bluetooth = false;
+                e.printStackTrace();
             }
         } else if (type.equals("TCP") && paymentService.getType() != TCP) {
             try {
@@ -397,6 +401,9 @@ public class MainPresenter implements MainContract.Presenter {
                 connectionType = TCP;
 
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (BluetoothException e) {
+                bluetooth = false;
                 e.printStackTrace();
             }
         }
