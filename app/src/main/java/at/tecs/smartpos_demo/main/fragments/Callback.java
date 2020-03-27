@@ -1,11 +1,19 @@
 package at.tecs.smartpos_demo.main.fragments;
 
+import android.bluetooth.BluetoothDevice;
+import android.widget.ArrayAdapter;
+
+import java.util.Set;
+
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.main.MainContract;
 
 public interface Callback {
 
     interface ConnectionTabCallback {
+
+        ConnectionType selectedConnection();
         void saveTerminalNumber(String terminalNum);
         void deleteTerminalNumber(String terminalNum);
         void saveHostname(String hostname);
@@ -16,6 +24,10 @@ public interface Callback {
         void selectHostname(String hostname);
         void selectPort(String port);
         void onAttach(MainContract.View.ConnectionTab view);
+        void startScan();
+        void stopScan();
+        void selectDevice(BluetoothDevice bluetoothDevice);
+        Set<BluetoothDevice> getPairedDevices();
     }
 
     interface ResponseTabCallback {

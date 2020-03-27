@@ -1,5 +1,6 @@
 package at.tecs.smartpos_demo.main.fragments;
 
+import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,8 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.MainContract;
 
@@ -32,19 +37,26 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
     private TextInputEditText terminalInput;
     private TextInputLayout termInputLayout;
 
+    private TextView hostnameTextView;
     private Button hostnameAdd;
     private Button hostnameSave;
     private Button hostnameDelete;
     private TextInputEditText ipInput;
     private TextInputLayout IPInputLayout;
 
+    private TextView portTextView;
     private Button portAdd;
     private Button portSave;
     private Button portDelete;
     private TextInputEditText portInput;
     private TextInputLayout portInputLayout;
 
+    private Spinner devicesSpinner;
+    private Button scanButton;
+
     private Callback.ConnectionTabCallback callback;
+
+    private ArrayList<BluetoothDevice> pairedDevices = new ArrayList<>();
 
     @Nullable
     @Override
@@ -60,11 +72,13 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
         terminalInput = view.findViewById(R.id.terminalInput);
         termInputLayout = view.findViewById(R.id.termInputLayout);
 
+        hostnameTextView = view.findViewById(R.id.hostnameTextView);
         hostnameSave = view.findViewById(R.id.hostnameSave);
         hostnameDelete = view.findViewById(R.id.hostnameDelete);
         ipInput = view.findViewById(R.id.ipInput);
         IPInputLayout = view.findViewById(R.id.IPInputLayout);
 
+        portTextView = view.findViewById(R.id.portTextView);
         portSave = view.findViewById(R.id.portSave);
         portDelete = view.findViewById(R.id.portDelete);
         portInput = view.findViewById(R.id.portInput);
@@ -228,6 +242,36 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
 
         portAdd.setOnClickListener(showPortEdit);
 
+        devicesSpinner = view.findViewById(R.id.devicesSpinner);
+        scanButton = view.findViewById(R.id.scanButton);
+
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshPairedDevices();
+            }
+        });
+
+        refreshPairedDevices();
+
+        devicesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    callback.selectDevice(pairedDevices.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                callback.selectDevice(pairedDevices.get(0));
+            }
+        });
+
+        if(callback.selectedConnection() == ConnectionType.BLUETOOTH) {
+            showBluetooth();
+        } else {
+            showTCP();
+        }
+
         return view;
     }
 
@@ -266,6 +310,40 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
             Toast toast = Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG);
             toast.show();
             return false;
+        }
+    }
+
+    @Override
+    public void showTCP() {
+        portTextView.setVisibility(View.VISIBLE);
+        portSpinner.setVisibility(View.VISIBLE);
+        portAdd.setVisibility(View.VISIBLE);
+
+        hostnameTextView.setVisibility(View.VISIBLE);
+        hostnameSpinner.setVisibility(View.VISIBLE);
+        hostnameAdd.setVisibility(View.VISIBLE);
+
+        scanButton.setVisibility(GONE);
+        devicesSpinner.setVisibility(GONE);
+    }
+
+    @Override
+    public void showBluetooth() {
+        portTextView.setVisibility(GONE);
+        portSpinner.setVisibility(GONE);
+        portAdd.setVisibility(GONE);
+
+        hostnameTextView.setVisibility(GONE);
+        hostnameSpinner.setVisibility(GONE);
+        hostnameAdd.setVisibility(GONE);
+
+        scanButton.setVisibility(View.VISIBLE);
+        devicesSpinner.setVisibility(View.VISIBLE);
+
+        pairedDevices = new ArrayList<>(callback.getPairedDevices());
+
+        for (BluetoothDevice device : callback.getPairedDevices()) {
+            callback.selectDevice(device);
         }
     }
 
@@ -351,4 +429,24 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
         }
     };
 
-}
+    private void refreshPairedDevices() {
+        pairedDevices = new ArrayList<>(callback.getPairedDevices());
+
+        if(!pairedDevices.isEmpty()) {
+            ArrayList<String> names = new ArrayList<>();
+
+            for(BluetoothDevice device : pairedDevices) {
+                names.add(device.getName() + "-" + device.getAddress());
+            }
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, names);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            devicesSpinner.setAdapter(arrayAdapter);
+
+            devicesSpinner.setSelection(0);
+
+            callback.selectDevice(pairedDevices.get(0));
+        }
+    }
+ }

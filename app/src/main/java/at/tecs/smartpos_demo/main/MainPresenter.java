@@ -1,7 +1,10 @@
 package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -9,19 +12,25 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import at.tecs.smartpos.PaymentService;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
+import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
+import at.tecs.smartpos.exception.BluetoothException;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
+
+import static at.tecs.smartpos.data.ConnectionType.BLUETOOTH;
+import static at.tecs.smartpos.data.ConnectionType.TCP;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -41,6 +50,8 @@ public class MainPresenter implements MainContract.Presenter {
     private String dateTime;
 
     private String TID;
+    private String hostname;
+    private String port;
 
     private Response lastResponse;
 
@@ -51,8 +62,24 @@ public class MainPresenter implements MainContract.Presenter {
 
     private PaymentService paymentService;
 
+    private ConnectionType connectionType;
+
+    private BluetoothDevice bluetoothDevice;
+
+    private BluetoothAdapter bluetoothAdapter;
+
+    private ConnectionType selected = TCP;
+
+    private boolean bluetooth = false;
+
     MainPresenter() {
         paymentService = new PaymentService();
+        connectionType = paymentService.getType();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if(bluetoothAdapter != null) {
+            bluetooth = true;
+        }
     }
 
     @Override
@@ -252,7 +279,10 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onConnected() {
                     view.showConnected();
 
-                    view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    if(paymentService.getType() == TCP)
+                        view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    else
+                        view.showToast("Connected to " + paymentService.getDeviceName() + ":" + paymentService.getDeviceAddress());
 
                     paymentService.listen(new ResponseListener() {
                         @Override
@@ -297,6 +327,8 @@ public class MainPresenter implements MainContract.Presenter {
         try {
             paymentService.disconnect();
 
+            bluetoothDevice = null;
+
             view.showToast("Disconnected from " + paymentService.getHostname() + ":" + paymentService.getPort());
             view.showDisconnected();
         } catch (IOException e) {
@@ -329,6 +361,53 @@ public class MainPresenter implements MainContract.Presenter {
 
             view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
         }
+    }
+
+    @Override
+    public void selectConnection(String type) {
+        if(type.equals("Bluetooth") && paymentService.getType() != BLUETOOTH ) {
+            try {
+                view.showToast("Changed to bluetooth");
+
+                paymentService.disconnect();
+                view.showDisconnected();
+
+                paymentService = new PaymentService(BLUETOOTH);
+                paymentService.setDevice(bluetoothDevice);
+
+                connectionView.showBluetooth();
+
+                connectionType = BLUETOOTH;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (BluetoothException e) {
+                bluetooth = false;
+                e.printStackTrace();
+            }
+        } else if (type.equals("TCP") && paymentService.getType() != TCP) {
+            try {
+                view.showToast("Changed to TCP");
+
+                paymentService.disconnect();
+                view.showDisconnected();
+
+                paymentService = new PaymentService(TCP);
+                paymentService.setHostname(hostname);
+                paymentService.setPort(Integer.valueOf(port));
+
+                connectionView.showTCP();
+
+                connectionType = TCP;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (BluetoothException e) {
+                bluetooth = false;
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -365,11 +444,15 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setHostname(String hostname) {
         paymentService.setHostname(hostname);
+
+        this.hostname = hostname;
     }
 
     @Override
     public void setPort(String port) {
         paymentService.setPort(Integer.valueOf(port));
+
+        this.port = port;
     }
 
     @Override
@@ -425,6 +508,40 @@ public class MainPresenter implements MainContract.Presenter {
         templatesView = view;
     }
 
+    @Override
+    public void startScan() {
+        if(bluetoothAdapter.startDiscovery()) {
+            Log.d("DBG","startScan run !");
+        } else {
+            Log.d("DBG","startScan failed !");
+        }
+    }
+
+    @Override
+    public void stopScan() {
+        if(bluetoothAdapter.cancelDiscovery()) {
+            Log.d("DBG","stopScan run !");
+        } else {
+            Log.d("DBG","stopScan failed !");
+        }
+    }
+
+    @Override
+    public Set<BluetoothDevice> getPairedDevices() {
+        if(bluetoothAdapter != null)
+            return bluetoothAdapter.getBondedDevices();
+        else return null;
+    }
+
+    @Override
+    public ConnectionType getSelected() {
+        return selected;
+    }
+
+    public boolean isBluetooth() {
+        return bluetooth;
+    }
+
     private class Incrementer extends TimerTask {
 
         private volatile boolean alive;
@@ -452,6 +569,13 @@ public class MainPresenter implements MainContract.Presenter {
                 dateTime = formatter.format(date);
                 transactionView.showTransactionAuto(transactionID, dateTime);
             }
+        }
+    }
+
+    @Override
+    public void setBluetoothDevice(BluetoothDevice bluetoothDevice) {
+        if(bluetoothDevice != null) {
+            paymentService.setDevice(bluetoothDevice);
         }
     }
 

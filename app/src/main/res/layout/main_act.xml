@@ -2,41 +2,42 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/onlineStatus2"
+        android:id="@+id/onlineStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="@string/offline"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/connectImage2"
-        app:layout_constraintTop_toBottomOf="@+id/nataliButton2" />
+        app:layout_constraintStart_toEndOf="@+id/connectImage"
+        app:layout_constraintTop_toTopOf="@+id/connectButton" />
 
     <ImageView
-        android:id="@+id/connectImage2"
+        android:id="@+id/connectImage"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="24dp"
         android:contentDescription="@string/presence_offline"
-        app:layout_constraintEnd_toStartOf="@+id/onlineStatus2"
+        app:layout_constraintBottom_toBottomOf="@+id/onlineStatus"
+        app:layout_constraintEnd_toStartOf="@+id/onlineStatus"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nataliButton2"
+        app:layout_constraintTop_toTopOf="@+id/onlineStatus"
         app:srcCompat="@android:drawable/presence_offline" />
 
     <Button
-        android:id="@+id/connectButton2"
+        android:id="@+id/connectButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:background="#85BC0F"
@@ -45,22 +46,8 @@
         android:textColor="#EDEDED"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/onlineStatus2"
-        app:layout_constraintTop_toBottomOf="@+id/nataliButton2" />
-
-    <Button
-        android:id="@+id/nataliButton2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/launch_natali"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/onlineStatus"
+        app:layout_constraintTop_toBottomOf="@+id/connectionSpinner" />
 
     <Button
         android:id="@+id/sendButton"
@@ -78,7 +65,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connectButton2">
+        app:layout_constraintTop_toBottomOf="@+id/connectButton">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
@@ -110,4 +97,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+    <Spinner
+        android:id="@+id/connectionSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
