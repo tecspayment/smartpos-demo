@@ -124,7 +124,7 @@ public interface MainContract {
 
         void loadTransaction(String name);
 
-        int startNatali(Context context);
+        //int startNatali(Context context);
 
         Response getLastResponse();
 

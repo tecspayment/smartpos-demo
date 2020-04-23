@@ -36,6 +36,7 @@ import static at.tecs.smartpos.data.Response.Code.*;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
+    //Natali application status
     private final static int SERVICE_ALIVE = 100;
     private final static int SERVICE_STOPED = 101;
     private final static int INTERPRET_STOPED = 102;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.main_act);
 
         //registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
-        //registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -123,11 +124,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
 
+        /*
         int status = presenter.startNatali(getContext());       //Launch NaTALI at launch
 
         if (status == -1) {
             showToast("NaTALI not found !");
         }
+        */
 
         /*
         nataliButton.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onDestroy() {
         presenter.disconnect();
         //unregisterReceiver(nataliReceiver);
-        //unregisterReceiver(bluetoothReceiver);
+        unregisterReceiver(bluetoothReceiver);
         super.onDestroy();
     }
 
@@ -286,33 +289,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showNataliStatus(int status) {
+
         /*
         switch (status) {
             case SERVICE_ALIVE:
-                nataliButton.setText(getString(R.string.service_alive));
-                nataliButton.setBackgroundResource(R.color.connected);
-                nataliButton.setEnabled(false);
+                showToast("Natali status : " + status);
                 break;
             case SERVICE_STOPED:
-                nataliButton.setText(getString(R.string.service_stoped));
-                nataliButton.setBackgroundResource(R.color.disconnected);
+
                 break;
             case INTERPRET_STOPED:
-                nataliButton.setText(getString(R.string.interpret_stoped));
-                nataliButton.setBackgroundResource(R.color.disconnected);
+
                 break;
             case SERVICE_LAUNCHED:
-                nataliButton.setText(getString(R.string.interpret_launched));
-                nataliButton.setBackgroundResource(R.color.disconnected);
+
                 break;
             case SERVICE_RELOADING:
-                nataliButton.setText(getString(R.string.service_reloading));
-                nataliButton.setBackgroundResource(R.color.disconnected);
+
                 break;
         }
-        */
+      */
     }
 
+    /*
     private BroadcastReceiver nataliReceiver = new BroadcastReceiver() {
 
         @Override
@@ -320,9 +319,27 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             int status = intent.getIntExtra("status", -1);
 
-            showNataliStatus(status);
+            //showNataliStatus(status);
+            switch (status) {
+                case SERVICE_ALIVE:
+                    showToast("Natali status : " + status);
+                    break;
+                case SERVICE_STOPED:
+                    showToast("Natali status : " + status);
+                    break;
+                case INTERPRET_STOPED:
+                    showToast("Natali status : " + status);
+                    break;
+                case SERVICE_LAUNCHED:
+                    showToast("Natali status : " + status);
+                    break;
+                case SERVICE_RELOADING:
+                    showToast("Natali status : " + status);
+                    break;
+            }
         }
     };
+    */
 
     private Callback.ConnectionTabCallback connectionTabCallback = new Callback.ConnectionTabCallback() {
         @Override
@@ -462,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
-    /*
+
     private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
@@ -480,7 +497,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         }
     };
-    */
 
 
 }

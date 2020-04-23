@@ -3,7 +3,6 @@ package at.tecs.smartpos_demo.main;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -23,6 +22,7 @@ import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos.exception.BluetoothException;
+import at.tecs.smartpos.exception.TransactionFieldException;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
@@ -288,7 +288,7 @@ public class MainPresenter implements MainContract.Presenter {
                         @Override
                         public void onResponseReceived(Response response) {     //Readed response
                             lastResponse = response;
-                            view.showResponseTab(Integer.valueOf(response.responseCode));
+                            view.showResponseTab(Integer.parseInt(response.responseCode));
                             if(responseView != null) {
                                 responseView.showResponse(response);
                             }
@@ -344,7 +344,9 @@ public class MainPresenter implements MainContract.Presenter {
     public void send() {
         if(connectionView.checkConnectionInputs() && transactionView.checkTransactionInputs()) {
             Transaction transaction = transactionView.createTransaction();
-            transaction.terminalNum = TID;
+            //transaction.terminalNum = TID;
+
+
 
             TransactionEntity lastTransaction = repository.getTransaction("Last Transaction");
 
@@ -357,7 +359,11 @@ public class MainPresenter implements MainContract.Presenter {
 
             initializeTransactionSpinners();
 
-            paymentService.sendTransaction(transaction);
+            try {
+                paymentService.sendTransaction(transaction);
+            } catch (TransactionFieldException e) {
+                e.printStackTrace();
+            }
 
             view.showToast("Message has been send to " + paymentService.getHostname() + ":" + paymentService.getPort());
         }
@@ -412,22 +418,38 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void sale(String amount, String currency) {
-        paymentService.sale(Integer.valueOf(TID), Integer.valueOf(amount), currency);
+        try {
+            paymentService.sale(Integer.parseInt(TID), this.transactionID, Integer.parseInt(amount), currency);
+        } catch (TransactionFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void refund(String amount, String currecy) {
-        paymentService.refund(Integer.valueOf(TID), Integer.valueOf(amount), currecy);
+        try {
+            paymentService.refund(Integer.parseInt(TID), this.transactionID, Integer.parseInt(amount), currecy);
+        } catch (TransactionFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void cancellation(String transID, String amount, String currency) {
-        paymentService.cancellation(Integer.valueOf(TID), transID,  Integer.valueOf(amount), currency);
+        try {
+            paymentService.cancellation(Integer.parseInt(TID), this.transactionID, transID,  Integer.parseInt(amount), currency);
+        } catch (TransactionFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void abort() {
-        paymentService.abort();
+        try {
+            paymentService.abort(/*this.transactionID*/);
+        } catch (TransactionFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -450,7 +472,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setPort(String port) {
-        paymentService.setPort(Integer.valueOf(port));
+        paymentService.setPort(Integer.parseInt(port));
 
         this.port = port;
     }
@@ -470,10 +492,12 @@ public class MainPresenter implements MainContract.Presenter {
         return this.lastResponse;
     }
 
+    /*
     @Override
     public int startNatali(Context context) {
        return paymentService.startService(context);
     }
+    */
 
     @Override
     public PaymentService getPaymentService() {
