@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.MainContract;
+import at.tecs.smartpos_demo.main.MainPresenter;
 
 import static android.view.View.GONE;
 
@@ -430,23 +431,25 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
     };
 
     private void refreshPairedDevices() {
-        pairedDevices = new ArrayList<>(callback.getPairedDevices());
+        if(MainPresenter.bluetooth) {
+            pairedDevices = new ArrayList<>(callback.getPairedDevices());
 
-        if(!pairedDevices.isEmpty()) {
-            ArrayList<String> names = new ArrayList<>();
+            if(!pairedDevices.isEmpty()) {
+                ArrayList<String> names = new ArrayList<>();
 
-            for(BluetoothDevice device : pairedDevices) {
-                names.add(device.getName() + "-" + device.getAddress());
+                for(BluetoothDevice device : pairedDevices) {
+                    names.add(device.getName() + "-" + device.getAddress());
+                }
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, names);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                devicesSpinner.setAdapter(arrayAdapter);
+
+                devicesSpinner.setSelection(0);
+
+                callback.selectDevice(pairedDevices.get(0));
             }
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, names);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            devicesSpinner.setAdapter(arrayAdapter);
-
-            devicesSpinner.setSelection(0);
-
-            callback.selectDevice(pairedDevices.get(0));
         }
     }
  }

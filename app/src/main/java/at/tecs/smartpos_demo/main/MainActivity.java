@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         presenter.takeView(this);
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         ArrayList<String> connectionTypes = new ArrayList<>();
         connectionTypes.add("TCP");
-        if(presenter.isBluetooth())
+        if(MainPresenter.bluetooth)
             connectionTypes.add("Bluetooth");
 
         connectionSpinner.setSelection(0);
@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 break;
         }
-      */
+        */
     }
 
     /*

@@ -140,6 +140,5 @@ public interface MainContract {
 
         ConnectionType getSelected();
 
-        boolean isBluetooth();
     }
 }

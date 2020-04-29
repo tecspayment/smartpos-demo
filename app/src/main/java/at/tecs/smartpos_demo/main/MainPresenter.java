@@ -70,7 +70,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     private ConnectionType selected = TCP;
 
-    private boolean bluetooth = false;
+    public static boolean bluetooth = false;
 
     MainPresenter() {
         paymentService = new PaymentService();
@@ -558,10 +558,6 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public ConnectionType getSelected() {
         return selected;
-    }
-
-    public boolean isBluetooth() {
-        return bluetooth;
     }
 
     private class Incrementer extends TimerTask {
