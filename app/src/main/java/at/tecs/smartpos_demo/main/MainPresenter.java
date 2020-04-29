@@ -344,9 +344,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void send() {
         if(connectionView.checkConnectionInputs() && transactionView.checkTransactionInputs()) {
             Transaction transaction = transactionView.createTransaction();
-            //transaction.terminalNum = TID;
-
-
+            transaction.terminalNum = TID;
 
             TransactionEntity lastTransaction = repository.getTransaction("Last Transaction");
 
@@ -419,7 +417,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void sale(String amount, String currency) {
         try {
-            paymentService.sale(Integer.parseInt(TID), this.transactionID, Integer.parseInt(amount), currency);
+            paymentService.sale(Integer.parseInt(TID), this.transactionID, this.dateTime, Integer.parseInt(amount), currency);
         } catch (TransactionFieldException e) {
             e.printStackTrace();
         }
@@ -428,7 +426,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void refund(String amount, String currecy) {
         try {
-            paymentService.refund(Integer.parseInt(TID), this.transactionID, Integer.parseInt(amount), currecy);
+            paymentService.refund(Integer.parseInt(TID), this.transactionID, this.dateTime, Integer.parseInt(amount), currecy);
         } catch (TransactionFieldException e) {
             e.printStackTrace();
         }
@@ -437,7 +435,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void cancellation(String transID, String amount, String currency) {
         try {
-            paymentService.cancellation(Integer.parseInt(TID), this.transactionID, transID,  Integer.parseInt(amount), currency);
+            paymentService.cancellation(Integer.parseInt(TID), this.transactionID, this.dateTime, transID,  Integer.parseInt(amount), currency);
         } catch (TransactionFieldException e) {
             e.printStackTrace();
         }
@@ -446,7 +444,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void abort() {
         try {
-            paymentService.abort(/*this.transactionID*/);
+            paymentService.abort(this.transactionID, this.dateTime);
         } catch (TransactionFieldException e) {
             e.printStackTrace();
         }
@@ -663,7 +661,7 @@ public class MainPresenter implements MainContract.Presenter {
         trans.authorNum = transaction.authorNum;
         trans.originInd = transaction.originInd;
         trans.password = transaction.password;
-        trans.userdata = transaction.userdata;
+        trans.userdata = transaction.ecrdata;
         trans.langCode = transaction.langCode;
         trans.desCurrency = transaction.desCurrency;
         trans.receiptLayout = transaction.receiptLayout;

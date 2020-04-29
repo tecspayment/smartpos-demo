@@ -27,7 +27,7 @@
     <string name="authorization_number">Authorization Number</string>
     <string name="origin_indicator">Origin Indicator</string>
     <string name="password">Password</string>
-    <string name="user_data">User Data</string>
+    <string name="user_data">ECR Data</string>
     <string name="language_code">Language Code</string>
     <string name="receipt_layout">Receipt Layout</string>
     <string name="destination_currency">Destination Currency</string>

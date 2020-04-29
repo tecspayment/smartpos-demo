@@ -241,7 +241,7 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
         transaction.authorNum = authorNumInput.getEditableText().toString();
         transaction.originInd = originInput.getEditableText().toString();
         transaction.password = passInput.getEditableText().toString();
-        transaction.userdata = userDataInput.getEditableText().toString();
+        transaction.ecrdata = userDataInput.getEditableText().toString();
         transaction.langCode = langCodeInput.getEditableText().toString();
         transaction.desCurrency = destCurrencyInput.getEditableText().toString();
         transaction.receiptLayout = receiptInput.getEditableText().toString();
