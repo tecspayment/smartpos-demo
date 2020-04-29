@@ -38,10 +38,12 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 ResponseFragment responseFragment = new ResponseFragment();
                 responseFragment.setResponseTabCallback(responseTabCallback);
                 return responseFragment;
+            /*
             case 3:
                 TemplatesFragment templatesFragment = new TemplatesFragment();
                 templatesFragment.setTemplatesTabCallback(templatesTabCallback);
                 return templatesFragment;
+            */
         }
 
         return null;
@@ -49,7 +51,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 
     @Nullable
@@ -62,8 +64,10 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 return "Trans";
             case 2:
                 return "Response";
+            /*
             case 3:
                 return "Quick";
+            */
         }
 
         return null;
