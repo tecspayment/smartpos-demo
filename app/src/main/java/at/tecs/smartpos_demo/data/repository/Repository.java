@@ -96,6 +96,7 @@ public class Repository {
         if(getTransaction("Cancellation") == null) {
             TransactionEntity cancellation = new TransactionEntity();
             cancellation.name = "Cancellation";
+            cancellation.cardNum = "TXID";
             cancellation.msgType = "13";
             cancellation.sourceID = "1";
             cancellation.amount = "1";

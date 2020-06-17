@@ -19,7 +19,7 @@
     <string name="message_type">Message Type</string>
     <string name="transaction_date_time">Transaction Date Time</string>
     <string name="transaction_source_id">Transaction Source ID</string>
-    <string name="card_number">Card Number</string>
+    <string name="card_number">Card Number ( Cancellation : TXID + original transaction ID</string>
     <string name="transaction_cvc2">Transaction CVC2</string>
     <string name="receipt_number">Receipt Number</string>
     <string name="payment_reason">Payment Reason</string>
