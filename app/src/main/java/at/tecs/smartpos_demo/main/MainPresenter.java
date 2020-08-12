@@ -583,7 +583,7 @@ public class MainPresenter implements MainContract.Presenter {
         public void run() {
             if (alive) {
                 Date date = new Date(System.currentTimeMillis());
-                transactionID = formatter.format(date) + "000000";
+                transactionID = formatter.format(date);
                 dateTime = formatter.format(date);
                 transactionView.showTransactionAuto(transactionID, dateTime);
             }
