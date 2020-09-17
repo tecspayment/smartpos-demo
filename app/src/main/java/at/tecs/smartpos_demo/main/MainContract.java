@@ -59,6 +59,7 @@ public interface MainContract {
 
         interface ResponseTab {
             void showResponse(Response response);
+            void clearResponse();
         }
 
         interface TemplatesTab {

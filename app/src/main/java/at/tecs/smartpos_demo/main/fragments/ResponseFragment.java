@@ -126,6 +126,45 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
 
     }
 
+    @Override
+    public void clearResponse() {
+        Activity activity = getActivity();
+
+        if(activity != null)
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    creaditCardIssuer.setText("");
+                    cardNum.setText("");
+                    transactionType.setText("");
+                    responseText.setText("");
+                    responseCode.setText("");
+                    authorNum.setText("");
+                    length.setText("");
+                    transID.setText("");
+                    msgType.setText("");
+                    transactionDateTime.setText("");
+                    VUNum.setText("");
+                    operatorID.setText("");
+                    serienNR.setText("");
+                    origTXID.setText("");
+                    stan.setText("");
+                    origStan.setText("");
+                    svc.setText("");
+                    ecrData.setText("");
+                    exchangeRate.setText("");
+                    foreignTXAmount.setText("");
+                    balanceAmount.setText("");
+                    merchantName.setText("");
+                    merchantAddress.setText("");
+                    receiptHeader.setText("");
+                    receiptFooter.setText("");
+                    bonusPoints.setText("");
+                    exFee.setText("");
+                }
+            });
+    }
+
     public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {
         this.callback = responseTabCallback;
     }
