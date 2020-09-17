@@ -357,6 +357,8 @@ public class MainPresenter implements MainContract.Presenter {
 
             initializeTransactionSpinners();
 
+            responseView.clearResponse();
+
             try {
                 paymentService.sendTransaction(transaction);
             } catch (TransactionFieldException e) {

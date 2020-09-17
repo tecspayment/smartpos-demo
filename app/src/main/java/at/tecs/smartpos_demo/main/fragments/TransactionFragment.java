@@ -199,9 +199,10 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    transactionIDInput.setText(transactionID);
-                    dateTimeInput.setText(dateTime);
-
+                    if(transactionIDInput != null && dateTimeInput != null) {
+                        transactionIDInput.setText(transactionID);
+                        dateTimeInput.setText(dateTime);
+                    }
                 }
             });
         }
