@@ -357,7 +357,8 @@ public class MainPresenter implements MainContract.Presenter {
 
             initializeTransactionSpinners();
 
-            responseView.clearResponse();
+            if(responseView != null)
+                responseView.clearResponse();
 
             try {
                 paymentService.sendTransaction(transaction);
@@ -587,7 +588,8 @@ public class MainPresenter implements MainContract.Presenter {
                 Date date = new Date(System.currentTimeMillis());
                 transactionID = formatter.format(date);
                 dateTime = formatter.format(date);
-                transactionView.showTransactionAuto(transactionID, dateTime);
+                if(transactionView != null)
+                    transactionView.showTransactionAuto(transactionID, dateTime);
             }
         }
     }
