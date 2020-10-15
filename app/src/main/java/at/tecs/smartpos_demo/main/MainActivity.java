@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_act);
 
-        //registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
+        registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
         registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onDestroy() {
         presenter.disconnect();
-        //unregisterReceiver(nataliReceiver);
+        unregisterReceiver(nataliReceiver);
         unregisterReceiver(bluetoothReceiver);
         super.onDestroy();
     }
@@ -311,7 +311,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         */
     }
 
-    /*
     private BroadcastReceiver nataliReceiver = new BroadcastReceiver() {
 
         @Override
@@ -322,24 +321,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             //showNataliStatus(status);
             switch (status) {
                 case SERVICE_ALIVE:
-                    showToast("Natali status : " + status);
-                    break;
-                case SERVICE_STOPED:
-                    showToast("Natali status : " + status);
-                    break;
-                case INTERPRET_STOPED:
-                    showToast("Natali status : " + status);
+                    //showToast("Natali status : " + status);
                     break;
                 case SERVICE_LAUNCHED:
-                    showToast("Natali status : " + status);
-                    break;
+                case SERVICE_STOPED:
+                case INTERPRET_STOPED:
                 case SERVICE_RELOADING:
-                    showToast("Natali status : " + status);
+                    //showToast("Natali status : " + status);
+                    if(presenter.isConnected())
+                        presenter.disconnect();
                     break;
             }
         }
     };
-    */
 
     private Callback.ConnectionTabCallback connectionTabCallback = new Callback.ConnectionTabCallback() {
         @Override
