@@ -194,6 +194,46 @@ public class Repository {
             saveTransaction(moto);
         }
 
+        if(getTransaction("AliPay QR") == null) {
+            TransactionEntity sale = new TransactionEntity();
+            sale.name = "AliPay QR";
+            sale.msgType = "30";
+            sale.sourceID = "1";
+            sale.amount = "1";
+            sale.currency = "EUR";
+            sale.receiptNum = "1";
+            sale.paymentReason = "EMV transaction test";
+            sale.transPlace = "Test Place";
+            sale.originInd = "0";
+
+            sale.langCode = "EN";
+            sale.receiptLayout = "1";
+            sale.desCurrency = "EUR";
+            sale.txOrigin = "1";
+
+            saveTransaction(sale);
+        }
+
+        if(getTransaction("AliPay Scan") == null) {
+            TransactionEntity sale = new TransactionEntity();
+            sale.name = "AliPay Scan";
+            sale.msgType = "31";
+            sale.sourceID = "1";
+            sale.amount = "1";
+            sale.currency = "EUR";
+            sale.receiptNum = "1";
+            sale.paymentReason = "EMV transaction test";
+            sale.transPlace = "Test Place";
+            sale.originInd = "0";
+
+            sale.langCode = "EN";
+            sale.receiptLayout = "1";
+            sale.desCurrency = "EUR";
+            sale.txOrigin = "1";
+
+            saveTransaction(sale);
+        }
+
         if(getTransaction("Connection Status") == null) {
             TransactionEntity connection = new TransactionEntity();
             connection.name = "Connection Status";

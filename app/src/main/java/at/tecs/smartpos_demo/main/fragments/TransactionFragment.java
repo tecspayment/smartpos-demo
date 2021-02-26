@@ -29,6 +29,10 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
 
     private Spinner transactionSpinner;
 
+    private TextInputEditText alipayAmount;
+    private Button alipayscanButton;
+    private Button alipayQRButton;
+
     private Button transactionAdd;
     private Button transactionSave;
     private Button transactionDelete;
@@ -71,6 +75,10 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
 
         transactionIDInput = view.findViewById(R.id.transactionIDInput);
         dateTimeInput = view.findViewById(R.id.dateTimeInput);
+
+        alipayAmount = view.findViewById(R.id.alipayAmount);
+        alipayscanButton = view.findViewById(R.id.alipayScanButton);
+        alipayQRButton = view.findViewById(R.id.alipayQRButton);
 
         msgTypeInput = view.findViewById(R.id.msgTypeInput);
         sourceIDInput = view.findViewById(R.id.sourceIDInput);
@@ -160,6 +168,56 @@ public class TransactionFragment extends Fragment implements MainContract.View.T
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        alipayscanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransactionEntity alipayscan = new TransactionEntity();
+                alipayscan.name = "Sale";
+                alipayscan.msgType = "31";
+                alipayscan.sourceID = "1";
+                alipayscan.amount = alipayAmount.getText().toString();
+                alipayscan.currency = "EUR";
+                alipayscan.receiptNum = "1";
+                alipayscan.paymentReason = "EMV transaction test";
+                alipayscan.transPlace = "Test Place";
+                alipayscan.originInd = "0";
+
+                alipayscan.langCode = "EN";
+                alipayscan.receiptLayout = "1";
+                alipayscan.desCurrency = "EUR";
+                alipayscan.txOrigin = "1";
+
+                showTransaction(alipayscan);
+
+                callback.performAliPayQR();
+            }
+        });
+
+        alipayQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransactionEntity alipayQR = new TransactionEntity();
+                alipayQR.name = "Sale";
+                alipayQR.msgType = "30";
+                alipayQR.sourceID = "1";
+                alipayQR.amount = alipayAmount.getText().toString();
+                alipayQR.currency = "EUR";
+                alipayQR.receiptNum = "1";
+                alipayQR.paymentReason = "EMV transaction test";
+                alipayQR.transPlace = "Test Place";
+                alipayQR.originInd = "0";
+
+                alipayQR.langCode = "EN";
+                alipayQR.receiptLayout = "1";
+                alipayQR.desCurrency = "EUR";
+                alipayQR.txOrigin = "1";
+
+                showTransaction(alipayQR);
+
+                callback.performAliPayQR();
             }
         });
 

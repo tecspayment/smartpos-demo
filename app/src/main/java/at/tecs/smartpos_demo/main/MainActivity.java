@@ -29,6 +29,7 @@ import java.util.Set;
 import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
+import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.TabAdapter;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
@@ -436,6 +437,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void onAttach(TransactionTab view) {
             presenter.takeTransactionView(view);
+        }
+
+        @Override
+        public void performAliPayScan() {
+            presenter.send();
+        }
+
+        @Override
+        public void performAliPayQR() {
+            presenter.send();
         }
     };
 
