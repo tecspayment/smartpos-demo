@@ -49,5 +49,7 @@ public interface Callback {
         void startAutomatic(boolean start);
         void loadTransaction(String transactionID);
         void onAttach(MainContract.View.TransactionTab view);
+        void performAliPayScan();
+        void performAliPayQR();
     }
 }
