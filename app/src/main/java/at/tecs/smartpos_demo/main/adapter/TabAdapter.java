@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import at.tecs.smartpos_demo.main.fragments.Callback;
+import at.tecs.smartpos_demo.main.fragments.CardFragment;
 import at.tecs.smartpos_demo.main.fragments.ConnectionFragment;
 import at.tecs.smartpos_demo.main.fragments.ResponseFragment;
 import at.tecs.smartpos_demo.main.fragments.TemplatesFragment;
@@ -18,6 +19,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     private Callback.TransactionTabCallback transactionTabCallback;
     private Callback.ResponseTabCallback responseTabCallback;
     private Callback.TemplatesTabCallback templatesTabCallback;
+    private Callback.CardTabCallback cardTabCallback;
 
     public TabAdapter(FragmentManager fm) {
         super(fm);
@@ -44,6 +46,11 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 templatesFragment.setTemplatesTabCallback(templatesTabCallback);
                 return templatesFragment;
             */
+            case 3:
+                CardFragment cardFragment = new CardFragment();
+                cardFragment.setTemplatesTabCallback(cardTabCallback);
+                return cardFragment;
+
         }
 
         return null;
@@ -51,7 +58,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Nullable
@@ -68,6 +75,8 @@ public class TabAdapter extends FragmentStatePagerAdapter {
             case 3:
                 return "Quick";
             */
+            case 3:
+                return "Card";
         }
 
         return null;
@@ -87,5 +96,9 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
     public void setTemplatesTabCallback(Callback.TemplatesTabCallback templatesTabCallback) {
         this.templatesTabCallback = templatesTabCallback;
+    }
+
+    public void setCardTabCallback(Callback.CardTabCallback cardTabCallback) {
+        this.cardTabCallback = cardTabCallback;
     }
 }

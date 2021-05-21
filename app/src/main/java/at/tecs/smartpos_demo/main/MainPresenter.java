@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
@@ -15,7 +16,10 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import at.tecs.ControlParser.Command;
+import at.tecs.smartpos.CardControl;
 import at.tecs.smartpos.PaymentService;
+import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
 import at.tecs.smartpos.data.ConnectionType;
@@ -23,6 +27,7 @@ import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos.exception.BluetoothException;
 import at.tecs.smartpos.exception.TransactionFieldException;
+import at.tecs.smartpos.utils.ByteUtil;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
@@ -40,6 +45,7 @@ public class MainPresenter implements MainContract.Presenter {
     private MainContract.View.TransactionTab transactionView;
     private MainContract.View.ResponseTab responseView;
     private MainContract.View.TemplatesTab templatesView;
+    private MainContract.View.CardTab cardView;
 
     private Repository repository;
 
@@ -61,6 +67,7 @@ public class MainPresenter implements MainContract.Presenter {
     private ArrayList<String> ports = new ArrayList<>();
 
     private PaymentService paymentService;
+    private final SmartPOSController cardService;
 
     private ConnectionType connectionType;
 
@@ -80,6 +87,8 @@ public class MainPresenter implements MainContract.Presenter {
         if(bluetoothAdapter != null) {
             bluetooth = true;
         }
+
+        cardService = new SmartPOSController();
     }
 
     @Override
@@ -534,6 +543,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void takeCardView(MainContract.View.CardTab view) {
+        cardView = view;
+    }
+
+    @Override
     public void startScan() {
         if(bluetoothAdapter.startDiscovery()) {
             Log.d("DBG","startScan run !");
@@ -556,6 +570,193 @@ public class MainPresenter implements MainContract.Presenter {
         if(bluetoothAdapter != null)
             return bluetoothAdapter.getBondedDevices();
         else return null;
+    }
+
+
+    @Override
+    public void openCardControl() {
+       cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            @Override
+            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+
+                int close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError() {
+                cardView.showResponse("RF Card unsuccessful !");
+            }
+
+            @Override
+            public void onTimeout() {
+                cardView.showResponse("RF Card timeouted !");
+            }
+
+            @Override
+            public void onSocketFail(IOException e) {
+                cardView.showResponse("Connection error !");
+            }
+        });
+    }
+
+    @Override
+    public void authenticateM0CardControl(final String data) {
+       cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            @Override
+            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+
+                int authenticateM0 = cardControl.RFAuthenticateM0(ByteUtil.hexStr2Bytes(data));
+                cardView.showResponse("Auth-M0 status : " + authenticateM0);
+
+                int close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError() {
+                cardView.showResponse("RF Card unsuccessful !");
+            }
+
+            @Override
+            public void onTimeout() {
+                cardView.showResponse("RF Card timeouted !");
+            }
+
+           @Override
+           public void onSocketFail(IOException e) {
+               cardView.showResponse("Connection error !");
+           }
+        });
+    }
+
+    @Override
+    public void authenticateM1CardControl(final String keyMode, final String snr, final String blockID, final String key) {
+        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            @Override
+            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+
+                int authenticateM1 = cardControl.RFAuthenticateM1(ByteUtil.hexStr2Byte(keyMode), ByteUtil.hexStr2Bytes(snr), Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(key));
+                cardView.showResponse("Auth-M1 status : " + authenticateM1);
+
+                int close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError() {
+                cardView.showResponse("RF Card unsuccessful !");
+            }
+
+            @Override
+            public void onTimeout() {
+                cardView.showResponse("RF Card timeouted !");
+            }
+
+            @Override
+            public void onSocketFail(IOException e) {
+                cardView.showResponse("Connection error !");
+            }
+        });
+
+    }
+
+    @Override
+    public void readCardControl(final String blockID) {
+        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            @Override
+            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+
+                Pair<Byte, byte[]> response = cardControl.RFReadBlock(Integer.parseInt(blockID));
+                cardView.showResponse("Read status : " + response.first);
+                cardView.showResponse("Read data : [" + ByteUtil.bytes2HexStr_2(response.second) + "]");
+
+                int close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError() {
+                cardView.showResponse("RF Card unsuccessful !");
+            }
+
+            @Override
+            public void onTimeout() {
+                cardView.showResponse("RF Card timeouted !");
+            }
+
+            @Override
+            public void onSocketFail(IOException e) {
+                cardView.showResponse("Connection error !");
+            }
+        });
+    }
+
+    @Override
+    public void writeCardControl(final String blockID, final String data) {
+        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            @Override
+            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+
+                int write = cardControl.RFWriteBlock(Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(data));
+                cardView.showResponse("Write status : " + write);
+
+                int close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError() {
+                cardView.showResponse("RF Card unsuccessful !");
+            }
+
+            @Override
+            public void onTimeout() {
+                cardView.showResponse("RF Card timeouted !");
+            }
+
+            @Override
+            public void onSocketFail(IOException e) {
+                cardView.showResponse("Connection error !");
+            }
+        });
+    }
+
+    @Override
+    public void transmitCardControl(final String data) {
+        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            @Override
+            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+
+                Pair<Byte, byte[]> response = cardControl.RFTransmit(ByteUtil.hexStr2Bytes(data));
+                cardView.showResponse("Transmit status : " + response.first);
+                cardView.showResponse("Transmit read data : [" + ByteUtil.bytes2HexStr_2(response.second) + "]");
+
+                int close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError() {
+                cardView.showResponse("RF Card unsuccessful !");
+            }
+
+            @Override
+            public void onTimeout() {
+                cardView.showResponse("RF Card timeouted !");
+            }
+
+            @Override
+            public void onSocketFail(IOException e) {
+                cardView.showResponse("Connection error !");
+            }
+        });
     }
 
     @Override

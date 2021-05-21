@@ -52,4 +52,15 @@ public interface Callback {
         void performAliPayScan();
         void performAliPayQR();
     }
+
+    interface CardTabCallback {
+        void onAttach(MainContract.View.CardTab view);
+
+        void performConnect();
+        void performAuthenticateM0(String data);
+        void performAuthenticateM1(String keyMode, String snr, String blockID, String key);
+        void performReadBlock(String blockID);
+        void performWriteBlock(String blockID, String data);
+        void performTransmit(String data);
+    }
 }
