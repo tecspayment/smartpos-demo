@@ -23,11 +23,14 @@ import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
 import at.tecs.smartpos.data.ConnectionType;
+import at.tecs.smartpos.data.RFKeyMode;
+import at.tecs.smartpos.data.RFReturnCode;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos.exception.BluetoothException;
 import at.tecs.smartpos.exception.TransactionFieldException;
 import at.tecs.smartpos.utils.ByteUtil;
+import at.tecs.smartpos_demo.Utils;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
@@ -575,90 +578,127 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void openCardControl() {
-       cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
-            @Override
-            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
-                cardView.showResponse("RF Card successful !");
+       cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
-                int close = cardControl.RFClose();
-                cardView.showResponse("Close status : " + close);
-            }
+           @Override
+           public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+               cardView.showResponse("RF Card successful !");
+               cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
+               cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
 
-            @Override
-            public void onError() {
-                cardView.showResponse("RF Card unsuccessful !");
-            }
+               RFReturnCode close = cardControl.RFClose();
+               cardView.showResponse("Close status : " + close);
+           }
 
-            @Override
-            public void onTimeout() {
-                cardView.showResponse("RF Card timeouted !");
-            }
+           @Override
+           public void onError(RFReturnCode rfReturnCode) {
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                }
 
-            @Override
-            public void onSocketFail(IOException e) {
-                cardView.showResponse("Connection error !");
-            }
-        });
+               if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                   cardView.showResponse("RF Open - DEVICE_BUSY");
+               }
+
+               if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                   cardView.showResponse("RF Open - TIMEOUT");
+                   disconnect();
+               }
+
+               if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                   cardView.showResponse("RF Open - CONNECTION_FAILED");
+               }
+           }
+       });
     }
 
     @Override
     public void authenticateM0CardControl(final String data) {
-       cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
-            @Override
-            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
-                cardView.showResponse("RF Card successful !");
-
-                int authenticateM0 = cardControl.RFAuthenticateM0(ByteUtil.hexStr2Bytes(data));
-                cardView.showResponse("Auth-M0 status : " + authenticateM0);
-
-                int close = cardControl.RFClose();
-                cardView.showResponse("Close status : " + close);
-            }
-
-            @Override
-            public void onError() {
-                cardView.showResponse("RF Card unsuccessful !");
-            }
-
-            @Override
-            public void onTimeout() {
-                cardView.showResponse("RF Card timeouted !");
-            }
+       cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
            @Override
-           public void onSocketFail(IOException e) {
-               cardView.showResponse("Connection error !");
+           public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+               cardView.showResponse("RF Card successful !");
+               cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
+               cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+
+               RFReturnCode authenticateM0 = cardControl.RFAuthenticateM0(ByteUtil.hexStr2Bytes(data));
+               cardView.showResponse("Auth-M0 status : " + authenticateM0);
+
+               RFReturnCode close = cardControl.RFClose();
+               cardView.showResponse("Close status : " + close);
            }
-        });
+
+           @Override
+           public void onError(RFReturnCode rfReturnCode) {
+               if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                   cardView.showResponse("RF Open - INTERNAL_ERROR");
+               }
+
+               if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                   cardView.showResponse("RF Open - DEVICE_BUSY");
+               }
+
+               if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                   cardView.showResponse("RF Open - TIMEOUT");
+                   disconnect();
+               }
+
+               if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                   cardView.showResponse("RF Open - CONNECTION_FAILED");
+               }
+           }
+       });
     }
 
     @Override
     public void authenticateM1CardControl(final String keyMode, final String snr, final String blockID, final String key) {
-        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
-            @Override
-            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
-                cardView.showResponse("RF Card successful !");
+        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
-                int authenticateM1 = cardControl.RFAuthenticateM1(ByteUtil.hexStr2Byte(keyMode), ByteUtil.hexStr2Bytes(snr), Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(key));
+            @Override
+            public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+                cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
+                cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+
+                byte selectedKeyMode = ByteUtil.hexStr2Byte(keyMode);
+
+                RFReturnCode authenticateM1 = RFReturnCode.INTERNAL_ERROR;
+
+                if(selectedKeyMode == RFKeyMode.KEY_A_0x00.value) {
+                    authenticateM1 = cardControl.RFAuthenticateM1(RFKeyMode.KEY_A_0x00, ByteUtil.hexStr2Bytes(snr), Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(key));
+                } else if(selectedKeyMode == RFKeyMode.KEY_A_0x60.value) {
+                    authenticateM1 = cardControl.RFAuthenticateM1(RFKeyMode.KEY_A_0x60, ByteUtil.hexStr2Bytes(snr), Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(key));
+                } else if(selectedKeyMode == RFKeyMode.KEY_B_0x01.value) {
+                    authenticateM1 = cardControl.RFAuthenticateM1(RFKeyMode.KEY_B_0x01, ByteUtil.hexStr2Bytes(snr), Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(key));
+                } else if(selectedKeyMode == RFKeyMode.KEY_B_0x61.value) {
+                    authenticateM1 = cardControl.RFAuthenticateM1(RFKeyMode.KEY_B_0x61, ByteUtil.hexStr2Bytes(snr), Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(key));
+                }
+
                 cardView.showResponse("Auth-M1 status : " + authenticateM1);
 
-                int close = cardControl.RFClose();
+                RFReturnCode close = cardControl.RFClose();
                 cardView.showResponse("Close status : " + close);
             }
 
             @Override
-            public void onError() {
-                cardView.showResponse("RF Card unsuccessful !");
-            }
+            public void onError(RFReturnCode rfReturnCode) {
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                }
 
-            @Override
-            public void onTimeout() {
-                cardView.showResponse("RF Card timeouted !");
-            }
+                if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                    cardView.showResponse("RF Open - DEVICE_BUSY");
+                }
 
-            @Override
-            public void onSocketFail(IOException e) {
-                cardView.showResponse("Connection error !");
+                if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                    cardView.showResponse("RF Open - TIMEOUT");
+                    disconnect();
+                }
+
+                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                    cardView.showResponse("RF Open - CONNECTION_FAILED");
+                }
             }
         });
 
@@ -666,95 +706,119 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void readCardControl(final String blockID) {
-        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
-            @Override
-            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
-                cardView.showResponse("RF Card successful !");
+        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
-                Pair<Byte, byte[]> response = cardControl.RFReadBlock(Integer.parseInt(blockID));
+            @Override
+            public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+                cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
+                cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+
+                Pair<RFReturnCode, byte[]> response = cardControl.RFReadBlock(Integer.parseInt(blockID));
                 cardView.showResponse("Read status : " + response.first);
                 cardView.showResponse("Read data : [" + ByteUtil.bytes2HexStr_2(response.second) + "]");
 
-                int close = cardControl.RFClose();
+                RFReturnCode close = cardControl.RFClose();
                 cardView.showResponse("Close status : " + close);
             }
 
             @Override
-            public void onError() {
-                cardView.showResponse("RF Card unsuccessful !");
-            }
+            public void onError(RFReturnCode rfReturnCode) {
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                }
 
-            @Override
-            public void onTimeout() {
-                cardView.showResponse("RF Card timeouted !");
-            }
+                if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                    cardView.showResponse("RF Open - DEVICE_BUSY");
+                }
 
-            @Override
-            public void onSocketFail(IOException e) {
-                cardView.showResponse("Connection error !");
+                if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                    cardView.showResponse("RF Open - TIMEOUT");
+                    disconnect();
+                }
+
+                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                    cardView.showResponse("RF Open - CONNECTION_FAILED");
+                }
             }
         });
     }
 
     @Override
     public void writeCardControl(final String blockID, final String data) {
-        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
-            @Override
-            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
-                cardView.showResponse("RF Card successful !");
+        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
-                int write = cardControl.RFWriteBlock(Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(data));
+            @Override
+            public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+                cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
+                cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+
+                RFReturnCode write = cardControl.RFWriteBlock(Integer.parseInt(blockID), ByteUtil.hexStr2Bytes(data));
                 cardView.showResponse("Write status : " + write);
 
-                int close = cardControl.RFClose();
+                RFReturnCode close = cardControl.RFClose();
                 cardView.showResponse("Close status : " + close);
             }
 
             @Override
-            public void onError() {
-                cardView.showResponse("RF Card unsuccessful !");
-            }
+            public void onError(RFReturnCode rfReturnCode) {
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                }
 
-            @Override
-            public void onTimeout() {
-                cardView.showResponse("RF Card timeouted !");
-            }
+                if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                    cardView.showResponse("RF Open - DEVICE_BUSY");
+                }
 
-            @Override
-            public void onSocketFail(IOException e) {
-                cardView.showResponse("Connection error !");
+                if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                    cardView.showResponse("RF Open - TIMEOUT");
+                    disconnect();
+                }
+
+                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                    cardView.showResponse("RF Open - CONNECTION_FAILED");
+                }
             }
         });
     }
 
     @Override
     public void transmitCardControl(final String data) {
-        cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
-            @Override
-            public void onOpened(CardControl cardControl, int i, byte[] bytes) {
-                cardView.showResponse("RF Card successful !");
+        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
-                Pair<Byte, byte[]> response = cardControl.RFTransmit(ByteUtil.hexStr2Bytes(data));
+            @Override
+            public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+                cardView.showResponse("Card Type : " + ByteUtil.byte2HexStr((byte) i));
+                cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+
+                Pair<RFReturnCode, byte[]> response = cardControl.RFTransmit(ByteUtil.hexStr2Bytes(data));
                 cardView.showResponse("Transmit status : " + response.first);
                 cardView.showResponse("Transmit read data : [" + ByteUtil.bytes2HexStr_2(response.second) + "]");
 
-                int close = cardControl.RFClose();
+                RFReturnCode close = cardControl.RFClose();
                 cardView.showResponse("Close status : " + close);
             }
 
             @Override
-            public void onError() {
-                cardView.showResponse("RF Card unsuccessful !");
-            }
+            public void onError(RFReturnCode rfReturnCode) {
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                }
 
-            @Override
-            public void onTimeout() {
-                cardView.showResponse("RF Card timeouted !");
-            }
+                if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                    cardView.showResponse("RF Open - DEVICE_BUSY");
+                }
 
-            @Override
-            public void onSocketFail(IOException e) {
-                cardView.showResponse("Connection error !");
+                if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                    cardView.showResponse("RF Open - TIMEOUT");
+                    disconnect();
+                }
+
+                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                    cardView.showResponse("RF Open - CONNECTION_FAILED");
+                }
             }
         });
     }

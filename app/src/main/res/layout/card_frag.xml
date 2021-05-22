@@ -140,7 +140,7 @@
                     android:id="@+id/authM0DataEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data" />
+                    android:hint="HEX Data" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -164,7 +164,7 @@
                     android:id="@+id/authM1KeymodeEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Key Mode" />
+                    android:hint="HEX Key Mode" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -179,14 +179,13 @@
                     android:id="@+id/authM1SNREdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="SNR" />
+                    android:hint="HEX SNR" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout59"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Block"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout58"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout58">
@@ -194,14 +193,14 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/authM1BlockEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="Block ID" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout60"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Key"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout59"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout59">
@@ -209,7 +208,8 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/authM1KeyEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="HEX Key" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -266,7 +266,6 @@
                 android:id="@+id/textInputLayout63"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Data"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout62"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout62">
@@ -274,7 +273,9 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/writeDataEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="HEX Data"
+                    android:maxLength="16" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -298,7 +299,7 @@
                     android:id="@+id/transDataEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data" />
+                    android:hint="HEX Data" />
             </android.support.design.widget.TextInputLayout>
 
         </android.support.constraint.ConstraintLayout>
