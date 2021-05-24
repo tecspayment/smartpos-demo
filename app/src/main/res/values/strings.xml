@@ -85,4 +85,5 @@
     <string name="connection">Connection</string>
     <string name="trans">Trans</string>
     <string name="responses">Response</string>
+    <string name="card">card</string>
 </resources>

@@ -66,6 +66,11 @@ public interface MainContract {
 
 
         }
+
+        interface CardTab {
+            void showResponse(String text);
+            void changeOpen(String text);
+        }
     }
 
     interface Presenter {
@@ -138,6 +143,20 @@ public interface MainContract {
         void takeResponseView(MainContract.View.ResponseTab view);
 
         void takeTemplatesView(MainContract.View.TemplatesTab view);
+
+        void takeCardView(MainContract.View.CardTab view);
+
+        void openCardControl();
+
+        void authenticateM0CardControl(String data);
+
+        void authenticateM1CardControl(String keyMode, String snr, String blockID, String key);
+
+        void readCardControl(String blockID);
+
+        void writeCardControl(String blockID, String data);
+
+        void transmitCardControl(String data);
 
         ConnectionType getSelected();
 

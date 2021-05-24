@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private final static int SERVICE_LAUNCHED = 103;
     private final static int SERVICE_RELOADING = 104;
 
-    private MainContract.Presenter presenter = new MainPresenter();
+    private final MainContract.Presenter presenter = new MainPresenter();
 
     private TextView onlineStatus;
     private ImageView connectImage;
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         tabAdapter.setTransactionTabCallback(transactionTabCallback);
         tabAdapter.setResponseTabCallback(responseTabCallback);
         tabAdapter.setTemplatesTabCallback(templatesTabCallback);
+        tabAdapter.setCardTabCallback(cardTabCallback);
 
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -484,8 +485,46 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
+    private final Callback.CardTabCallback cardTabCallback = new Callback.CardTabCallback() {
+        @Override
+        public void onAttach(CardTab view) {
+            presenter.takeCardView(view);
+        }
 
-    private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
+        @Override
+        public void performConnect() {
+            presenter.openCardControl();
+        }
+
+        @Override
+        public void performAuthenticateM0(String data) {
+            presenter.authenticateM0CardControl(data);
+        }
+
+        @Override
+        public void performAuthenticateM1(String keyMode, String snr, String blockID, String key) {
+            presenter.authenticateM1CardControl(keyMode, snr, blockID, key);
+        }
+
+        @Override
+        public void performReadBlock(String blockID) {
+            presenter.readCardControl(blockID);
+        }
+
+        @Override
+        public void performWriteBlock(String blockID, String data) {
+            presenter.writeCardControl(blockID, data);
+        }
+
+        @Override
+        public void performTransmit(String data) {
+            presenter.transmitCardControl(data);
+        }
+
+    };
+
+
+    private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
 
             String action = intent.getAction();
