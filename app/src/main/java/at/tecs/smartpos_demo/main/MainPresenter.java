@@ -8,6 +8,7 @@ import android.util.Pair;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +80,8 @@ public class MainPresenter implements MainContract.Presenter {
     private BluetoothAdapter bluetoothAdapter;
 
     private ConnectionType selected = TCP;
+
+    private boolean cardConnected = false;
 
     public static boolean bluetooth = false;
 
@@ -578,38 +581,65 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void openCardControl() {
-       cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+        if(cardConnected) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(cardService.RFClose() != RFReturnCode.SUCCESS) {
+                        cardView.showResponse("DISCONNECT : failed");
+                    }
+                    cardConnected = false;
+                }
+            }).start();
+        } else {
+            cardConnected = true;
+            cardView.changeOpen("DISCONNECT");
+            cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
-           @Override
-           public void onDetected(CardControl cardControl, int i, byte[] bytes) {
-               cardView.showResponse("RF Card successful !");
-               cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
-               cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+                @Override
+                public void onDetected(CardControl cardControl, int i, byte[] bytes) {
+                    cardView.showResponse("RF Card successful !");
+                    cardView.showResponse("Card Type : " +ByteUtil.byte2HexStr((byte) i));
+                    cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
 
-               RFReturnCode close = cardControl.RFClose();
-               cardView.showResponse("Close status : " + close);
-           }
-
-           @Override
-           public void onError(RFReturnCode rfReturnCode) {
-                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
-                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                    RFReturnCode close = cardControl.RFClose();
+                    cardView.showResponse("Close status : " + close);
+                    cardView.changeOpen("OPEN");
+                    cardConnected = false;
                 }
 
-               if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
-                   cardView.showResponse("RF Open - DEVICE_BUSY");
-               }
+                @Override
+                public void onError(RFReturnCode rfReturnCode) {
+                    cardConnected = false;
 
-               if(RFReturnCode.TIMEOUT == rfReturnCode) {
-                   cardView.showResponse("RF Open - TIMEOUT");
-                   disconnect();
-               }
+                    if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                        cardView.showResponse("RF Open - INTERNAL_ERROR");
+                        cardView.changeOpen("OPEN");
+                    }
 
-               if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
-                   cardView.showResponse("RF Open - CONNECTION_FAILED");
-               }
-           }
-       });
+                    if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                        cardView.showResponse("RF Open - DEVICE_BUSY");
+                        cardView.changeOpen("OPEN");
+                    }
+
+                    if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                        cardView.showResponse("RF Open - TIMEOUT");
+                        disconnect();
+                        cardView.changeOpen("OPEN");
+                    }
+
+                    if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                        cardView.showResponse("RF Open - CONNECTION_FAILED");
+                        cardView.changeOpen("OPEN");
+                    }
+
+                    if(RFReturnCode.DISCONNECTED == rfReturnCode) {
+                        cardView.showResponse("RF Open - DISCONNECTED");
+                        cardView.changeOpen("OPEN");
+                    }
+                }
+            });
+        }
     }
 
     @Override

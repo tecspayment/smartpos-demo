@@ -520,6 +520,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         public void performTransmit(String data) {
             presenter.transmitCardControl(data);
         }
+
     };
 
 

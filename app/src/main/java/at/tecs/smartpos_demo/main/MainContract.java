@@ -69,6 +69,7 @@ public interface MainContract {
 
         interface CardTab {
             void showResponse(String text);
+            void changeOpen(String text);
         }
     }
 

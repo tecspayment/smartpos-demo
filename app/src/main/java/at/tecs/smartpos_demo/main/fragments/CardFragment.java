@@ -156,4 +156,14 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
             }
         });
     }
+
+    @Override
+    public void changeOpen(final String text) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                openButton.setText(text);
+            }
+        });
+    }
 }
