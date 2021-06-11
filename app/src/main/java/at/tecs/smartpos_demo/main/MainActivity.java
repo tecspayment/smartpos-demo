@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         tabAdapter.setResponseTabCallback(responseTabCallback);
         tabAdapter.setTemplatesTabCallback(templatesTabCallback);
         tabAdapter.setCardTabCallback(cardTabCallback);
+        tabAdapter.setPrintTabCallback(printTabCallback);
 
         viewPager.setAdapter(tabAdapter);
-        tabLayout.setupWithViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
         Button sendButton = findViewById(R.id.sendButton);
@@ -521,6 +521,47 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.transmitCardControl(data);
         }
 
+        @Override
+        public void performTransmitReadWholeCard(String key, int start, int end) {
+            presenter.transmitCardControlReadAll(key, start, end);
+        }
+    };
+
+    private final Callback.PrintTabCallback printTabCallback = new Callback.PrintTabCallback() {
+        @Override
+        public void onAttach(PrintTab view) {
+            presenter.takePrintView(view);
+        }
+
+        @Override
+        public void performOpen() {
+            presenter.printerOpen();
+        }
+
+        @Override
+        public void performClose() {
+            presenter.printerClose();
+        }
+
+        @Override
+        public void performFeedLine(int linesCount) {
+            presenter.printerFeedLine(linesCount);
+        }
+
+        @Override
+        public void performPrint(String dataToPrint, int dataType) {
+            presenter.printerPrint(dataToPrint, dataType);
+        }
+
+        @Override
+        public void printFullReceipt() {
+            presenter.printerFullReceipt();
+        }
+
+        @Override
+        public int performGetStatus() {
+            return presenter.printerGetStatus();
+        }
     };
 
 

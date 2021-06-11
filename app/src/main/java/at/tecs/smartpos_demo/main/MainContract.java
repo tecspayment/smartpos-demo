@@ -71,6 +71,10 @@ public interface MainContract {
             void showResponse(String text);
             void changeOpen(String text);
         }
+
+        interface PrintTab {
+            void showResponse(String text);
+        }
     }
 
     interface Presenter {
@@ -146,6 +150,8 @@ public interface MainContract {
 
         void takeCardView(MainContract.View.CardTab view);
 
+        void takePrintView(MainContract.View.PrintTab view);
+
         void openCardControl();
 
         void authenticateM0CardControl(String data);
@@ -157,6 +163,20 @@ public interface MainContract {
         void writeCardControl(String blockID, String data);
 
         void transmitCardControl(String data);
+
+        void transmitCardControlReadAll(String key, int start, int end);
+
+        int printerOpen();
+
+        void printerClose();
+
+        int printerGetStatus();
+
+        int printerPrint(String data, int dataType);
+
+        void printerFeedLine(int linesCount);
+
+        void printerFullReceipt();
 
         ConnectionType getSelected();
 

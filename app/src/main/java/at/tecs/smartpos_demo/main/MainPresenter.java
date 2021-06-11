@@ -8,14 +8,17 @@ import android.util.Pair;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.crypto.spec.IvParameterSpec;
 
 import at.tecs.ControlParser.Command;
 import at.tecs.smartpos.CardControl;
@@ -24,6 +27,8 @@ import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
 import at.tecs.smartpos.data.ConnectionType;
+import at.tecs.smartpos.data.PrinterPrintType;
+import at.tecs.smartpos.data.PrinterReturnCode;
 import at.tecs.smartpos.data.RFKeyMode;
 import at.tecs.smartpos.data.RFReturnCode;
 import at.tecs.smartpos.data.Response;
@@ -37,9 +42,15 @@ import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
+import at.tecs.smartpos_demo.utils.TDEAKey;
 
 import static at.tecs.smartpos.data.ConnectionType.BLUETOOTH;
 import static at.tecs.smartpos.data.ConnectionType.TCP;
+import static at.tecs.smartpos_demo.Utils.concatenate;
+import static at.tecs.smartpos_demo.Utils.createIvSpecFromZeros;
+import static at.tecs.smartpos_demo.Utils.createZeros;
+import static at.tecs.smartpos_demo.Utils.decrypt;
+import static at.tecs.smartpos_demo.Utils.encrypt;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -50,6 +61,7 @@ public class MainPresenter implements MainContract.Presenter {
     private MainContract.View.ResponseTab responseView;
     private MainContract.View.TemplatesTab templatesView;
     private MainContract.View.CardTab cardView;
+    private MainContract.View.PrintTab printView;
 
     private Repository repository;
 
@@ -71,7 +83,7 @@ public class MainPresenter implements MainContract.Presenter {
     private ArrayList<String> ports = new ArrayList<>();
 
     private PaymentService paymentService;
-    private final SmartPOSController cardService;
+    private final SmartPOSController smartPOSController;
 
     private ConnectionType connectionType;
 
@@ -85,6 +97,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     public static boolean bluetooth = false;
 
+    private int status;
+
     MainPresenter() {
         paymentService = new PaymentService();
         connectionType = paymentService.getType();
@@ -94,7 +108,7 @@ public class MainPresenter implements MainContract.Presenter {
             bluetooth = true;
         }
 
-        cardService = new SmartPOSController();
+        smartPOSController = new SmartPOSController();
     }
 
     @Override
@@ -554,6 +568,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void takePrintView(MainContract.View.PrintTab view) {
+        printView = view;
+    }
+
+    @Override
     public void startScan() {
         if(bluetoothAdapter.startDiscovery()) {
             Log.d("DBG","startScan run !");
@@ -585,7 +604,7 @@ public class MainPresenter implements MainContract.Presenter {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if(cardService.RFClose() != RFReturnCode.SUCCESS) {
+                    if(smartPOSController.RFClose() != RFReturnCode.SUCCESS) {
                         cardView.showResponse("DISCONNECT : failed");
                     }
                     cardConnected = false;
@@ -594,7 +613,7 @@ public class MainPresenter implements MainContract.Presenter {
         } else {
             cardConnected = true;
             cardView.changeOpen("DISCONNECT");
-            cardService.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+            smartPOSController.RFOpen(10000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
                 @Override
                 public void onDetected(CardControl cardControl, int i, byte[] bytes) {
@@ -644,7 +663,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void authenticateM0CardControl(final String data) {
-       cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+       smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
            @Override
            public void onDetected(CardControl cardControl, int i, byte[] bytes) {
@@ -683,7 +702,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void authenticateM1CardControl(final String keyMode, final String snr, final String blockID, final String key) {
-        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+        smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
             @Override
             public void onDetected(CardControl cardControl, int i, byte[] bytes) {
@@ -736,7 +755,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void readCardControl(final String blockID) {
-        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+        smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
             @Override
             public void onDetected(CardControl cardControl, int i, byte[] bytes) {
@@ -776,7 +795,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void writeCardControl(final String blockID, final String data) {
-        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+        smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
             @Override
             public void onDetected(CardControl cardControl, int i, byte[] bytes) {
@@ -815,7 +834,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void transmitCardControl(final String data) {
-        cardService.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+        smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
             @Override
             public void onDetected(CardControl cardControl, int i, byte[] bytes) {
@@ -826,6 +845,158 @@ public class MainPresenter implements MainContract.Presenter {
                 Pair<RFReturnCode, byte[]> response = cardControl.RFTransmit(ByteUtil.hexStr2Bytes(data));
                 cardView.showResponse("Transmit status : " + response.first);
                 cardView.showResponse("Transmit read data : [" + ByteUtil.bytes2HexStr_2(response.second) + "]");
+
+                RFReturnCode close = cardControl.RFClose();
+                cardView.showResponse("Close status : " + close);
+            }
+
+            @Override
+            public void onError(RFReturnCode rfReturnCode) {
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    cardView.showResponse("RF Open - INTERNAL_ERROR");
+                }
+
+                if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                    cardView.showResponse("RF Open - DEVICE_BUSY");
+                }
+
+                if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                    cardView.showResponse("RF Open - TIMEOUT");
+                    disconnect();
+                }
+
+                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                    cardView.showResponse("RF Open - CONNECTION_FAILED");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void transmitCardControlReadAll(final String key, final int start, final int end) {
+        smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+
+            @Override
+            public void onDetected(CardControl cardControl, int ct, byte[] bytes) {
+                cardView.showResponse("RF Card successful !");
+                cardView.showResponse("Card Type : " + ByteUtil.byte2HexStr((byte) ct));
+                cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
+
+
+                if(end > 3 && key != null) {   //Performing authentication
+                    TDEAKey TDEAkey = new TDEAKey(ByteUtil.hexStr2Bytes(key));
+
+                    Pair<RFReturnCode, byte[]> response = cardControl.RFTransmit(Utils.calcCrc(ByteUtil.hexStr2Bytes("1A00")));
+
+                    if (response.first != RFReturnCode.SUCCESS || response.second.length != 11 || response.second[0] != (byte) 0xAF) {
+                        cardView.showResponse("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] encryptedB = Arrays.copyOfRange(response.second, 1, 9);
+
+                    IvParameterSpec ivSpec = createIvSpecFromZeros(8);
+                    byte[] decryptedB;
+
+                    try {
+                        decryptedB = decrypt(encryptedB, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed to decrypt B" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] bDash = concatenate(Arrays.copyOfRange(decryptedB, 1, 8), Arrays.copyOfRange(decryptedB, 0, 1));
+
+                    SecureRandom secureRandom = new SecureRandom();
+                    byte[] a = createZeros(8);
+                    secureRandom.nextBytes(a);
+
+                    byte[] aDash = concatenate(Arrays.copyOfRange(a, 1, 8), Arrays.copyOfRange(a, 0, 1));
+                    byte[] abDash = concatenate(a, bDash);
+
+                    ivSpec = new IvParameterSpec(encryptedB);
+
+                    byte[] encryptedAB;
+
+                    try {
+                        encryptedAB = encrypt(abDash, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed to encrypt AB" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] requestAB = concatenate(new byte[]{(byte) 0xAF}, encryptedAB);
+
+                    Pair<RFReturnCode, byte[]> finalResponse;
+
+                    try {
+                        finalResponse = cardControl.RFTransmit(Utils.calcCrc(requestAB));
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed communication with chip" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    if (finalResponse.first != RFReturnCode.SUCCESS || finalResponse.second.length != 11 || finalResponse.second[0] != (byte) 0x00) {
+                        cardView.showResponse("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+                    byte[] encryptedADash = Arrays.copyOfRange(finalResponse.second, 1, 9);
+
+                    ivSpec = new IvParameterSpec(Arrays.copyOfRange(encryptedAB, 8, 16));
+
+                    byte[] reconstructedADash;
+
+                    try {
+                        reconstructedADash = decrypt(encryptedADash, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed to decrypt ADash" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    if (!Arrays.equals(reconstructedADash, aDash)) {
+                        cardView.showResponse("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+                }
+
+                ArrayList<byte[]> request = new ArrayList<>();
+
+                for (int i = start; i < end; i++) {
+                    request.add(Utils.calcCrc(new byte[]{0x30,(byte) i}));
+                }
+
+                Pair<RFReturnCode, ArrayList<byte[]>> responseTmp = cardControl.RFTransmit(request);
+
+                cardView.showResponse("Transmit status : " + responseTmp.first);
+                int i = 0;
+                for (byte[] b : responseTmp.second) {
+                    cardView.showResponse("B" + (i++) +": [" + at.tecs.smartpos_demo.utils.ByteUtil.bytes2HexStr(b) + "]");
+                }
 
                 RFReturnCode close = cardControl.RFClose();
                 cardView.showResponse("Close status : " + close);
@@ -893,6 +1064,177 @@ public class MainPresenter implements MainContract.Presenter {
     public void setBluetoothDevice(BluetoothDevice bluetoothDevice) {
         if(bluetoothDevice != null) {
             paymentService.setDevice(bluetoothDevice);
+        }
+    }
+
+    @Override
+    public int printerOpen() {
+
+        Thread thr = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                smartPOSController.PrinterOpen();
+            }
+        });
+        thr.start();
+        try {
+            thr.join(1000);
+        }catch (Exception e){
+        }
+        return 0;
+    }
+
+    @Override
+    public void printerClose() {
+        Thread thr = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                smartPOSController.PrinterClose();
+            }
+        });
+
+        thr.start();
+        try {
+            thr.join(1000);
+        }catch (Exception e){
+
+        }
+    }
+
+    @Override
+    public int printerGetStatus() {
+        status = PrinterReturnCode.DEVICE_BUSY.value;
+        Thread thr = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                smartPOSController.PrinterOpen();
+                status = smartPOSController.PrinterGetStatus();
+                smartPOSController.PrinterClose();
+            }
+        });
+
+        thr.start();
+        try {
+            thr.join(5000);
+        }catch (Exception e){
+            Log.d("DBG","printerPrint 3 " + e);
+        }
+        return status;
+    }
+
+    @Override
+    public int printerPrint(String data, int dataType) {
+        final String dataFin = data;
+        final int dataTypeFin = dataType;
+        Thread thr = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    smartPOSController.PrinterOpen();
+                    smartPOSController.PrinterPrint(dataFin, dataTypeFin);
+                    smartPOSController.PrinterClose();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thr.start();
+        try {
+            thr.join(5000);
+        }catch (Exception e){
+            Log.d("DBG","printerPrint 3 " + e);
+        }
+        return 0;
+    }
+
+    @Override
+    public void printerFeedLine(int linesCount) {
+        final int linesCountFin = linesCount;
+        Thread thr = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    smartPOSController.PrinterOpen();
+                    smartPOSController.PrinterFeedLine(linesCountFin);
+                    smartPOSController.PrinterClose();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thr.start();
+        try {
+            thr.join(5000);
+        }catch (Exception e){
+            Log.d("DBG","printerPrint 3 " + e);
+        }
+    }
+
+    @Override
+    public void printerFullReceipt() {
+        Thread thr = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    //Open connection and printer
+                    int ret = smartPOSController.PrinterOpen();
+                    if(ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    int status = smartPOSController.PrinterGetStatus();
+                    if(status != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    //Printing image encoded as Base64 string
+                    ret = smartPOSController.PrinterPrint("Qk3+EgAAAAAAAD4AAAAoAAAAgAEAAGQAAAABAAEAAAAAAMASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wAB////////8////////////////////////////////////////////////////gAAP///////8/////wB////////////////wH///////z///////////////////gAAH///////8/////AAf///8AAAAAf////4AAP/////AAB//////////////////gAAB///////8/////AAf///8AAAAAH////gAAB////4AAAf/////////////////gAAA///////8/////AAf///8AAAAAD///8AAAAf///gAAAH/////////////////gAAAf//////8/////AAf///8AAAAAD///4AAAAH//+AAAAB/////////////////gAAAP//////8/////AAf///8AAAAAB///gAAAAD//4AAAAA/////////////////gAAAP//////8/////AAf///8AAAAAB///AAAAAA//gAAAAAf////////////////gAAAH//////8/////AAf///8AAAAAB//+AAAAAAf/AAAAAAP////////////////gAAAH//////8/////AAf///8AAAAAB//8AAAAAAP+AAAAAAH////////////////gAAAD//////8/////AAf///8AAAAAB//4AAAAAAP+AAAAAAD////////////////gAAAD//////8/////AAf///8AAAAAB//wAAAAAAP+AAAAAAD////////////////gAAAB//////8/////AAf///8AB//////gAAH4AAf+AAD/gAB////////////////gAAAB//////8/////AAf///8AB//////AAA//gAf/AAf/4AB////////////////gAAAB//////8/////AAf///8AB//////AAD//4A//AD//+AB////////////////gAAAB//////8/////AAf///8AB/////+AAP//+B//gH///AA////////////////gAAAB//////8/////AAf///8AB/////+AAf///D//wf///AA////////////////gAAAB//////8/////AAf///8AB/////8AA////////////AA////////////////gAAAB//////8/////AAf///8AB/////8AB////////////gA////////////////gAAAB//////8/////AAf///8AB/////4AB////////////gA////////////////gAAAB//////8/////AAf///8AB/////4AD////////////gA////////////////gAAAB//////8/////AAf///8AB/////wAH////////////AA////////////////gAAAB//////8/////AAf///8AB/////wAH////////////AA////////////////gAAAB//////8/////AAf///8AB/////wAH////////////AA////////////////gAAAB//////8/////AAf///8AB/////gAP///////////+AA////////////////gAAAB//////8/////AAf///8AB/////gAP///////////8AA////////////////gAAAB//////8/////AAf///8AB/////gAP///////////wAB////////////////gAAAB//////8/////AAf///8AB/////gAf///////////gAB////////////////gAAAB//////8/////AAf///8AB/////gAf//////////+AAB////////////////gAAAB//////8/////AAf///8AB/////gAf//////////4AAD////////////////gAAAB//////8/////AAf///8AAAAP//AAf//////////gAAH////////////////gAAAB//////8/////AAf///8AAAAH//AAf/////////8AAAP////////////////gAAAB//////8/////AAf///8AAAAB//AAf/////////wAAAP////////////////gAAAB//////8/////AAf///8AAAAB//AAf/////////AAAAf////////////////gAAABqr////8/////AAf///8AAAAA//AAf////////8AAAB/////////////////gAAABVVf///8/////AAf///8AAAAA//AAf////////wAAAD/////////////////gAAABqqv///8/////AAf///8AAAAA//AA/////////gAAAP/////////////////gAAABVVV///8/////AAf///8AAAAA//AAf////////AAAAf/////////////////gAAABqqq///8/////AAf///8AAAAA//AAf///////+AAAB//////////////////gAAABVVVf//8/////AAf///8AAAAA//AAf///////8AAAH//////////////////gAAABqqqv//8/////AAf///8AAAAA//AAf///////4AAA///////////////////gAAABVUVX//8/////AAf///8AB/////gAf///////wAAD///////////////////gAAABqqqr//8/////AAf///8AB/////gAf///////wAAP///////////////////gAAABVVVV//8/////AAf///8AB/////gAf///////gAA////////////////////gAAABqqqr//8/////AAf///8AB/////gAP///////gAD////////////////////gAAABVVVU//8/////AAf///8AB/////gAP///////AAH////////////////////gAAABqqqq//8/////AAf///8AB/////wAP///////AAf////////////////////gAAABVVVVf/8/////AAf///8AB/////wAH///////AAf////////////////////gAAABqqqq//8/////AAf///8AB/////wAH///////AA/////////////////////gAAABVVVVf/8/////AAf///8AB/////4AD///////AA///////////////////4igAAABqqqqv/8/////AAf///8AB/////4AD///////AB//////////////////8AAgAAABVVVVf/8/////AAf///8AB/////4AB///////AB//////////////////oqKgAAABqqqqv/8/////AAf///8AB/////8AA///////AB/////////////////+AAAgAAABVVVVf/8/////AAf///8AB/////8AA///////AA/////////////////8iIigAAABqqqqv/8/////AAf///8AB/////+AAP///H//AA/////////////////4AAAgAAABVVVVf/8/////AAf///8AB/////+AAH//8B//AA///w/////////////6qqqgAAABqqqqv/8/////AAf///8AB//////AAD//wB//gAf//Af////////////gAAAwAAABVUVVf/8/////AAf///8AB//////gAAf/AA//gAH/8AP////////////IiIiQAAABqqqqv/8/+AABAAf///8AB//////gAAAAAAf/gAA/AAP////////////AAAAYAAABVVVVf/8/+AAAAAAAB/8AAAAAf//wAAAAAAf/wAAAAAH///////////+ioqKoAAABqqqqv/8/+AAAAAAAA/8AAAAAH//4AAAAAAP/wAAAAAH///////////+AAAAMAAABVVVVf/8/+AAAAAAAAf8AAAAAD//8AAAAAAP/4AAAAAD///////////+IiIiMAAABqqqqv/8/+AAAAAAAAf8AAAAAD//+AAAAAAf/8AAAAAD///////////8AAAAGAAABVVVVf/8/+AAAAAAAAP8AAAAAB///AAAAAA//+AAAAAH///////////+qqqqrAAABqqqqv/8/+AAAAAAAAP8AAAAAB///wAAAAD///AAAAAP///////////4AAAABgAABVVVVf/8//AAAAAAAAP8AAAAAB///4AAAAH///gAAAA////////////6IiIiI4AABqqqqv/8//AAAAAAAAP8AAAAAB///+AAAAf///4AAAD////////////4AAAAAMAABVVVVf/8//gAAAAAAAP8AAAAAB////wAAB////+AAAP////////////6ioqKivgABqqqq//8//4AAAAAAAP+AAAAAB////+AAf/////wAD/////////////4AAAAAA/////////////////////////////////////////////////////////6IiIiIiIiJ//////////////////////////////////////////////////////4AAAAAAAAB//////////////////////////////////////////////////////6qqqqqqqqr//////////////////////////////////////////////////////4AAAAAAAAD//////////////////////////////////////////////////////+IiIiIiIiP//////////////////////////////////////////////////////+AAAAAAAAP///////////////////////////////////////////////////////ioqKioqK//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8=",
+                            PrinterPrintType.IMAGE.value);
+                    if(ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+                    //Feed 2 lines
+                    smartPOSController.PrinterFeedLine(2);
+
+                    //Print multi line text
+                    ret = smartPOSController.PrinterPrint("         KUNDENBELEG\n\n\nTID: 88091137   MID: 102003557\nDate: 07/05/2021     Time: 15:30\n\n\nSALE                            \nVISA CREDIT                     \nPAN: ************0119          \nPAN SEQ NO: 01                  \nVISA ACQUIRER TEST/CARD 01     \n\n\nSTAN: 154714                   \nTXID: 20210507153032           \nORIG. TXID: 20210507153032     \nAPPROVAL CODE: 213031          \nINVOICE:1                      \nAC: F46E3CEA8232A966           \nAID: A0000000031010                \n\n\nEUR                        1.00\n\n\n           Authorized\n",
+                            PrinterPrintType.TEXT.value);
+                    if(ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+                    //Feed 2 lines
+                    smartPOSController.PrinterFeedLine(2);
+
+                    //Print QR code from provided text
+                    ret = smartPOSController.PrinterPrint("https://www.tecs.at/", PrinterPrintType.QR_SMALL.value);
+                    if(ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    //Feed 10 lines
+                    smartPOSController.PrinterFeedLine(10);
+
+                    smartPOSController.PrinterClose();
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thr.start();
+        try {
+            thr.join(5000);
+        }catch (Exception e){
+            Log.d("DBG","printerPrint 3 " + e);
         }
     }
 

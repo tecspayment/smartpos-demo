@@ -302,6 +302,82 @@
                     android:hint="HEX Data" />
             </android.support.design.widget.TextInputLayout>
 
+            <Button
+                android:id="@+id/transReadAllBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Transcieve read all "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout64" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Switch
+                android:id="@+id/authSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Auth"
+                app:layout_constraintBottom_toBottomOf="@+id/keyTextInputLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/keyTextInputLayout" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/keyTextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/authSwitch"
+                app:layout_constraintTop_toBottomOf="@+id/transReadAllBtn">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/keyEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="HEX Key" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout65"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Block Start INDEX"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/keyTextInputLayout">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/startEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="0" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout65">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/endEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Block End INDEX"
+                    android:inputType="numberDecimal"
+                    android:text="46" />
+            </android.support.design.widget.TextInputLayout>
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

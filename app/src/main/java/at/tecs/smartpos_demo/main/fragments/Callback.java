@@ -62,5 +62,17 @@ public interface Callback {
         void performReadBlock(String blockID);
         void performWriteBlock(String blockID, String data);
         void performTransmit(String data);
+        void performTransmitReadWholeCard(String key, int start, int end);
+    }
+
+    interface PrintTabCallback {
+        void onAttach(MainContract.View.PrintTab view);
+
+        void performOpen();
+        void performClose();
+        void performFeedLine(int linesCount);
+        void performPrint(String dataToPrint, int dataType);
+        void printFullReceipt();
+        int performGetStatus();
     }
 }
