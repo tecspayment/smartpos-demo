@@ -62,7 +62,7 @@ public interface Callback {
         void performReadBlock(String blockID);
         void performWriteBlock(String blockID, String data);
         void performTransmit(String data);
-        void performTransmitReadWholeCard();
+        void performTransmitReadWholeCard(String key, int start, int end);
     }
 
     interface PrintTabCallback {

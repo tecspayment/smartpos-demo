@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.MainContract;
@@ -35,6 +39,11 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
     private TextInputEditText writeBlockIDEdit;
     private TextInputEditText writeDataEdit;
     private TextInputEditText transDataEdit;
+    private TextInputEditText keyEditText;
+    private TextInputLayout keyTextInputLayout;
+    private Switch authSwitch;
+    private TextInputEditText startEditText;
+    private TextInputEditText endEditText;
 
     @Nullable
     @Override
@@ -59,7 +68,23 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
         writeDataEdit = view.findViewById(R.id.writeDataEdit);
         transDataEdit = view.findViewById(R.id.transDataEdit);
         transReadAllButton = view.findViewById(R.id.transReadAllBtn);
+        keyEditText = view.findViewById(R.id.keyEditText);
+        keyTextInputLayout = view.findViewById(R.id.keyTextInputLayout);
+        authSwitch = view.findViewById(R.id.authSwitch);
+        startEditText = view.findViewById(R.id.startEditText);
+        endEditText = view.findViewById(R.id.endEditText);
 
+        authSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    keyTextInputLayout.setVisibility(View.VISIBLE);
+                } else {
+                    keyTextInputLayout.setVisibility(View.INVISIBLE);
+                    keyEditText.setText("");
+                }
+            }
+        });
 
         openButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,8 +166,29 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
         transReadAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                responseEditText.setText("");
-                callback.performTransmitReadWholeCard();
+
+                if(authSwitch.isChecked() && (keyEditText.getText() == null || keyEditText.getText().toString().equals(""))) {
+                    Toast.makeText(getContext(), "Key field is empty", Toast.LENGTH_SHORT).show();
+                } else if(startEditText.getText() == null || startEditText.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Start Index is empty", Toast.LENGTH_SHORT).show();
+                } else if(endEditText.getText() == null || endEditText.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "End Index is empty", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    int start = Integer.parseInt(startEditText.getText().toString());
+                    int end = Integer.parseInt(endEditText.getText().toString());
+
+                    if(start > end) {
+                        Toast.makeText(getContext(), "Start index must be smaller then End index", Toast.LENGTH_SHORT).show();
+                    } else {
+                        responseEditText.setText("");
+
+                        if(keyEditText.getText().toString().equals(""))
+                            callback.performTransmitReadWholeCard(null, start, end);
+                        else
+                            callback.performTransmitReadWholeCard(keyEditText.getText().toString(), start, end);
+                    }
+                }
             }
         });
 

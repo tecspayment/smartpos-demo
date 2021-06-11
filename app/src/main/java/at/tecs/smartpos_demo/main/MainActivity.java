@@ -522,8 +522,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
 
         @Override
-        public void performTransmitReadWholeCard() {
-            presenter.transmitCardControlReadAll();
+        public void performTransmitReadWholeCard(String key, int start, int end) {
+            presenter.transmitCardControlReadAll(key, start, end);
         }
     };
 

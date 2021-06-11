@@ -8,14 +8,17 @@ import android.util.Pair;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.crypto.spec.IvParameterSpec;
 
 import at.tecs.ControlParser.Command;
 import at.tecs.smartpos.CardControl;
@@ -39,9 +42,15 @@ import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
+import at.tecs.smartpos_demo.utils.TDEAKey;
 
 import static at.tecs.smartpos.data.ConnectionType.BLUETOOTH;
 import static at.tecs.smartpos.data.ConnectionType.TCP;
+import static at.tecs.smartpos_demo.Utils.concatenate;
+import static at.tecs.smartpos_demo.Utils.createIvSpecFromZeros;
+import static at.tecs.smartpos_demo.Utils.createZeros;
+import static at.tecs.smartpos_demo.Utils.decrypt;
+import static at.tecs.smartpos_demo.Utils.encrypt;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -864,7 +873,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void transmitCardControlReadAll() {
+    public void transmitCardControlReadAll(final String key, final int start, final int end) {
         smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
 
             @Override
@@ -873,13 +882,112 @@ public class MainPresenter implements MainContract.Presenter {
                 cardView.showResponse("Card Type : " + ByteUtil.byte2HexStr((byte) ct));
                 cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
 
-                ArrayList<byte[]> request = new ArrayList<>();
-                ArrayList<byte[]> response = new ArrayList<>();
+                if(end > 3 && key != null) {   //Performing authentication
+                    TDEAKey TDEAkey = new TDEAKey(ByteUtil.hexStr2Bytes(key));
 
-                for (int i = 0; i < 46; i++) {
-                    request.add(Utils.calcCrc(new byte[]{0x30,(byte) i}));
+                    Pair<RFReturnCode, byte[]> response = cardControl.RFTransmit(Utils.calcCrc(ByteUtil.hexStr2Bytes("1A00")));
+
+                    if (response.first != RFReturnCode.SUCCESS || response.second.length != 11 || response.second[0] != (byte) 0xAF) {
+                        cardView.showResponse("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] encryptedB = Arrays.copyOfRange(response.second, 1, 9);
+
+                    IvParameterSpec ivSpec = createIvSpecFromZeros(8);
+                    byte[] decryptedB;
+
+                    try {
+                        decryptedB = decrypt(encryptedB, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed to decrypt B" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] bDash = concatenate(Arrays.copyOfRange(decryptedB, 1, 8), Arrays.copyOfRange(decryptedB, 0, 1));
+
+                    SecureRandom secureRandom = new SecureRandom();
+                    byte[] a = createZeros(8);
+                    secureRandom.nextBytes(a);
+
+                    byte[] aDash = concatenate(Arrays.copyOfRange(a, 1, 8), Arrays.copyOfRange(a, 0, 1));
+                    byte[] abDash = concatenate(a, bDash);
+
+                    ivSpec = new IvParameterSpec(encryptedB);
+
+                    byte[] encryptedAB;
+
+                    try {
+                        encryptedAB = encrypt(abDash, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed to encrypt AB" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] requestAB = concatenate(new byte[]{(byte) 0xAF}, encryptedAB);
+
+                    Pair<RFReturnCode, byte[]> finalResponse;
+
+                    try {
+                        finalResponse = cardControl.RFTransmit(Utils.calcCrc(requestAB));
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed communication with chip" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    if (finalResponse.first != RFReturnCode.SUCCESS || finalResponse.second.length != 11 || finalResponse.second[0] != (byte) 0x00) {
+                        cardView.showResponse("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+                    byte[] encryptedADash = Arrays.copyOfRange(finalResponse.second, 1, 9);
+
+                    ivSpec = new IvParameterSpec(Arrays.copyOfRange(encryptedAB, 8, 16));
+
+                    byte[] reconstructedADash;
+
+                    try {
+                        reconstructedADash = decrypt(encryptedADash, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        cardView.showResponse("Failed to decrypt ADash" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
+
+                    if (!Arrays.equals(reconstructedADash, aDash)) {
+                        cardView.showResponse("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        cardView.showResponse("Close status : " + close);
+                        return;
+                    }
                 }
 
+                ArrayList<byte[]> request = new ArrayList<>();
+
+                for (int i = start; i < end; i++) {
+                    request.add(Utils.calcCrc(new byte[]{0x30,(byte) i}));
+                }
 
                 Pair<RFReturnCode, ArrayList<byte[]>> responseTmp = cardControl.RFTransmit(request);
                 cardView.showResponse("Transmit status : " + responseTmp.first);

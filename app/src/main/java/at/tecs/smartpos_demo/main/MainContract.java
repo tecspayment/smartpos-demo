@@ -164,7 +164,7 @@ public interface MainContract {
 
         void transmitCardControl(String data);
 
-        void transmitCardControlReadAll();
+        void transmitCardControlReadAll(String key, int start, int end);
 
         int printerOpen();
 
