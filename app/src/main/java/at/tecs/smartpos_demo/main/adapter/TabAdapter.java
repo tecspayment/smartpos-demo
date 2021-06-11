@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 import at.tecs.smartpos_demo.main.fragments.CardFragment;
 import at.tecs.smartpos_demo.main.fragments.ConnectionFragment;
+import at.tecs.smartpos_demo.main.fragments.PrintFragment;
 import at.tecs.smartpos_demo.main.fragments.ResponseFragment;
 import at.tecs.smartpos_demo.main.fragments.TemplatesFragment;
 import at.tecs.smartpos_demo.main.fragments.TransactionFragment;
@@ -20,6 +21,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     private Callback.ResponseTabCallback responseTabCallback;
     private Callback.TemplatesTabCallback templatesTabCallback;
     private Callback.CardTabCallback cardTabCallback;
+    private Callback.PrintTabCallback printTabCallback;
 
     public TabAdapter(FragmentManager fm) {
         super(fm);
@@ -40,16 +42,14 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 ResponseFragment responseFragment = new ResponseFragment();
                 responseFragment.setResponseTabCallback(responseTabCallback);
                 return responseFragment;
-            /*
-            case 3:
-                TemplatesFragment templatesFragment = new TemplatesFragment();
-                templatesFragment.setTemplatesTabCallback(templatesTabCallback);
-                return templatesFragment;
-            */
             case 3:
                 CardFragment cardFragment = new CardFragment();
                 cardFragment.setTemplatesTabCallback(cardTabCallback);
                 return cardFragment;
+            case 4:
+                PrintFragment printFragment = new PrintFragment();
+                printFragment.setCallback(printTabCallback);
+                return printFragment;
 
         }
 
@@ -58,7 +58,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Nullable
@@ -71,12 +71,10 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 return "Trans";
             case 2:
                 return "Response";
-            /*
-            case 3:
-                return "Quick";
-            */
             case 3:
                 return "Card";
+            case 4:
+                return "Print";
         }
 
         return null;
@@ -100,5 +98,9 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
     public void setCardTabCallback(Callback.CardTabCallback cardTabCallback) {
         this.cardTabCallback = cardTabCallback;
+    }
+
+    public void setPrintTabCallback(Callback.PrintTabCallback printTabCallback) {
+        this.printTabCallback = printTabCallback;
     }
 }

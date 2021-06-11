@@ -1,6 +1,11 @@
 package at.tecs.smartpos_demo;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import at.tecs.smartpos_demo.utils.CRC;
 
 public class Utils {
     public static String bytes2HexStr(byte[] bytes) {
@@ -27,6 +32,23 @@ public class Utils {
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars, StandardCharsets.UTF_8);
+    }
+
+    public static byte [] calcCrc(byte[] data){
+        byte[] crc = CRC.swapCrcBytes(CRC.calculateCRC(CRC.Parameters.CRCA,(data)));
+        List list = new ArrayList(Arrays.asList(data));
+        list.addAll(Arrays.asList(crc));
+        byte[] both = concatenate(data, crc);
+        return both;
+    }
+
+    public static byte [] concatenate (final byte array1[], final byte array2[])
+    {
+        byte[] both = Arrays.copyOf(array1, array1.length + array2.length);
+
+        System.arraycopy(array2, 0, both, array1.length, array2.length);
+
+        return both;
     }
 
 }

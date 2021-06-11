@@ -302,6 +302,20 @@
                     android:hint="HEX Data" />
             </android.support.design.widget.TextInputLayout>
 
+            <Button
+                android:id="@+id/transReadAllBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Transcieve read all "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout64" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

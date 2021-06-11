@@ -25,6 +25,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
     private Button readButton;
     private Button writeButton;
     private Button transButton;
+    private Button transReadAllButton;
     private TextInputEditText authM0DataEdit;
     private TextInputEditText authM1KeymodeEdit;
     private TextInputEditText authM1SNREdit;
@@ -57,6 +58,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
         writeBlockIDEdit = view.findViewById(R.id.writeBlockIDEdit);
         writeDataEdit = view.findViewById(R.id.writeDataEdit);
         transDataEdit = view.findViewById(R.id.transDataEdit);
+        transReadAllButton = view.findViewById(R.id.transReadAllBtn);
 
 
         openButton.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +135,14 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
                     String data = transDataEdit.getText().toString();
                     callback.performTransmit(data);
                 }
+            }
+        });
+
+        transReadAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                responseEditText.setText("");
+                callback.performTransmitReadWholeCard();
             }
         });
 
