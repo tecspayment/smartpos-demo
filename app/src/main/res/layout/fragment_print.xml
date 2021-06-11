@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.fragments.PrintFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/printTextBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Print TXT"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/printTextText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter print text"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/printTextBtn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/printQrBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="PRINT QR"
+                app:layout_constraintEnd_toEndOf="@+id/printTextBtn"
+                app:layout_constraintStart_toStartOf="@+id/printTextBtn"
+                app:layout_constraintTop_toBottomOf="@+id/printTextBtn" />
+
+            <EditText
+                android:id="@+id/printQrText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter print qr"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/printTextBtn"
+                app:layout_constraintTop_toBottomOf="@+id/printTextText" />
+
+            <Button
+                android:id="@+id/printImageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Print sample image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/printQrText" />
+
+            <Button
+                android:id="@+id/printExampleRcpBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Print example receipt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/printQrText" />
+
+            <Button
+                android:id="@+id/feedLinesBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feed lines"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/printExampleRcpBtn" />
+
+            <EditText
+                android:id="@+id/feedLinesNumBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/feedLinesBtn"
+                app:layout_constraintTop_toBottomOf="@+id/printImageBtn" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>
