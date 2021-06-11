@@ -882,6 +882,7 @@ public class MainPresenter implements MainContract.Presenter {
                 cardView.showResponse("Card Type : " + ByteUtil.byte2HexStr((byte) ct));
                 cardView.showResponse("UUID : " + Utils.bytes2HexStr(bytes));
 
+
                 if(end > 3 && key != null) {   //Performing authentication
                     TDEAKey TDEAkey = new TDEAKey(ByteUtil.hexStr2Bytes(key));
 
@@ -990,6 +991,7 @@ public class MainPresenter implements MainContract.Presenter {
                 }
 
                 Pair<RFReturnCode, ArrayList<byte[]>> responseTmp = cardControl.RFTransmit(request);
+
                 cardView.showResponse("Transmit status : " + responseTmp.first);
                 int i = 0;
                 for (byte[] b : responseTmp.second) {

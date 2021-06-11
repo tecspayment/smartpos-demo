@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import at.tecs.smartpos_demo.R;
+import at.tecs.smartpos_demo.Utils;
 import at.tecs.smartpos_demo.main.MainContract;
 
 public class CardFragment extends Fragment implements MainContract.View.CardTab {
@@ -185,8 +186,11 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
 
                         if(keyEditText.getText().toString().equals(""))
                             callback.performTransmitReadWholeCard(null, start, end);
-                        else
-                            callback.performTransmitReadWholeCard(keyEditText.getText().toString(), start, end);
+                        else {
+                            if(Utils.checkHex(keyEditText.getText().toString())){
+                                callback.performTransmitReadWholeCard(keyEditText.getText().toString(), start, end);
+                            } else Toast.makeText(getContext(), "Key has to be in HEX format", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

@@ -154,4 +154,28 @@ public class Utils {
         return builder.toString().toUpperCase();
     }
 
+    public static boolean checkHex(String s)
+    {
+        // Size of string
+        int n = s.length();
+
+        // Iterate over string
+        for (int i = 0; i < n; i++) {
+
+            char ch = s.charAt(i);
+
+            // Check if the character
+            // is invalid
+            if ((ch < '0' || ch > '9')
+                    && (ch < 'A' || ch > 'F')) {
+
+                return false;
+            }
+        }
+
+        // Print true if all
+        // characters are valid
+        return true;
+    }
+
 }
