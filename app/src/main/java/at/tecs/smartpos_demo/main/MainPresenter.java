@@ -97,7 +97,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     public static boolean bluetooth = false;
 
-    private int status;
 
     MainPresenter() {
         paymentService = new PaymentService();
@@ -326,6 +325,7 @@ public class MainPresenter implements MainContract.Presenter {
                         @Override
                         public void onReadFailed() {
                             view.showToast("Read Failed !");
+                            disconnect();
                         }
                     });
                 }
@@ -643,7 +643,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                     if(RFReturnCode.TIMEOUT == rfReturnCode) {
                         cardView.showResponse("RF Open - TIMEOUT");
-                        disconnect();
                         cardView.changeOpen("OPEN");
                     }
 
@@ -690,7 +689,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                if(RFReturnCode.TIMEOUT == rfReturnCode) {
                    cardView.showResponse("RF Open - TIMEOUT");
-                   disconnect();
                }
 
                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
@@ -742,7 +740,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                 if(RFReturnCode.TIMEOUT == rfReturnCode) {
                     cardView.showResponse("RF Open - TIMEOUT");
-                    disconnect();
                 }
 
                 if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
@@ -783,7 +780,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                 if(RFReturnCode.TIMEOUT == rfReturnCode) {
                     cardView.showResponse("RF Open - TIMEOUT");
-                    disconnect();
                 }
 
                 if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
@@ -822,7 +818,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                 if(RFReturnCode.TIMEOUT == rfReturnCode) {
                     cardView.showResponse("RF Open - TIMEOUT");
-                    disconnect();
                 }
 
                 if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
@@ -862,7 +857,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                 if(RFReturnCode.TIMEOUT == rfReturnCode) {
                     cardView.showResponse("RF Open - TIMEOUT");
-                    disconnect();
                 }
 
                 if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
@@ -1014,7 +1008,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                 if(RFReturnCode.TIMEOUT == rfReturnCode) {
                     cardView.showResponse("RF Open - TIMEOUT");
-                    disconnect();
                 }
 
                 if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
@@ -1068,114 +1061,43 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public int printerOpen() {
-
-        Thread thr = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                smartPOSController.PrinterOpen();
-            }
-        });
-        thr.start();
-        try {
-            thr.join(1000);
-        }catch (Exception e){
-        }
-        return 0;
-    }
-
-    @Override
-    public void printerClose() {
-        Thread thr = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                smartPOSController.PrinterClose();
-            }
-        });
-
-        thr.start();
-        try {
-            thr.join(1000);
-        }catch (Exception e){
-
-        }
-    }
-
-    @Override
-    public int printerGetStatus() {
-        status = PrinterReturnCode.DEVICE_BUSY.value;
-        Thread thr = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                smartPOSController.PrinterOpen();
-                status = smartPOSController.PrinterGetStatus();
-                smartPOSController.PrinterClose();
-            }
-        });
-
-        thr.start();
-        try {
-            thr.join(5000);
-        }catch (Exception e){
-            Log.d("DBG","printerPrint 3 " + e);
-        }
-        return status;
-    }
-
-    @Override
-    public int printerPrint(String data, int dataType) {
-        final String dataFin = data;
-        final int dataTypeFin = dataType;
-        Thread thr = new Thread(new Runnable() {
+    public void printerPrint(final String data, final int dataType) {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     smartPOSController.PrinterOpen();
-                    smartPOSController.PrinterPrint(dataFin, dataTypeFin);
+                    smartPOSController.PrinterPrint(data, dataType);
                     smartPOSController.PrinterClose();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
-        });
+        }).start();
 
-        thr.start();
-        try {
-            thr.join(5000);
-        }catch (Exception e){
-            Log.d("DBG","printerPrint 3 " + e);
-        }
-        return 0;
     }
 
     @Override
-    public void printerFeedLine(int linesCount) {
-        final int linesCountFin = linesCount;
-        Thread thr = new Thread(new Runnable() {
+    public void printerFeedLine(final int linesCount) {
+
+        new Thread(new Runnable() {
             @Override
             public void run() {
 
                 try {
                     smartPOSController.PrinterOpen();
-                    smartPOSController.PrinterFeedLine(linesCountFin);
+                    smartPOSController.PrinterFeedLine(linesCount);
                     smartPOSController.PrinterClose();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
-        });
-
-        thr.start();
-        try {
-            thr.join(5000);
-        }catch (Exception e){
-            Log.d("DBG","printerPrint 3 " + e);
-        }
+        }).start();
     }
 
     @Override
     public void printerFullReceipt() {
-        Thread thr = new Thread(new Runnable() {
+       new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
@@ -1228,14 +1150,7 @@ public class MainPresenter implements MainContract.Presenter {
                     e.printStackTrace();
                 }
             }
-        });
-
-        thr.start();
-        try {
-            thr.join(5000);
-        }catch (Exception e){
-            Log.d("DBG","printerPrint 3 " + e);
-        }
+        }).start();
     }
 
     private void initializeConnectionSpinners() {

@@ -533,15 +533,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.takePrintView(view);
         }
 
-        @Override
-        public void performOpen() {
-            presenter.printerOpen();
-        }
-
-        @Override
-        public void performClose() {
-            presenter.printerClose();
-        }
 
         @Override
         public void performFeedLine(int linesCount) {
@@ -556,11 +547,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void printFullReceipt() {
             presenter.printerFullReceipt();
-        }
-
-        @Override
-        public int performGetStatus() {
-            return presenter.printerGetStatus();
         }
     };
 
