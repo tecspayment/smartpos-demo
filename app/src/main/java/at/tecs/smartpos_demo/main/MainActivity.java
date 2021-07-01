@@ -219,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
      */
     @Override
     public void showToast(final String msg) {
-        Log.e("TEST", "TOAST : " + msg);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
