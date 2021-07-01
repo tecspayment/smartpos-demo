@@ -68,11 +68,8 @@ public interface Callback {
     interface PrintTabCallback {
         void onAttach(MainContract.View.PrintTab view);
 
-        void performOpen();
-        void performClose();
         void performFeedLine(int linesCount);
         void performPrint(String dataToPrint, int dataType);
         void printFullReceipt();
-        int performGetStatus();
     }
 }

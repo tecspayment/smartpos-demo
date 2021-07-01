@@ -73,7 +73,7 @@ public interface MainContract {
         }
 
         interface PrintTab {
-            void showResponse(String text);
+
         }
     }
 
@@ -166,13 +166,7 @@ public interface MainContract {
 
         void transmitCardControlReadAll(String key, int start, int end);
 
-        int printerOpen();
-
-        void printerClose();
-
-        int printerGetStatus();
-
-        int printerPrint(String data, int dataType);
+        void printerPrint(String data, int dataType);
 
         void printerFeedLine(int linesCount);
 

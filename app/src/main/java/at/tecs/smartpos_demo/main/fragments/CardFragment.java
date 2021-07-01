@@ -201,7 +201,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
         return view;
     }
 
-    public void setTemplatesTabCallback(Callback.CardTabCallback cardTabCallback) {
+    public void setCardTabCallback(Callback.CardTabCallback cardTabCallback) {
         this.callback = cardTabCallback;
     }
 

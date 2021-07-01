@@ -10,7 +10,6 @@ import at.tecs.smartpos_demo.main.fragments.CardFragment;
 import at.tecs.smartpos_demo.main.fragments.ConnectionFragment;
 import at.tecs.smartpos_demo.main.fragments.PrintFragment;
 import at.tecs.smartpos_demo.main.fragments.ResponseFragment;
-import at.tecs.smartpos_demo.main.fragments.TemplatesFragment;
 import at.tecs.smartpos_demo.main.fragments.TransactionFragment;
 
 
@@ -44,11 +43,11 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 return responseFragment;
             case 3:
                 CardFragment cardFragment = new CardFragment();
-                cardFragment.setTemplatesTabCallback(cardTabCallback);
+                cardFragment.setCardTabCallback(cardTabCallback);
                 return cardFragment;
             case 4:
                 PrintFragment printFragment = new PrintFragment();
-                printFragment.setCallback(printTabCallback);
+                printFragment.setPrintCallback(printTabCallback);
                 return printFragment;
 
         }
