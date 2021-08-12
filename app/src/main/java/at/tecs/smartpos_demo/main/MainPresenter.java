@@ -323,6 +323,12 @@ public class MainPresenter implements MainContract.Presenter {
                         }
 
                         @Override
+                        public void onDisconnected() {
+                            //Log.e("TEST", "Disconnected !");
+                            view.showDisconnected();
+                        }
+
+                        @Override
                         public void onReadFailed() {
                             view.showToast("Read Failed !");
                             disconnect();

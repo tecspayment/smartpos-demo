@@ -23,13 +23,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Set;
 
 import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
-import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.TabAdapter;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
@@ -96,6 +98,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         onlineStatus = findViewById(R.id.onlineStatus);
         connectImage = findViewById(R.id.connectImage);
+
+        onlineStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(presenter.isConnected()) {
+                    showToast("SmartPOS is Connected !");
+                } else {
+                    showToast("SmartPOS is not Connected !");
+                }
+            }
+        });
 
         //nataliButton = findViewById(R.id.nataliButton);
 
