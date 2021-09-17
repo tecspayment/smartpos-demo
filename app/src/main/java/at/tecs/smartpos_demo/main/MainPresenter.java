@@ -59,9 +59,8 @@ public class MainPresenter implements MainContract.Presenter {
     private MainContract.View.ConnectionTab connectionView;
     private MainContract.View.TransactionTab transactionView;
     private MainContract.View.ResponseTab responseView;
-    private MainContract.View.TemplatesTab templatesView;
-    private MainContract.View.CardTab cardView;
-    private MainContract.View.PrintTab printView;
+    //private MainContract.View.CardTab cardView;
+    //private MainContract.View.PrintTab printView;
 
     private Repository repository;
 
@@ -405,6 +404,7 @@ public class MainPresenter implements MainContract.Presenter {
         }
     }
 
+    /*
     @Override
     public void selectConnection(String type) {
         if(type.equals("Bluetooth") && paymentService.getType() != BLUETOOTH ) {
@@ -451,6 +451,8 @@ public class MainPresenter implements MainContract.Presenter {
         }
 
     }
+
+     */
 
     @Override
     public void sale(String amount, String currency) {
@@ -528,13 +530,6 @@ public class MainPresenter implements MainContract.Presenter {
         return this.lastResponse;
     }
 
-    /*
-    @Override
-    public int startNatali(Context context) {
-       return paymentService.startService(context);
-    }
-    */
-
     @Override
     public PaymentService getPaymentService() {
         return paymentService;
@@ -563,11 +558,7 @@ public class MainPresenter implements MainContract.Presenter {
         }
     }
 
-    @Override
-    public void takeTemplatesView(MainContract.View.TemplatesTab view) {
-        templatesView = view;
-    }
-
+    /*
     @Override
     public void takeCardView(MainContract.View.CardTab view) {
         cardView = view;
@@ -577,6 +568,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void takePrintView(MainContract.View.PrintTab view) {
         printView = view;
     }
+    */
 
     @Override
     public void startScan() {
@@ -596,14 +588,16 @@ public class MainPresenter implements MainContract.Presenter {
         }
     }
 
+    /*
     @Override
     public Set<BluetoothDevice> getPairedDevices() {
         if(bluetoothAdapter != null)
             return bluetoothAdapter.getBondedDevices();
         else return null;
     }
+    */
 
-
+    /*
     @Override
     public void openCardControl() {
         if(cardConnected) {
@@ -1028,37 +1022,6 @@ public class MainPresenter implements MainContract.Presenter {
         return selected;
     }
 
-    private class Incrementer extends TimerTask {
-
-        private volatile boolean alive;
-
-        Incrementer() {
-            alive = true;
-        }
-
-        void terminate() {
-            alive = false;
-        }
-
-        void go() {
-            alive = true;
-        }
-
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        @Override
-        public void run() {
-            if (alive) {
-                Date date = new Date(System.currentTimeMillis());
-                transactionID = formatter.format(date);
-                dateTime = formatter.format(date);
-                if(transactionView != null)
-                    transactionView.showTransactionAuto(transactionID, dateTime);
-            }
-        }
-    }
-
     @Override
     public void setBluetoothDevice(BluetoothDevice bluetoothDevice) {
         if(bluetoothDevice != null) {
@@ -1158,6 +1121,38 @@ public class MainPresenter implements MainContract.Presenter {
             }
         }).start();
     }
+    */
+
+    private class Incrementer extends TimerTask {
+
+        private volatile boolean alive;
+
+        Incrementer() {
+            alive = true;
+        }
+
+        void terminate() {
+            alive = false;
+        }
+
+        void go() {
+            alive = true;
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        @Override
+        public void run() {
+            if (alive) {
+                Date date = new Date(System.currentTimeMillis());
+                transactionID = formatter.format(date);
+                dateTime = formatter.format(date);
+                if(transactionView != null)
+                    transactionView.showTransactionAuto(transactionID, dateTime);
+            }
+        }
+    }
 
     private void initializeConnectionSpinners() {
 
@@ -1228,4 +1223,5 @@ public class MainPresenter implements MainContract.Presenter {
 
         return trans;
     }
+
 }

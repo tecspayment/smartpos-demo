@@ -6,23 +6,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import at.tecs.smartpos_demo.main.fragments.Callback;
-import at.tecs.smartpos_demo.main.fragments.CardFragment;
-import at.tecs.smartpos_demo.main.fragments.ConnectionFragment;
-import at.tecs.smartpos_demo.main.fragments.PrintFragment;
+import at.tecs.smartpos_demo.main.fragments.ReceiptFragment;
 import at.tecs.smartpos_demo.main.fragments.ResponseFragment;
-import at.tecs.smartpos_demo.main.fragments.TransactionFragment;
+import at.tecs.smartpos_demo.main.fragments.TransactionsFragment;
 
 
-public class TabAdapter extends FragmentStatePagerAdapter {
+public class MainAdapter extends FragmentStatePagerAdapter {
 
+    /*
     private Callback.ConnectionTabCallback connectionTabCallback;
     private Callback.TransactionTabCallback transactionTabCallback;
-    private Callback.ResponseTabCallback responseTabCallback;
     private Callback.TemplatesTabCallback templatesTabCallback;
     private Callback.CardTabCallback cardTabCallback;
     private Callback.PrintTabCallback printTabCallback;
+    */
 
-    public TabAdapter(FragmentManager fm) {
+    private Callback.TransactionsTabCallBack transactionsTabCallBack;
+    private Callback.ResponseTabCallback responseTabCallback;
+
+    public MainAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -30,26 +32,17 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                ConnectionFragment connectionFragment = new ConnectionFragment();
-                connectionFragment.setCallback(connectionTabCallback);
-                return connectionFragment;
+                TransactionsFragment transactionsFragment = new TransactionsFragment();
+                transactionsFragment.setCallback(transactionsTabCallBack);
+                return transactionsFragment;
             case 1:
-                TransactionFragment transactionFragment = new TransactionFragment();
-                transactionFragment.setCallback(transactionTabCallback);
-                return transactionFragment;
-            case 2:
                 ResponseFragment responseFragment = new ResponseFragment();
-                responseFragment.setResponseTabCallback(responseTabCallback);
+                responseFragment.setCallback(responseTabCallback);
                 return responseFragment;
-            case 3:
-                CardFragment cardFragment = new CardFragment();
-                cardFragment.setCardTabCallback(cardTabCallback);
-                return cardFragment;
-            case 4:
-                PrintFragment printFragment = new PrintFragment();
-                printFragment.setPrintCallback(printTabCallback);
-                return printFragment;
-
+            case 2:
+                ReceiptFragment receiptFragment = new ReceiptFragment();
+                //responseFragment.setResponseTabCallback(responseTabCallback);
+                return receiptFragment;
         }
 
         return null;
@@ -57,7 +50,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 3;
     }
 
     @Nullable
@@ -65,20 +58,21 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Connect";
+                return "Transactions";
             case 1:
-                return "Trans";
-            case 2:
                 return "Response";
-            case 3:
-                return "Card";
-            case 4:
-                return "Print";
+            case 2:
+                return "Receipt";
         }
 
         return null;
     }
 
+    public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {
+        this.responseTabCallback = responseTabCallback;
+    }
+
+    /*
     public void setConnectionTabCallback(Callback.ConnectionTabCallback connectionTabCallback) {
         this.connectionTabCallback = connectionTabCallback;
     }
@@ -87,9 +81,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
         this.transactionTabCallback = transactionTabCallback;
     }
 
-    public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {
-        this.responseTabCallback = responseTabCallback;
-    }
+
 
     public void setTemplatesTabCallback(Callback.TemplatesTabCallback templatesTabCallback) {
         this.templatesTabCallback = templatesTabCallback;
@@ -102,4 +94,5 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     public void setPrintTabCallback(Callback.PrintTabCallback printTabCallback) {
         this.printTabCallback = printTabCallback;
     }
+    */
 }

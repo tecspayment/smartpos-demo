@@ -1,14 +1,10 @@
 package at.tecs.smartpos_demo.main;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
 
-import java.util.Set;
-
 import at.tecs.smartpos.PaymentService;
-import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
@@ -18,6 +14,8 @@ public interface MainContract {
     interface View {
 
         void showResponseTab(int code);
+
+        void showLog(String log);
 
         void showConnected();
 
@@ -41,7 +39,7 @@ public interface MainContract {
 
             void showTCP();
 
-            void showBluetooth();
+            //void showBluetooth();
         }
 
         interface TransactionTab {
@@ -62,19 +60,17 @@ public interface MainContract {
             void clearResponse();
         }
 
-        interface TemplatesTab {
-
-
+        interface ReceiptTab {
+            void showReceipt(String receipt);
+            void clearReceipt();
         }
 
+        /*
         interface CardTab {
             void showResponse(String text);
             void changeOpen(String text);
         }
-
-        interface PrintTab {
-
-        }
+        */
     }
 
     interface Presenter {
@@ -117,15 +113,15 @@ public interface MainContract {
 
         void send();
 
-        void selectConnection(String type);
+        //void selectConnection(String type);
 
-        void setBluetoothDevice(BluetoothDevice bluetoothDevice);
+        //void setBluetoothDevice(BluetoothDevice bluetoothDevice);
 
         void startScan();
 
         void stopScan();
 
-        Set<BluetoothDevice> getPairedDevices();
+        //Set<BluetoothDevice> getPairedDevices();
 
         void sale(String amount, String currency);
         void refund(String amount, String currecy);
@@ -146,12 +142,11 @@ public interface MainContract {
 
         void takeResponseView(MainContract.View.ResponseTab view);
 
-        void takeTemplatesView(MainContract.View.TemplatesTab view);
+        //void takeCardView(MainContract.View.CardTab view);
 
-        void takeCardView(MainContract.View.CardTab view);
+        //void takePrintView(MainContract.View.PrintTab view);
 
-        void takePrintView(MainContract.View.PrintTab view);
-
+        /*
         void openCardControl();
 
         void authenticateM0CardControl(String data);
@@ -173,6 +168,7 @@ public interface MainContract {
         void printerFullReceipt();
 
         ConnectionType getSelected();
+        */
 
     }
 }

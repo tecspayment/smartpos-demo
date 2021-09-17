@@ -1,7 +1,6 @@
 package at.tecs.smartpos_demo.main;
 
 
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,30 +8,16 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Set;
-
-import at.tecs.smartpos.data.ConnectionType;
-import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
-import at.tecs.smartpos_demo.main.adapter.TabAdapter;
+import at.tecs.smartpos_demo.main.adapter.MainAdapter;
+import at.tecs.smartpos_demo.main.dialog.ConnectionDialog;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
 import static at.tecs.smartpos.data.Response.Code.*;
@@ -48,136 +33,56 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private final MainContract.Presenter presenter = new MainPresenter();
 
-    private TextView onlineStatus;
-    private ImageView connectImage;
-
-    //private Button nataliButton;
-    private Spinner connectionSpinner;
-    private Button connectButton;
-
     private ViewPager viewPager;
+    private TextView tidText;
+    private TextView logText;
+    private ImageButton onlineStatus;
+    private ImageButton menuButton;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.startAutomatic(true);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_act);
+        setContentView(R.layout.intro_act);
+
+        viewPager = findViewById(R.id.viewpager);
+        tidText = findViewById(R.id.tidText);
+        logText = findViewById(R.id.logText);
+        onlineStatus = findViewById(R.id.onlineStatus);
+        menuButton = findViewById(R.id.menuButton);
 
         registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
-        registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
+        final MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager());
+
+        mainAdapter.setResponseTabCallback(responseTabCallback);
+
+        viewPager.setAdapter(mainAdapter);
+
+        tidText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectionDialog connectionDialog = new ConnectionDialog(getContext());
+                connectionDialog.show();
+            }
+        });
+
         presenter.takeView(this);
 
-        viewPager = findViewById(R.id.viewpager);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-
-        final TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
-
-        tabAdapter.setConnectionTabCallback(connectionTabCallback);
-        tabAdapter.setTransactionTabCallback(transactionTabCallback);
-        tabAdapter.setResponseTabCallback(responseTabCallback);
-        tabAdapter.setTemplatesTabCallback(templatesTabCallback);
-        tabAdapter.setCardTabCallback(cardTabCallback);
-        tabAdapter.setPrintTabCallback(printTabCallback);
-
-        viewPager.setAdapter(tabAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        Button sendButton = findViewById(R.id.sendButton);
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(presenter.isConnected())
-                    presenter.send();
-            }
-        });
-
         presenter.initialize();
-
-        onlineStatus = findViewById(R.id.onlineStatus);
-        connectImage = findViewById(R.id.connectImage);
-
-        onlineStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(presenter.isConnected()) {
-                    showToast("SmartPOS is Connected !");
-                } else {
-                    showToast("SmartPOS is not Connected !");
-                }
-            }
-        });
-
-        //nataliButton = findViewById(R.id.nataliButton);
-
-        connectionSpinner = findViewById(R.id.connectionSpinner);
-
-        ArrayList<String> connectionTypes = new ArrayList<>();
-        connectionTypes.add("TCP");
-        if(MainPresenter.bluetooth)
-            connectionTypes.add("Bluetooth");
-
-        connectionSpinner.setSelection(0);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, connectionTypes);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        connectionSpinner.setAdapter(arrayAdapter);
-
-        connectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                presenter.selectConnection(connectionSpinner.getSelectedItem().toString());
-                tabAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        /*
-        int status = presenter.startNatali(getContext());       //Launch NaTALI at launch
-
-        if (status == -1) {
-            showToast("NaTALI not found !");
-        }
-        */
-
-        /*
-        nataliButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int status = presenter.startNatali(getContext());       //Launch NaTALI at launch
-
-                if (status == -1) {
-                    showToast("NaTALI not found !");
-                }
-            }
-        });
-        */
-
-        connectButton = findViewById(R.id.connectButton);
 
         if(presenter.isConnected()) {
             showConnected();
         } else {
             showDisconnected();
         }
-
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!presenter.isConnected()) {
-                    presenter.connect();
-                } else {
-                    presenter.disconnect();
-                }
-            }
-        });
 
         presenter.start();
     }
@@ -186,8 +91,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onDestroy() {
         presenter.disconnect();
         unregisterReceiver(nataliReceiver);
-        unregisterReceiver(bluetoothReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    public void showLog(String log) {
+        logText.setText(log);
     }
 
     /**
@@ -198,14 +107,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                onlineStatus.setText(getString(R.string.online));
-                connectImage.setImageResource(android.R.drawable.presence_online);
 
-                connectButton.setText(getString(R.string.disconnected));
-                connectButton.setBackgroundResource(R.color.disconnected);
             }
         });
-
     }
 
     /**
@@ -216,11 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                onlineStatus.setText(getString(R.string.offline));
-                connectImage.setImageResource(android.R.drawable.presence_offline);
 
-                connectButton.setText(getString(R.string.connect_caps));
-                connectButton.setBackgroundResource(R.color.connected);
             }
         });
     }
@@ -326,23 +226,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         */
     }
 
-    private BroadcastReceiver nataliReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver nataliReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
             int status = intent.getIntExtra("status", -1);
 
-            //showNataliStatus(status);
             switch (status) {
                 case SERVICE_ALIVE:
-                    //showToast("Natali status : " + status);
                     break;
                 case SERVICE_LAUNCHED:
                 case SERVICE_STOPED:
                 case INTERPRET_STOPED:
                 case SERVICE_RELOADING:
-                    //showToast("Natali status : " + status);
                     if(presenter.isConnected())
                         presenter.disconnect();
                     break;
@@ -350,7 +247,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
-    private Callback.ConnectionTabCallback connectionTabCallback = new Callback.ConnectionTabCallback() {
+    private final Callback.ResponseTabCallback responseTabCallback = new Callback.ResponseTabCallback() {
+        @Override
+        public void onAttach(ResponseTab view) {
+            presenter.takeResponseView(view);
+        }
+    };
+
+    /*
+    private final Callback.ConnectionTabCallback connectionTabCallback = new Callback.ConnectionTabCallback() {
         @Override
         public void saveTerminalNumber(String terminalNum) {
             presenter.saveTermNum(terminalNum);
@@ -427,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
-    private Callback.TransactionTabCallback transactionTabCallback = new Callback.TransactionTabCallback() {
+    private final Callback.TransactionTabCallback transactionTabCallback = new Callback.TransactionTabCallback() {
         @Override
         public void saveTransaction(Transaction transaction, String name) {
             presenter.saveTransaction(transaction, name);
@@ -464,14 +369,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
-    private Callback.ResponseTabCallback responseTabCallback = new Callback.ResponseTabCallback() {
-        @Override
-        public void onAttach(ResponseTab view) {
-            presenter.takeResponseView(view);
-        }
-    };
-
-    private Callback.TemplatesTabCallback templatesTabCallback = new Callback.TemplatesTabCallback() {
+    private final Callback.TemplatesTabCallback templatesTabCallback = new Callback.TemplatesTabCallback() {
         @Override
         public void onAttach(TemplatesTab view) {
             presenter.takeTemplatesView(view);
@@ -562,25 +460,5 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.printerFullReceipt();
         }
     };
-
-
-    private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
-
-                Log.d("DBG", "Device found " + deviceName);
-
-                showToast("Device found : " + deviceName + ":" + deviceHardwareAddress);
-
-                presenter.setBluetoothDevice(device);
-            }
-        }
-    };
-
-
+    */
 }

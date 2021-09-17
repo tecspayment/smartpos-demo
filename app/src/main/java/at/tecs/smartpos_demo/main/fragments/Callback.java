@@ -35,8 +35,6 @@ public interface Callback {
     }
 
     interface TemplatesTabCallback {
-        void onAttach(MainContract.View.TemplatesTab view);
-
         void performSale(String amount, String currency);
         void performRefund(String amount, String currecy);
         void performCancellation(String transID, String amount, String currency);
@@ -53,6 +51,15 @@ public interface Callback {
         void performAliPayQR();
     }
 
+    interface TransactionsTabCallBack {
+
+    }
+
+    interface ReceiptTabCallBack {
+        void onAttach(MainContract.View.ReceiptTab view);
+    }
+
+    /*
     interface CardTabCallback {
         void onAttach(MainContract.View.CardTab view);
 
@@ -64,7 +71,9 @@ public interface Callback {
         void performTransmit(String data);
         void performTransmitReadWholeCard(String key, int start, int end);
     }
+    */
 
+    /*
     interface PrintTabCallback {
         void onAttach(MainContract.View.PrintTab view);
 
@@ -72,4 +81,5 @@ public interface Callback {
         void performPrint(String dataToPrint, int dataType);
         void printFullReceipt();
     }
+    */
 }

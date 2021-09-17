@@ -19,9 +19,9 @@ import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.Utils;
 import at.tecs.smartpos_demo.main.MainContract;
 
-public class CardFragment extends Fragment implements MainContract.View.CardTab {
+public class CardFragment extends Fragment /*implements MainContract.View.CardTab*/ {
 
-    private Callback.CardTabCallback callback;
+    //private Callback.CardTabCallback callback;
 
     private EditText responseEditText;
     private Button openButton;
@@ -91,7 +91,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
             @Override
             public void onClick(View v) {
                 responseEditText.setText("");
-                callback.performConnect();
+                //callback.performConnect();
             }
         });
 
@@ -102,7 +102,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
                     responseEditText.setText("");
 
                     String data = authM0DataEdit.getText().toString();
-                    callback.performAuthenticateM0(data);
+                    //callback.performAuthenticateM0(data);
                 }
             }
         });
@@ -121,7 +121,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
                     String blockID = authM1BlockEdit.getText().toString();
                     String key = authM1KeyEdit.getText().toString();
 
-                    callback.performAuthenticateM1(keyMode, SNR, blockID, key);
+                    //callback.performAuthenticateM1(keyMode, SNR, blockID, key);
                 }
             }
         });
@@ -133,7 +133,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
                     responseEditText.setText("");
 
                     String blockID = readBlockIDEdit.getText().toString();
-                    callback.performReadBlock(blockID);
+                    //callback.performReadBlock(blockID);
                 }
             }
         });
@@ -147,7 +147,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
 
                     String blockID = writeBlockIDEdit.getText().toString();
                     String data = writeDataEdit.getText().toString();
-                    callback.performWriteBlock(blockID, data);
+                    //callback.performWriteBlock(blockID, data);
                 }
             }
         });
@@ -159,7 +159,7 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
                     responseEditText.setText("");
 
                     String data = transDataEdit.getText().toString();
-                    callback.performTransmit(data);
+                    //callback.performTransmit(data);
                 }
             }
         });
@@ -184,11 +184,11 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
                     } else {
                         responseEditText.setText("");
 
-                        if(keyEditText.getText().toString().equals(""))
-                            callback.performTransmitReadWholeCard(null, start, end);
-                        else {
-                            if(Utils.checkHex(keyEditText.getText().toString())){
-                                callback.performTransmitReadWholeCard(keyEditText.getText().toString(), start, end);
+                        if (keyEditText.getText().toString().equals("")) {
+                        //callback.performTransmitReadWholeCard(null, start, end);
+                        } else {
+                            if(Utils.checkHex(keyEditText.getText().toString())) {
+                                //callback.performTransmitReadWholeCard(keyEditText.getText().toString(), start, end);
                             } else Toast.makeText(getContext(), "Key has to be in HEX format", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -196,15 +196,18 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
             }
         });
 
-        callback.onAttach(this);
+        //callback.onAttach(this);
 
         return view;
     }
 
+    /*
     public void setCardTabCallback(Callback.CardTabCallback cardTabCallback) {
         this.callback = cardTabCallback;
     }
+    */
 
+    /*
     @Override
     public void showResponse(final String text) {
         getActivity().runOnUiThread(new Runnable() {
@@ -226,4 +229,5 @@ public class CardFragment extends Fragment implements MainContract.View.CardTab 
             }
         });
     }
+    */
 }

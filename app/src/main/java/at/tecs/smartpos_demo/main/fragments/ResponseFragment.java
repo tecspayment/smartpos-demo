@@ -170,7 +170,7 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
             });
     }
 
-    public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {
+    public void setCallback(Callback.ResponseTabCallback responseTabCallback) {
         this.callback = responseTabCallback;
     }
 }

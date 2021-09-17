@@ -268,7 +268,7 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
         });
 
         if(callback.selectedConnection() == ConnectionType.BLUETOOTH) {
-            showBluetooth();
+            //showBluetooth();
         } else {
             showTCP();
         }
@@ -328,6 +328,7 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
         devicesSpinner.setVisibility(GONE);
     }
 
+    /*
     @Override
     public void showBluetooth() {
         portTextView.setVisibility(GONE);
@@ -347,6 +348,7 @@ public class ConnectionFragment extends Fragment implements MainContract.View.Co
             callback.selectDevice(device);
         }
     }
+    */
 
     public void setCallback(Callback.ConnectionTabCallback callback) {
         this.callback = callback;
