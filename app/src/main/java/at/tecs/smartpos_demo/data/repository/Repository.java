@@ -15,11 +15,23 @@ import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 public class Repository {
 
+    private static volatile Repository instance;
     private static volatile Database database;
 
-    public Repository(Context context) {
+    private Repository(Context context) {
         getDatabase(context);
-        prepareTemplates();
+    }
+
+    public static Repository getInstance(Context context) {
+        if(instance == null) {
+            synchronized (Repository.class) {
+                if (instance == null) {
+                    instance = new Repository(context);
+                }
+            }
+        }
+
+        return instance;
     }
 
     private static void getDatabase(Context context) {
@@ -30,240 +42,6 @@ public class Repository {
                 }
             }
         }
-    }
-
-    private void prepareTemplates() {
-        if(getTransaction("Sale") == null) {
-            TransactionEntity sale = new TransactionEntity();
-            sale.name = "Sale";
-            sale.msgType = "1";
-            sale.sourceID = "1";
-            sale.amount = "1";
-            sale.currency = "EUR";
-            sale.receiptNum = "1";
-            sale.paymentReason = "EMV transaction test";
-            sale.transPlace = "Test Place";
-            sale.originInd = "0";
-
-            sale.langCode = "EN";
-            sale.receiptLayout = "1";
-            sale.desCurrency = "EUR";
-            sale.txOrigin = "1";
-
-            saveTransaction(sale);
-        }
-
-        if(getTransaction("Refund") == null) {
-            TransactionEntity refund = new TransactionEntity();
-            refund.name = "Refund";
-            refund.msgType = "11";
-            refund.sourceID = "1";
-            refund.amount = "1";
-            refund.currency = "EUR";
-            refund.receiptNum = "1";
-            refund.paymentReason = "EMV transaction test";
-            refund.transPlace = "Test Place";
-            refund.originInd = "0";
-
-            refund.langCode = "EN";
-            refund.receiptLayout = "1";
-            refund.desCurrency = "EUR";
-            refund.txOrigin = "1";
-
-            saveTransaction(refund);
-        }
-
-        if(getTransaction("Refund - no Pin Pad") == null) {
-            TransactionEntity refund = new TransactionEntity();
-            refund.name = "Refund - no Pin Pad";
-            refund.msgType = "11";
-            refund.sourceID = "1";
-            refund.amount = "1";
-            refund.currency = "EUR";
-            refund.receiptNum = "1";
-            refund.paymentReason = "EMV transaction test";
-            refund.transPlace = "Test Place";
-            refund.originInd = "2";
-
-            refund.langCode = "EN";
-            refund.receiptLayout = "1";
-            refund.desCurrency = "EUR";
-            refund.txOrigin = "1";
-
-            saveTransaction(refund);
-        }
-
-        if(getTransaction("Cancellation") == null) {
-            TransactionEntity cancellation = new TransactionEntity();
-            cancellation.name = "Cancellation";
-            cancellation.cardNum = "TXID";
-            cancellation.msgType = "13";
-            cancellation.sourceID = "1";
-            cancellation.amount = "1";
-            cancellation.currency = "EUR";
-            cancellation.receiptNum = "1";
-            cancellation.paymentReason = "EMV transaction test";
-            cancellation.transPlace = "Test Place";
-            cancellation.originInd = "2";
-
-            cancellation.langCode = "EN";
-            cancellation.receiptLayout = "1";
-            cancellation.desCurrency = "EUR";
-            cancellation.txOrigin = "2";
-
-            saveTransaction(cancellation);
-        }
-
-        if(getTransaction("PreAuth") == null) {
-            TransactionEntity preAuth = new TransactionEntity();
-            preAuth.name = "PreAuth";
-            preAuth.msgType = "1";
-            preAuth.sourceID = "1";
-            preAuth.amount = "1";
-            preAuth.currency = "EUR";
-            preAuth.receiptNum = "1";
-            preAuth.paymentReason = "EMV transaction test";
-            preAuth.transPlace = "Test Place";
-            preAuth.originInd = "0";
-
-            preAuth.langCode = "EN";
-            preAuth.receiptLayout = "1";
-            preAuth.desCurrency = "EUR";
-            preAuth.txOrigin = "5";
-
-            saveTransaction(preAuth);
-        }
-
-        if(getTransaction("PreAuth Completion") == null) {
-            TransactionEntity preAuth = new TransactionEntity();
-            preAuth.name = "PreAuth Completion";
-            preAuth.msgType = "13";
-            preAuth.sourceID = "1";
-            preAuth.amount = "1";
-            preAuth.currency = "EUR";
-            preAuth.receiptNum = "1";
-            preAuth.paymentReason = "EMV transaction test";
-            preAuth.transPlace = "Test Place";
-            preAuth.originInd = "2";
-
-            preAuth.langCode = "EN";
-            preAuth.receiptLayout = "1";
-            preAuth.desCurrency = "EUR";
-            preAuth.txOrigin = "4";
-
-            saveTransaction(preAuth);
-        }
-
-        if(getTransaction("Abort") == null) {
-            TransactionEntity abort = new TransactionEntity();
-            abort.name = "Abort";
-            abort.msgType = "17";
-            abort.sourceID = "1";
-            abort.amount = "1";
-            abort.currency = "EUR";
-            abort.receiptNum = "1";
-            abort.paymentReason = "EMV transaction test";
-            abort.transPlace = "Test Place";
-            abort.originInd = "0";
-
-            abort.langCode = "EN";
-            abort.receiptLayout = "1";
-            abort.desCurrency = "EUR";
-            abort.txOrigin = "1";
-
-            saveTransaction(abort);
-        }
-
-        if(getTransaction("Moto") == null) {
-            TransactionEntity moto = new TransactionEntity();
-            moto.name = "Moto";
-            moto.msgType = "1";
-            moto.sourceID = "1";
-            moto.amount = "1";
-            moto.currency = "EUR";
-            moto.receiptNum = "1";
-            moto.paymentReason = "EMV transaction test";
-            moto.transPlace = "Test Place";
-            moto.originInd = "0";
-
-            moto.langCode = "EN";
-            moto.receiptLayout = "1";
-            moto.desCurrency = "EUR";
-            moto.txOrigin = "2";
-
-            saveTransaction(moto);
-        }
-
-        if(getTransaction("AliPay QR") == null) {
-            TransactionEntity sale = new TransactionEntity();
-            sale.name = "AliPay QR";
-            sale.msgType = "30";
-            sale.sourceID = "1";
-            sale.amount = "1";
-            sale.currency = "EUR";
-            sale.receiptNum = "1";
-            sale.paymentReason = "EMV transaction test";
-            sale.transPlace = "Test Place";
-            sale.originInd = "0";
-
-            sale.langCode = "EN";
-            sale.receiptLayout = "1";
-            sale.desCurrency = "EUR";
-            sale.txOrigin = "1";
-
-            saveTransaction(sale);
-        }
-
-        if(getTransaction("AliPay Scan") == null) {
-            TransactionEntity sale = new TransactionEntity();
-            sale.name = "AliPay Scan";
-            sale.msgType = "31";
-            sale.sourceID = "1";
-            sale.amount = "1";
-            sale.currency = "EUR";
-            sale.receiptNum = "1";
-            sale.paymentReason = "EMV transaction test";
-            sale.transPlace = "Test Place";
-            sale.originInd = "0";
-
-            sale.langCode = "EN";
-            sale.receiptLayout = "1";
-            sale.desCurrency = "EUR";
-            sale.txOrigin = "1";
-
-            saveTransaction(sale);
-        }
-
-        if(getTransaction("Connection Status") == null) {
-            TransactionEntity connection = new TransactionEntity();
-            connection.name = "Connection Status";
-            connection.msgType = "2667";
-
-            saveTransaction(connection);
-        }
-
-        if(getTransaction("Kill Natali") == null) {
-            TransactionEntity kill = new TransactionEntity();
-            kill.name = "Kill Natali";
-            kill.msgType = "4544";
-
-            saveTransaction(kill);
-        }
-
-        if(getHostname("localhost") == null) {
-            HostnameEntity hostname = new HostnameEntity();
-            hostname.hostname = "localhost";
-
-            saveHostname(hostname);
-        }
-
-        if(getPort("9990") == null) {
-            PortEntity portEntity = new PortEntity();
-            portEntity.port = "9990";
-
-            savePort(portEntity);
-        }
-
     }
 
     public void saveTransaction(TransactionEntity transactionEntity) {
@@ -300,6 +78,14 @@ public class Repository {
 
     public TransactionEntity getTransaction(String name) {
         return database.transactionDAO().getTransaction(name);
+    }
+
+    public ArrayList<TransactionEntity> getAllTransactions() {
+        return (ArrayList<TransactionEntity>) database.transactionDAO().getAllTransactions();
+    }
+
+    public void updateTransaction(TransactionEntity transactionEntity) {
+        database.transactionDAO().updateTransaction(transactionEntity);
     }
 
     public ArrayList<String> getTransactionsNames() {

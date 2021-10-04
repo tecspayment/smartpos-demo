@@ -1,15 +1,26 @@
 package at.tecs.smartpos_demo.main.fragments;
 
+import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
 
 import at.tecs.smartpos_demo.R;
+import at.tecs.smartpos_demo.data.repository.Repository;
+import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
+import at.tecs.smartpos_demo.main.adapter.TransactionAdapter;
+import at.tecs.smartpos_demo.main.dialog.TransactionSettingsDialog;
 
 public class TransactionsFragment extends Fragment {
 
@@ -23,6 +34,35 @@ public class TransactionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.transactions_frag, container, false);
 
         transactionRecyclerView = view.findViewById(R.id.transactionRecyclerView);
+        ImageButton addButton = view.findViewById(R.id.addButton);
+
+        ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
+
+        transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, getContext()));
+        transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Log.e("TEST", "Transactions length : " + transactionEntities.size());
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getContext() != null) {
+                    TransactionSettingsDialog dialog = new TransactionSettingsDialog(getContext(), R.style.CustomDialogTheme);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
+
+                            transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, getContext()));
+                            transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        }
+                    });
+                    dialog.show();
+                }
+
+            }
+        });
 
         return view;
     }

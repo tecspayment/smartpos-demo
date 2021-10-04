@@ -3,47 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorTecsDarkPrimaryDark">
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@color/colorTecsDarkPrimaryDark"
+    android:padding="8dp"
+    android:paddingBottom="16dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/tecs_dark_round_container_background"
+        android:background="@drawable/tecs_dark_line_container"
         android:paddingBottom="16dp">
 
         <TextView
-            android:id="@+id/transactionName"
+            android:id="@+id/transactionNameLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Sale"
+            android:hint="Name"
             android:textColor="@android:color/white"
+            android:textColorHighlight="@android:color/white"
+            android:textColorHint="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/transSettingsButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/amountEditText"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/amountEditLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:inputType="number|textPersonName"
+            android:hint="@string/amount"
             android:minHeight="48dp"
-            android:text="@string/amount"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/transactionName"
-            app:layout_constraintTop_toBottomOf="@+id/transSendButton" />
+            app:layout_constraintStart_toStartOf="@+id/transactionNameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/transSendButton">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/amountEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="number"
+                android:textColor="@android:color/white"
+                android:textColorHighlight="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textColorLink="@android:color/white" />
+        </android.support.design.widget.TextInputLayout>
 
         <ImageButton
             android:id="@+id/transSendButton"
@@ -52,18 +71,18 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/tecs_dark_round_green_container_background"
+            android:background="@drawable/okey_button"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionName"
+            app:layout_constraintTop_toBottomOf="@+id/transactionNameLayout"
             app:srcCompat="@drawable/round_send_white_48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/transSettingsButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
@@ -73,45 +92,58 @@
             app:srcCompat="@drawable/round_settings_white_48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <EditText
-            android:id="@+id/CurrencyEditText"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/currencyEditLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="none|text"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/currency"
             android:minHeight="48dp"
-            android:text="@string/currency"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
-            app:layout_constraintEnd_toEndOf="@+id/transSendButton"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/transSendButton"
-            app:layout_constraintTop_toBottomOf="@+id/amountEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/amountEditLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/currencyEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@android:color/white"
+                android:textColorHighlight="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textColorLink="@android:color/white" />
+        </android.support.design.widget.TextInputLayout>
 
         <EditText
             android:id="@+id/transSourceIDEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/transaction_source_id"
             android:inputType="textPersonName"
-            android:text="@string/transaction_source_id"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/CurrencyEditText"
+            app:layout_constraintEnd_toEndOf="@+id/currencyEditLayout"
             app:layout_constraintStart_toStartOf="@+id/transSendButton"
-            app:layout_constraintTop_toBottomOf="@+id/CurrencyEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/currencyEditLayout" />
 
         <EditText
             android:id="@+id/cardNumEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/card_number"
             android:inputType="textPersonName"
-            android:text="@string/card_number"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -132,16 +164,16 @@
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/transactionName"
-            app:layout_constraintStart_toEndOf="@+id/transactionName"
-            app:layout_constraintTop_toTopOf="@+id/transactionName" />
+            app:layout_constraintBottom_toBottomOf="@+id/transactionNameLayout"
+            app:layout_constraintStart_toEndOf="@+id/transactionNameLayout"
+            app:layout_constraintTop_toTopOf="@+id/transactionNameLayout" />
 
         <TextView
-            android:id="@+id/messageTypeText"
+            android:id="@+id/messageTypeEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="1"
+            android:hint="Message type"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -156,8 +188,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/transaction_cvc2"
             android:inputType="textPersonName"
-            android:text="@string/transaction_cvc2"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:visibility="gone"
@@ -170,8 +202,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/receipt_number"
             android:inputType="textPersonName"
-            android:text="@string/receipt_number"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -186,8 +218,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/payment_reason"
             android:inputType="textPersonName"
-            android:text="@string/payment_reason"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -202,8 +234,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/transaction_place"
             android:inputType="textPersonName"
-            android:text="@string/transaction_place"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -218,8 +250,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/authorization_number"
+            android:hint="@string/authorization_number"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -234,8 +265,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/origin_indicator"
             android:inputType="textPersonName"
-            android:text="@string/origin_indicator"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -250,8 +281,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/password"
+            android:hint="@string/password"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -266,8 +296,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/ecr_data"
             android:inputType="textPersonName"
-            android:text="@string/ecr_data"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -282,8 +312,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/language_code"
             android:inputType="textPersonName"
-            android:text="@string/language_code"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -298,8 +328,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/receipt_layout"
             android:inputType="textPersonName"
-            android:text="@string/receipt_layout"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -314,8 +344,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/destination_currency"
             android:inputType="textPersonName"
-            android:text="@string/destination_currency"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -326,12 +356,12 @@
             app:layout_constraintTop_toBottomOf="@+id/receiptLayoutEditText" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName16"
+            android:id="@+id/txOriginEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/tx_origin"
             android:inputType="textPersonName"
-            android:text="@string/tx_origin"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -342,12 +372,12 @@
             app:layout_constraintTop_toBottomOf="@+id/destinationCurrencyEditText" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName17"
+            android:id="@+id/personalIDEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/personal_id"
             android:inputType="textPersonName"
-            android:text="@string/personal_id"
             android:textColor="@android:color/white"
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -355,7 +385,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/transSendButton"
             app:layout_constraintStart_toStartOf="@+id/transSendButton"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName16" />
+            app:layout_constraintTop_toBottomOf="@+id/txOriginEditText" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

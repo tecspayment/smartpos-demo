@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.adapter.MainAdapter;
-import at.tecs.smartpos_demo.main.dialog.ConnectionDialog;
+import at.tecs.smartpos_demo.main.dialog.ConnectionSettingsDialog;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
 import static at.tecs.smartpos.data.Response.Code.*;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         tidText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectionDialog connectionDialog = new ConnectionDialog(getContext());
+                ConnectionSettingsDialog connectionDialog = new ConnectionSettingsDialog(getContext(), R.style.CustomDialogTheme);
                 connectionDialog.show();
             }
         });

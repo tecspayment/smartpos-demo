@@ -12,7 +12,7 @@ import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 
-@android.arch.persistence.room.Database(entities = {HostnameEntity.class, PortEntity.class, TerminalNumberEntity.class, TransactionEntity.class}, version = 2, exportSchema = false)
+@android.arch.persistence.room.Database(entities = {HostnameEntity.class, PortEntity.class, TerminalNumberEntity.class, TransactionEntity.class}, version = 3, exportSchema = false)
 public abstract class Database extends RoomDatabase {
     public abstract HostnameDAO hostnameDAO();
     public abstract PortDAO portDAO();

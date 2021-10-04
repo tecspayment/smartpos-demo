@@ -27,34 +27,41 @@
 
     <ImageButton
         android:id="@+id/onlineStatus"
-        android:layout_width="48dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
+        android:layout_gravity="end|bottom"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/okey_button"
         android:scaleType="fitCenter"
-        app:backgroundTint="@color/connected"
+        android:src="@drawable/round_done_white_48dp"
+        android:tint="@color/colorAccent"
+        app:elevation="6dp"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/tidText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tidText"
-        app:srcCompat="@drawable/round_done_white_48dp" />
+        app:layout_constraintStart_toEndOf="@+id/tidText"
+        app:layout_constraintTop_toTopOf="@+id/tidText" />
 
     <ImageButton
         android:id="@+id/menuButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/tidText"
+        app:layout_constraintBottom_toBottomOf="@+id/onlineStatus"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tidText"
+        app:layout_constraintTop_toTopOf="@+id/onlineStatus"
         app:srcCompat="@drawable/round_menu_white_48dp" />
 
     <TextView
         android:id="@+id/tidText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="88090205"
         android:textColor="@android:color/white"
         android:textSize="24sp"

@@ -127,7 +127,7 @@ public class MainPresenter implements MainContract.Presenter {
         incrementer = new Incrementer();
 
         timer = new Timer();
-        repository = new Repository(view.getContext());
+        repository = Repository.getInstance(view.getContext());
     }
 
     /**
@@ -1200,7 +1200,7 @@ public class MainPresenter implements MainContract.Presenter {
         TransactionEntity trans = new TransactionEntity();
 
         trans.name = name;
-        trans.ID = transaction.ID;
+        trans.id = Integer.parseInt(transaction.ID);
         trans.msgType = transaction.msgType;
         trans.dateTime = transaction.dateTime;
         trans.sourceID = transaction.sourceID;
