@@ -94,14 +94,15 @@ public class TransactionSettingsDialog extends Dialog {
 
         Log.e("TEST", "Transaction ID: " + transaction.id);
 
-        ImageButton deleteButton = findViewById(R.id.deleteButton);
+        //ImageButton deleteButton = findViewById(R.id.deleteButton);
         ImageButton saveImageButton = findViewById(R.id.saveImageButton);
         ImageButton cancelImageButton = findViewById(R.id.cancelImageButton);
 
+        /*
         transactionNameEdit = findViewById(R.id.transactionNameEdit);
         transactionNameLayout = findViewById(R.id.transactionNameLayout);
 
-        messageTypeEdit = findViewById(R.id.messageTypeEdit);
+        //messageTypeEdit = findViewById(R.id.messageTypeEdit);
         amountEditText = findViewById(R.id.amountEditLayout);
         currencyEditText = findViewById(R.id.currencyEditLayout);
         transSourceIDEdit = findViewById(R.id.transSourceIDEdit);
@@ -120,6 +121,9 @@ public class TransactionSettingsDialog extends Dialog {
         txOriginEditText = findViewById(R.id.txOriginEditText);
         personalIDEditText = findViewById(R.id.personalIDEditText);
 
+         */
+
+        /*
         amountVisibilityButton = findViewById(R.id.amountVisibilityButton);
         currencyVisibilityButton = findViewById(R.id.currencyVisibilityButton);
         sourceIDVisibilityButton = findViewById(R.id.sourceIDVisibilityButton);
@@ -138,6 +142,9 @@ public class TransactionSettingsDialog extends Dialog {
         txOriginVisibilityButton = findViewById(R.id.txOriginVisibilityButton);
         personalIDVisibilityButton = findViewById(R.id.personalIDVisibilityButton);
 
+         */
+
+        /*
         if(transaction.name != null) {
             transactionNameEdit.setText(transaction.name);
         }
@@ -164,6 +171,7 @@ public class TransactionSettingsDialog extends Dialog {
                 }
             }
         });
+
 
         if (transaction.currencyVisibility == null || !transaction.currencyVisibility) {
             currencyVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -502,6 +510,7 @@ public class TransactionSettingsDialog extends Dialog {
             }
         });
 
+        /*
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -509,13 +518,17 @@ public class TransactionSettingsDialog extends Dialog {
                 dismiss();
             }
         });
+        */
 
+        /*
         cancelImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+
+         */
     }
 
     public void setTransaction(TransactionEntity transaction) {
