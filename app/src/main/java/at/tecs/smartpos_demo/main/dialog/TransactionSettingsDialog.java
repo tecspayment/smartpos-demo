@@ -5,10 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import at.tecs.smartpos_demo.R;
@@ -19,27 +18,27 @@ public class TransactionSettingsDialog extends Dialog {
 
     private TransactionEntity transaction;
 
-    private TextInputLayout transactionNameLayout;
-    private TextInputEditText transactionNameEdit;
+    private boolean modify = false;
 
-    private EditText messageTypeEdit;
-    private EditText amountEditText;
-    private EditText currencyEditText;
-    private EditText transSourceIDEdit;
-    private EditText cardNumEditText;
-    private EditText cvc2EditText;
-    private EditText receiptNumEditText;
-    private EditText paymentReasonEditText;
-    private EditText transPlaceEditText;
-    private EditText authNumberEditText;
-    private EditText originIndicatorEditText;
-    private EditText passwordEditText;
-    private EditText ecrDataEditText;
-    private EditText languageCodeEditText;
-    private EditText receiptLayoutEditText;
-    private EditText destinationCurrencyEditText;
-    private EditText txOriginEditText;
-    private EditText personalIDEditText;
+    private TextInputEditText nameEdit;
+    private TextInputEditText messageTypeEdit;
+    private TextInputEditText amountEditText;
+    private TextInputEditText currencyEditText;
+    private TextInputEditText transSourceIDEdit;
+    private TextInputEditText cardNumEditText;
+    private TextInputEditText cvc2EditText;
+    private TextInputEditText receiptNumEditText;
+    private TextInputEditText paymentReasonEditText;
+    private TextInputEditText transPlaceEditText;
+    private TextInputEditText authNumberEditText;
+    private TextInputEditText originIndicatorEditText;
+    private TextInputEditText passwordEditText;
+    private TextInputEditText ecrDataEditText;
+    private TextInputEditText languageCodeEditText;
+    private TextInputEditText receiptLayoutEditText;
+    private TextInputEditText destinationCurrencyEditText;
+    private TextInputEditText txOriginEditText;
+    private TextInputEditText personalIDEditText;
 
     private ImageButton amountVisibilityButton;
     private ImageButton currencyVisibilityButton;
@@ -94,17 +93,19 @@ public class TransactionSettingsDialog extends Dialog {
 
         Log.e("TEST", "Transaction ID: " + transaction.id);
 
-        //ImageButton deleteButton = findViewById(R.id.deleteButton);
-        ImageButton saveImageButton = findViewById(R.id.saveImageButton);
-        ImageButton cancelImageButton = findViewById(R.id.cancelImageButton);
+        Button deleteButton = findViewById(R.id.deleteImageButton);
+        Button saveImageButton = findViewById(R.id.saveImageButton);
+        Button cancelImageButton = findViewById(R.id.cancelImageButton);
 
-        /*
-        transactionNameEdit = findViewById(R.id.transactionNameEdit);
-        transactionNameLayout = findViewById(R.id.transactionNameLayout);
+        if(!modify) {
+           deleteButton.setVisibility(View.GONE);
+        }
 
-        //messageTypeEdit = findViewById(R.id.messageTypeEdit);
-        amountEditText = findViewById(R.id.amountEditLayout);
-        currencyEditText = findViewById(R.id.currencyEditLayout);
+        nameEdit = findViewById(R.id.nameEditText);
+        messageTypeEdit = findViewById(R.id.messageTypeEditText);
+
+        amountEditText = findViewById(R.id.amountEditText);
+        currencyEditText = findViewById(R.id.currencyEditText);
         transSourceIDEdit = findViewById(R.id.transSourceIDEdit);
         cardNumEditText = findViewById(R.id.cardNumEditText);
         cvc2EditText = findViewById(R.id.cvc2EditText);
@@ -121,9 +122,6 @@ public class TransactionSettingsDialog extends Dialog {
         txOriginEditText = findViewById(R.id.txOriginEditText);
         personalIDEditText = findViewById(R.id.personalIDEditText);
 
-         */
-
-        /*
         amountVisibilityButton = findViewById(R.id.amountVisibilityButton);
         currencyVisibilityButton = findViewById(R.id.currencyVisibilityButton);
         sourceIDVisibilityButton = findViewById(R.id.sourceIDVisibilityButton);
@@ -142,11 +140,9 @@ public class TransactionSettingsDialog extends Dialog {
         txOriginVisibilityButton = findViewById(R.id.txOriginVisibilityButton);
         personalIDVisibilityButton = findViewById(R.id.personalIDVisibilityButton);
 
-         */
 
-        /*
         if(transaction.name != null) {
-            transactionNameEdit.setText(transaction.name);
+            nameEdit.setText(transaction.name);
         }
 
         if(transaction.msgType != null) {
@@ -156,7 +152,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.amountVisibility == null || !transaction.amountVisibility) {
             amountVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            amountVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            amountVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         amountVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +160,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.amountVisibility == null || !transaction.amountVisibility) {
                     transaction.amountVisibility = true;
-                    amountVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    amountVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.amountVisibility = false;
                     amountVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -176,7 +172,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.currencyVisibility == null || !transaction.currencyVisibility) {
             currencyVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            currencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            currencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         currencyVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +180,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.currencyVisibility == null || !transaction.currencyVisibility) {
                     transaction.currencyVisibility = true;
-                    currencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    currencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.currencyVisibility = false;
                     currencyVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -195,7 +191,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.sourceIDVisibility == null || !transaction.sourceIDVisibility) {
             sourceIDVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            sourceIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            sourceIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         sourceIDVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +199,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.sourceIDVisibility == null || !transaction.sourceIDVisibility) {
                     transaction.sourceIDVisibility = true;
-                    sourceIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    sourceIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.sourceIDVisibility = false;
                     sourceIDVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -214,7 +210,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.cardNumVisibility == null || !transaction.cardNumVisibility) {
             cardNumVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            cardNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            cardNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         cardNumVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +218,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.cardNumVisibility == null || !transaction.cardNumVisibility) {
                     transaction.cardNumVisibility = true;
-                    cardNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    cardNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.cardNumVisibility = false;
                     cardNumVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -233,7 +229,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.cvc2Visibility == null || !transaction.cvc2Visibility) {
             cvc2VisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            cvc2VisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            cvc2VisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         cvc2VisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +237,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.cvc2Visibility == null || !transaction.cvc2Visibility) {
                     transaction.cvc2Visibility = true;
-                    cvc2VisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    cvc2VisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.cvc2Visibility = false;
                     cvc2VisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -252,7 +248,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.receiptNumVisibility == null || !transaction.receiptNumVisibility) {
             receiptNumVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            receiptNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            receiptNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         receiptNumVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +256,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.receiptNumVisibility == null || !transaction.receiptNumVisibility) {
                     transaction.receiptNumVisibility = true;
-                    receiptNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    receiptNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.receiptNumVisibility = false;
                     receiptNumVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -271,7 +267,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.paymentReasonVisibility == null || !transaction.paymentReasonVisibility) {
             reasonVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            reasonVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            reasonVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         reasonVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -279,7 +275,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.paymentReasonVisibility == null || !transaction.paymentReasonVisibility) {
                     transaction.paymentReasonVisibility = true;
-                    reasonVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    reasonVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.paymentReasonVisibility = false;
                     reasonVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -290,7 +286,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.transPlaceVisibility == null || !transaction.transPlaceVisibility) {
             transPlaceVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            transPlaceVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            transPlaceVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         transPlaceVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +294,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.transPlaceVisibility == null || !transaction.transPlaceVisibility) {
                     transaction.transPlaceVisibility = true;
-                    transPlaceVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    transPlaceVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.transPlaceVisibility = false;
                     transPlaceVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -309,7 +305,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.authorNumVisibility == null || !transaction.authorNumVisibility) {
             authorNumVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            authorNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            authorNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         authorNumVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -317,7 +313,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.authorNumVisibility == null || !transaction.authorNumVisibility) {
                     transaction.authorNumVisibility = true;
-                    authorNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    authorNumVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.authorNumVisibility = false;
                     authorNumVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -328,7 +324,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.originIndVisibility == null || !transaction.originIndVisibility) {
             origIndVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            origIndVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            origIndVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         origIndVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -336,7 +332,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.originIndVisibility == null || !transaction.originIndVisibility) {
                     transaction.originIndVisibility = true;
-                    origIndVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    origIndVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.originIndVisibility = false;
                     origIndVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -347,7 +343,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.passwordVisibility == null || !transaction.passwordVisibility) {
             passwordVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            passwordVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            passwordVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         passwordVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -355,7 +351,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.passwordVisibility == null || !transaction.passwordVisibility) {
                     transaction.passwordVisibility = true;
-                    passwordVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    passwordVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.passwordVisibility = false;
                     passwordVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -366,7 +362,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.userdataVisibility == null || !transaction.userdataVisibility) {
             ecrDataVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            ecrDataVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            ecrDataVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         ecrDataVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -374,7 +370,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.userdataVisibility == null || !transaction.userdataVisibility) {
                     transaction.userdataVisibility = true;
-                    ecrDataVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    ecrDataVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.userdataVisibility = false;
                     ecrDataVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -385,7 +381,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.langCodeVisibility == null || !transaction.langCodeVisibility) {
             langCodeVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            langCodeVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            langCodeVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         langCodeVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -393,7 +389,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.langCodeVisibility == null || !transaction.langCodeVisibility) {
                     transaction.langCodeVisibility = true;
-                    langCodeVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    langCodeVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.langCodeVisibility = false;
                     langCodeVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -404,7 +400,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.receiptLayoutVisibility == null || !transaction.receiptLayoutVisibility) {
             receiptLayoutVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            receiptLayoutVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            receiptLayoutVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         receiptLayoutVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -412,7 +408,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.receiptLayoutVisibility == null || !transaction.receiptLayoutVisibility) {
                     transaction.receiptLayoutVisibility = true;
-                    receiptLayoutVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    receiptLayoutVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
 
                 } else {
                     transaction.receiptLayoutVisibility = false;
@@ -424,7 +420,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.desCurrencyVisibility == null || !transaction.desCurrencyVisibility) {
             destCurrencyVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            destCurrencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            destCurrencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         destCurrencyVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -432,7 +428,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.desCurrencyVisibility == null || !transaction.desCurrencyVisibility) {
                     transaction.desCurrencyVisibility = true;
-                    destCurrencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    destCurrencyVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.desCurrencyVisibility = false;
                     destCurrencyVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -443,7 +439,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.txOriginVisibility == null || !transaction.txOriginVisibility) {
             txOriginVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            txOriginVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            txOriginVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         txOriginVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -451,7 +447,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.txOriginVisibility == null || !transaction.txOriginVisibility) {
                     transaction.txOriginVisibility = true;
-                    txOriginVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    txOriginVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.txOriginVisibility = false;
                     txOriginVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -462,7 +458,7 @@ public class TransactionSettingsDialog extends Dialog {
         if (transaction.personalIDVisibility == null || !transaction.personalIDVisibility) {
             personalIDVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
         } else {
-            personalIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+            personalIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
         }
 
         personalIDVisibilityButton.setOnClickListener(new View.OnClickListener() {
@@ -470,7 +466,7 @@ public class TransactionSettingsDialog extends Dialog {
             public void onClick(View v) {
                 if (transaction.personalIDVisibility == null || !transaction.personalIDVisibility) {
                     transaction.personalIDVisibility = true;
-                    personalIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_48dp);
+                    personalIDVisibilityButton.setImageResource(R.drawable.round_check_circle_white_24dp);
                 } else {
                     transaction.personalIDVisibility = false;
                     personalIDVisibilityButton.setImageResource(R.drawable.outline_disabled_visible_white_24dp);
@@ -481,7 +477,7 @@ public class TransactionSettingsDialog extends Dialog {
         saveImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transaction.name = transactionNameEdit.getText().toString();
+                transaction.name = nameEdit.getText().toString();
                 transaction.amount = amountEditText.getText().toString();
                 transaction.msgType = messageTypeEdit.getText().toString();
                 transaction.currency = currencyEditText.getText().toString();
@@ -510,7 +506,7 @@ public class TransactionSettingsDialog extends Dialog {
             }
         });
 
-        /*
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -518,9 +514,8 @@ public class TransactionSettingsDialog extends Dialog {
                 dismiss();
             }
         });
-        */
 
-        /*
+
         cancelImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -528,10 +523,13 @@ public class TransactionSettingsDialog extends Dialog {
             }
         });
 
-         */
     }
 
     public void setTransaction(TransactionEntity transaction) {
         this.transaction = transaction;
+    }
+
+    public void setMode(boolean modify) {
+        this.modify = modify;
     }
 }

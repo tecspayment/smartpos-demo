@@ -15,6 +15,8 @@ public class TransactionEntity {
 
     public boolean extended;
 
+    public boolean expanded = false;
+
     @ColumnInfo(name = "name")
     public String name;
 
