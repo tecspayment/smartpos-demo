@@ -14,17 +14,15 @@
         android:id="@+id/nameEditLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:minHeight="48dp"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
         android:textColorHint="@android:color/white"
         android:textColorLink="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/messageTypeEditLayout"
         app:layout_constraintEnd_toEndOf="@+id/messageTypeEditLayout"
         app:layout_constraintStart_toStartOf="@+id/messageTypeEditLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/nameEditText"
@@ -47,9 +45,9 @@
         android:textColorHighlight="@android:color/white"
         android:textColorHint="@android:color/white"
         android:textColorLink="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView3"
-        app:layout_constraintStart_toStartOf="@+id/scrollView3">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditLayout">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/messageTypeEditText"
@@ -68,757 +66,764 @@
         android:id="@+id/cancelImageButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/cancel_button"
         android:scaleType="fitCenter"
         android:text="Cancel"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
         android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/deleteImageButton"
         app:layout_constraintEnd_toEndOf="@+id/scrollView3"
         app:layout_constraintStart_toStartOf="@+id/scrollView3"
-        app:layout_constraintTop_toBottomOf="@+id/saveImageButton"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/deleteImageButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/cancel_button"
         android:scaleType="fitCenter"
         android:text="Delete"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView3"
-        app:layout_constraintStart_toStartOf="@+id/scrollView3"
-        app:layout_constraintTop_toBottomOf="@+id/cancelImageButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/messageTypeEditLayout"
+        app:layout_constraintStart_toStartOf="@+id/messageTypeEditLayout"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/saveImageButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/okey_button"
         android:scaleType="fitCenter"
         android:text="Save"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView3"
-        app:layout_constraintStart_toStartOf="@+id/scrollView3"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+        app:layout_constraintBottom_toTopOf="@+id/cancelImageButton"
+        app:layout_constraintEnd_toEndOf="@+id/cancelImageButton"
+        app:layout_constraintStart_toStartOf="@+id/cancelImageButton" />
 
-    <ScrollView
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/scrollView3"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layoutAnimation="@anim/card_anim"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/saveImageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintTop_toBottomOf="@+id/messageTypeEditLayout">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/transactionContainer"
-            android:layout_width="match_parent"
+        <ScrollView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layoutAnimation="@anim/card_anim"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/amountEditLayout"
-                android:layout_width="235dp"
-                android:layout_height="63dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/amount"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/amountVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toTopOf="parent">
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/transactionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/amountEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="number"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/amountEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="63dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/amount"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/amountVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/currencyEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/currency"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/currencyVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/amountEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/amountEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/currencyEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/currencyEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/currency"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/currencyVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/amountEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/transSourceIDEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/transaction_source_id"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/sourceIDVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/currencyEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/currencyEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/transSourceIDEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/transSourceIDEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/transaction_source_id"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/sourceIDVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/currencyEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/cardNumEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/card_number"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/cardNumVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/transSourceIDEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/transSourceIDEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/cardNumEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cardNumEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/card_number"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/cardNumVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/transSourceIDEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/cvc2EditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/transaction_cvc2"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/cvc2VisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/cardNumEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/cardNumEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/cvc2EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cvc2EditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/transaction_cvc2"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/cvc2VisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/cardNumEditLayout">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/cvc2EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/receiptNumEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/receipt_number"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/receiptNumVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/cvc2EditLayout">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/receiptNumEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/receiptNumEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/receipt_number"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/receiptNumVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/cvc2EditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/paymentReasonEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/payment_reason"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/reasonVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/receiptNumEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/receiptNumEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/paymentReasonEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/paymentReasonEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/payment_reason"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/reasonVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/receiptNumEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/transPlaceEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/transaction_place"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/transPlaceVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/paymentReasonEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/paymentReasonEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/transPlaceEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/transPlaceEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/transaction_place"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/transPlaceVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/paymentReasonEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/authNumberEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/authorization_number"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/authorNumVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/transPlaceEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/transPlaceEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/authNumberEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/authNumberEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/authorization_number"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/authorNumVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/transPlaceEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/originIndicatorEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/origin_indicator"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/origIndVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/authNumberEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/authNumberEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/originIndicatorEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/originIndicatorEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/origin_indicator"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/origIndVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/authNumberEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/passwordEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/password"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/passwordVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/originIndicatorEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/originIndicatorEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/passwordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/passwordEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/password"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/passwordVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/originIndicatorEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/ecrDataEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/ecr_data"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/ecrDataVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/passwordEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/passwordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/ecrDataEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ecrDataEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/ecr_data"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/ecrDataVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/languageCodeEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/language_code"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/langCodeVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/ecrDataEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/ecrDataEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/languageCodeEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/languageCodeEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/language_code"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/langCodeVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/ecrDataEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/receiptLayoutEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/receipt_layout"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/receiptLayoutVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/languageCodeEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/languageCodeEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/receiptLayoutEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/receiptLayoutEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/receipt_layout"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/receiptLayoutVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/languageCodeEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/destinationCurrencyEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/destination_currency"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/destCurrencyVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/receiptLayoutEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/receiptLayoutEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/destinationCurrencyEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/destinationCurrencyEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/destination_currency"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/destCurrencyVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/receiptLayoutEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txOriginEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/tx_origin"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/txOriginVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/destinationCurrencyEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/destinationCurrencyEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txOriginEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/txOriginEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/tx_origin"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/txOriginVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/destinationCurrencyEditLayout">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/personalIDEditLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/personal_id"
-                android:minHeight="48dp"
-                android:textColor="@android:color/white"
-                android:textColorHighlight="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textColorLink="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/personalIDVisibilityButton"
-                app:layout_constraintStart_toStartOf="@+id/transactionContainer"
-                app:layout_constraintTop_toBottomOf="@+id/txOriginEditLayout">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txOriginEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/personalIDEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="text"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/personalIDEditLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/personal_id"
+                    android:minHeight="48dp"
                     android:textColor="@android:color/white"
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textColorLink="@android:color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/personalIDVisibilityButton"
+                    app:layout_constraintStart_toStartOf="@+id/transactionContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/txOriginEditLayout">
 
-            <ImageButton
-                android:id="@+id/amountVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/amountEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/amountEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/personalIDEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@android:color/white"
+                        android:textColorHighlight="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:textColorLink="@android:color/white" />
+                </android.support.design.widget.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/currencyVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/currencyEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/currencyEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/amountVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/amountEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/amountEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/sourceIDVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/transSourceIDEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/transSourceIDEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/currencyVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/currencyEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/currencyEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/cardNumVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/cardNumEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardNumEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/sourceIDVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/transSourceIDEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/transSourceIDEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/cvc2VisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/cvc2EditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cvc2EditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/cardNumVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardNumEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cardNumEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/receiptNumVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/receiptNumEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/receiptNumEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/cvc2VisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/cvc2EditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cvc2EditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/reasonVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/paymentReasonEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/paymentReasonEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/receiptNumVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/receiptNumEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/receiptNumEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/transPlaceVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/transPlaceEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/transPlaceEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/reasonVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/paymentReasonEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/paymentReasonEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/authorNumVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/authNumberEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/authNumberEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/transPlaceVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/transPlaceEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/transPlaceEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/origIndVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/originIndicatorEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/originIndicatorEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/authorNumVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/authNumberEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/authNumberEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/passwordVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/passwordEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/passwordEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/origIndVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/originIndicatorEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/originIndicatorEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/ecrDataVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/ecrDataEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ecrDataEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/passwordVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/passwordEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/passwordEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/langCodeVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/languageCodeEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/languageCodeEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/ecrDataVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/ecrDataEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ecrDataEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/receiptLayoutVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/receiptLayoutEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/receiptLayoutEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/langCodeVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/languageCodeEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/languageCodeEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/destCurrencyVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/destinationCurrencyEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/destinationCurrencyEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/receiptLayoutVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/receiptLayoutEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/receiptLayoutEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/txOriginVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/txOriginEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txOriginEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/destCurrencyVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/destinationCurrencyEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/destinationCurrencyEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-            <ImageButton
-                android:id="@+id/personalIDVisibilityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/personalIDEditLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/personalIDEditLayout"
-                app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
+                <ImageButton
+                    android:id="@+id/txOriginVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/txOriginEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txOriginEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-        </android.support.constraint.ConstraintLayout>
+                <ImageButton
+                    android:id="@+id/personalIDVisibilityButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/personalIDEditLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/personalIDEditLayout"
+                    app:srcCompat="@drawable/outline_disabled_visible_white_24dp" />
 
-    </ScrollView>
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+
+    </android.support.constraint.ConstraintLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>
