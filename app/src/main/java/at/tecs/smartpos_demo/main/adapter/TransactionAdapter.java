@@ -1,8 +1,10 @@
 package at.tecs.smartpos_demo.main.adapter;
 
+import static at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity.MODE_EXTRA;
+import static at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity.TX_EXTRA;
+
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -19,16 +21,19 @@ import java.util.ArrayList;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
-import at.tecs.smartpos_demo.main.dialog.TransactionSettingsDialog;
+import at.tecs.smartpos_demo.main.fragments.Callback;
+import at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
     private ArrayList<TransactionEntity> transactions;
+    private final Callback.TransactionsTabCallBack callBack;
     private final Context context;
 
-    public TransactionAdapter(ArrayList<TransactionEntity> transactions, Context context) {
+    public TransactionAdapter(ArrayList<TransactionEntity> transactions, Callback.TransactionsTabCallBack callBack, Context context) {
         this.transactions = transactions;
         this.context = context;
+        this.callBack = callBack;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -156,6 +161,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 for(int i = 0; i < transactions.size(); i++) {
                     notifyItemChanged(i);
                 }
+
+                callBack.performTransaction(transaction);
             }
         });
 
@@ -368,19 +375,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     private void showTransactionSettings(TransactionEntity transactionEntity, final Context context) {
-        TransactionSettingsDialog dialog = new TransactionSettingsDialog(context, R.style.CustomDialogTheme);
-        dialog.setMode(true);
-        dialog.setTransaction(transactionEntity);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                transactions = Repository.getInstance(context).getAllTransactions();
-
-                notifyDataSetChanged();
-            }
-        });
-        dialog.show();
+        Intent intent = new Intent(context, TransactionSettingsActivity.class);
+        intent.putExtra(TX_EXTRA, transactionEntity);
+        intent.putExtra(MODE_EXTRA, true);
+        context.startActivity(intent);
     }
 
     private TransactionEntity getTransaction(TransactionEntity transactionEntity, ViewHolder viewHolder) {

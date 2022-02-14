@@ -7,6 +7,7 @@ import java.util.Set;
 
 import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Transaction;
+import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.MainContract;
 
 public interface Callback {
@@ -52,7 +53,7 @@ public interface Callback {
     }
 
     interface TransactionsTabCallBack {
-
+        void performTransaction(TransactionEntity transactionEntity);
     }
 
     interface ReceiptTabCallBack {

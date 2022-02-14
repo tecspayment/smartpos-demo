@@ -81,22 +81,6 @@ public interface MainContract {
 
         void takeView(MainContract.View view);
 
-        void saveTransaction(Transaction transaction, String name);
-
-        void deleteTransaction(String name);
-
-        void saveTermNum(String terminalNum);
-
-        void deleteTermNum(String terminalNum);
-
-        void saveHostName(String hostname);
-
-        void deleteHostName(String hostname);
-
-        void savePort(String port);
-
-        void deletePort(String port);
-
         void setHostname(String hostname);
 
         void setPort(String port);
@@ -111,22 +95,19 @@ public interface MainContract {
 
         void disconnect();
 
-        void send();
+        void send(TransactionEntity transactionEntity);
 
-        //void selectConnection(String type);
+        void saveTermNum(String terminalNum);
 
-        //void setBluetoothDevice(BluetoothDevice bluetoothDevice);
+        void deleteTermNum(String terminalNum);
 
-        void startScan();
+        void saveHostName(String hostname);
 
-        void stopScan();
+        void deleteHostName(String hostname);
 
-        //Set<BluetoothDevice> getPairedDevices();
+        void savePort(String port);
 
-        void sale(String amount, String currency);
-        void refund(String amount, String currecy);
-        void cancellation(String transID, String amount, String currency);
-        void abort();
+        void deletePort(String port);
 
         void loadTransaction(String name);
 

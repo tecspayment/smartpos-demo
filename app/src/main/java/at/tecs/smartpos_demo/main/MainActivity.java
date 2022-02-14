@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import at.tecs.smartpos_demo.R;
+import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.MainAdapter;
 import at.tecs.smartpos_demo.main.dialog.ConnectionSettingsDialog;
 import at.tecs.smartpos_demo.main.fragments.Callback;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onResume() {
         super.onResume();
         presenter.startAutomatic(true);
+        
     }
 
     @Override
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         final MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager());
 
         mainAdapter.setResponseTabCallback(responseTabCallback);
+        mainAdapter.setTransactionsTabCallBack(transactionsTabCallBack);
 
         viewPager.setAdapter(mainAdapter);
 
@@ -70,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onClick(View v) {
                 ConnectionSettingsDialog connectionDialog = new ConnectionSettingsDialog(getContext(), R.style.CustomDialogTheme);
+                connectionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                 connectionDialog.show();
             }
         });
@@ -194,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            viewPager.setCurrentItem(2);
+                            viewPager.setCurrentItem(1);
                         }
                     });
 
@@ -251,6 +258,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void onAttach(ResponseTab view) {
             presenter.takeResponseView(view);
+        }
+    };
+
+    private final Callback.TransactionsTabCallBack transactionsTabCallBack = new Callback.TransactionsTabCallBack() {
+        @Override
+        public void performTransaction(TransactionEntity transactionEntity) {
+            presenter.send(transactionEntity);
+        }
+    };
+
+    private final at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback connectionSettingsDialogCallback = new at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback() {
+        @Override
+        public void saveConnection(String tid, String hostname, String port) {
+            presenter.setHostname(hostname);
+            presenter.setTID(tid);
+            presenter.setPort(port);
         }
     };
 

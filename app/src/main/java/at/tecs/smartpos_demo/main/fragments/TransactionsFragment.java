@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.main.fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,13 +21,23 @@ import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.TransactionAdapter;
-import at.tecs.smartpos_demo.main.dialog.TransactionSettingsDialog;
+import at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity;
 
 public class TransactionsFragment extends Fragment {
 
     private Callback.TransactionsTabCallBack callback;
 
     private RecyclerView transactionRecyclerView;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
+
+        transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, callback, getContext()));
+        transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
 
     @Nullable
     @Override
@@ -38,29 +49,18 @@ public class TransactionsFragment extends Fragment {
 
         ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
 
-        transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, getContext()));
+        transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, callback, getContext()));
         transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        Log.e("TEST", "Transactions length : " + transactionEntities.size());
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(getContext() != null) {
-                    TransactionSettingsDialog dialog = new TransactionSettingsDialog(getContext(), R.style.CustomDialogTheme);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
-
-                            transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, getContext()));
-                            transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        }
-                    });
-                    dialog.show();
+                    Intent intent = new Intent(getContext(), TransactionSettingsActivity.class);
+                    if(getActivity() != null) {
+                        getActivity().startActivity(intent);
+                    }
                 }
-
             }
         });
 

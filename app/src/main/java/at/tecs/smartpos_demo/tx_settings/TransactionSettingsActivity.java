@@ -1,10 +1,9 @@
-package at.tecs.smartpos_demo.main.dialog;
+package at.tecs.smartpos_demo.tx_settings;
 
-import android.app.Dialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +13,12 @@ import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
-public class TransactionSettingsDialog extends Dialog {
+public class TransactionSettingsActivity extends AppCompatActivity {
+
+    public static final String TX_EXTRA = "TX_EXTRA";
+    public static final String MODE_EXTRA = "MODE_EXTRA";
 
     private TransactionEntity transaction;
-
-    private boolean modify = false;
 
     private TextInputEditText nameEdit;
     private TextInputEditText messageTypeEdit;
@@ -60,14 +60,15 @@ public class TransactionSettingsDialog extends Dialog {
 
     private boolean edit = true;
 
-    public TransactionSettingsDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.transaction_settings_dialog);
+        setContentView(R.layout.transaction_settings_act);
+
+        Intent intent = getIntent();
+
+        boolean modify = intent.getBooleanExtra(MODE_EXTRA, false);
+        transaction = (TransactionEntity) intent.getSerializableExtra(TX_EXTRA);
 
         if(transaction == null) {
             edit = false;
@@ -90,8 +91,6 @@ public class TransactionSettingsDialog extends Dialog {
             transaction.personalIDVisibility = true;
             transaction.txOriginVisibility = true;
         }
-
-        Log.e("TEST", "Transaction ID: " + transaction.id);
 
         Button deleteButton = findViewById(R.id.deleteImageButton);
         Button saveImageButton = findViewById(R.id.saveImageButton);
@@ -498,11 +497,11 @@ public class TransactionSettingsDialog extends Dialog {
                 transaction.txOrigin = txOriginEditText.getText().toString();
 
                 if(!edit)
-                    Repository.getInstance(getContext()).saveTransaction(transaction);
+                    Repository.getInstance(getApplicationContext()).saveTransaction(transaction);
                 else
-                    Repository.getInstance(getContext()).updateTransaction(transaction);
+                    Repository.getInstance(getApplicationContext()).updateTransaction(transaction);
 
-                dismiss();
+                finish();
             }
         });
 
@@ -510,8 +509,8 @@ public class TransactionSettingsDialog extends Dialog {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Repository.getInstance(getContext()).deleteTransation(String.valueOf(transaction.id));
-                dismiss();
+                Repository.getInstance(getApplicationContext()).deleteTransation(String.valueOf(transaction.id));
+                finish();
             }
         });
 
@@ -519,17 +518,10 @@ public class TransactionSettingsDialog extends Dialog {
         cancelImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                finish();
             }
         });
 
     }
 
-    public void setTransaction(TransactionEntity transaction) {
-        this.transaction = transaction;
-    }
-
-    public void setMode(boolean modify) {
-        this.modify = modify;
-    }
 }

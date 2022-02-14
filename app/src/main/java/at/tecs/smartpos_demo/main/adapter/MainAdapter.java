@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.telecom.Call;
 
 import at.tecs.smartpos_demo.main.fragments.Callback;
 import at.tecs.smartpos_demo.main.fragments.ReceiptFragment;
@@ -12,14 +13,6 @@ import at.tecs.smartpos_demo.main.fragments.TransactionsFragment;
 
 
 public class MainAdapter extends FragmentStatePagerAdapter {
-
-    /*
-    private Callback.ConnectionTabCallback connectionTabCallback;
-    private Callback.TransactionTabCallback transactionTabCallback;
-    private Callback.TemplatesTabCallback templatesTabCallback;
-    private Callback.CardTabCallback cardTabCallback;
-    private Callback.PrintTabCallback printTabCallback;
-    */
 
     private Callback.TransactionsTabCallBack transactionsTabCallBack;
     private Callback.ResponseTabCallback responseTabCallback;
@@ -70,6 +63,10 @@ public class MainAdapter extends FragmentStatePagerAdapter {
 
     public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {
         this.responseTabCallback = responseTabCallback;
+    }
+
+    public void setTransactionsTabCallBack(Callback.TransactionsTabCallBack transactionsTabCallBack) {
+        this.transactionsTabCallBack = transactionsTabCallBack;
     }
 
     /*
