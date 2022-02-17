@@ -133,4 +133,18 @@ public class TransactionEntity implements Serializable {
 
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Transaction entity: \n" +
+                "Name: " + name + "\n" +
+                "ID: " + id + "\n" +
+                "TID: " + terminalNum + "\n" +
+                "msgType: " + msgType + "\n" +
+                "sourceID: " + sourceID + "\n" +
+                "cardNum: " + cardNum + "\n" +
+                "cvc2: " + cvc2 + "\n" +
+                "amount: " + amount + "\n" +
+                "currency: " + currency + "\n";
+    }
 }

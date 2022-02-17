@@ -1,56 +1,30 @@
 package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.util.Log;
-import android.util.Pair;
-import android.widget.ArrayAdapter;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.crypto.spec.IvParameterSpec;
-
-import at.tecs.ControlParser.Command;
-import at.tecs.smartpos.CardControl;
 import at.tecs.smartpos.PaymentService;
 import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
-import at.tecs.smartpos.data.ConnectionType;
-import at.tecs.smartpos.data.PrinterPrintType;
-import at.tecs.smartpos.data.PrinterReturnCode;
-import at.tecs.smartpos.data.RFKeyMode;
-import at.tecs.smartpos.data.RFReturnCode;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
-import at.tecs.smartpos.exception.BluetoothException;
 import at.tecs.smartpos.exception.TransactionFieldException;
-import at.tecs.smartpos.utils.ByteUtil;
-import at.tecs.smartpos_demo.Utils;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
+import at.tecs.smartpos_demo.data.repository.entity.RespHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
+import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
-import at.tecs.smartpos_demo.utils.TDEAKey;
 
-import static at.tecs.smartpos.data.ConnectionType.BLUETOOTH;
 import static at.tecs.smartpos.data.ConnectionType.TCP;
-import static at.tecs.smartpos_demo.Utils.concatenate;
-import static at.tecs.smartpos_demo.Utils.createIvSpecFromZeros;
-import static at.tecs.smartpos_demo.Utils.createZeros;
-import static at.tecs.smartpos_demo.Utils.decrypt;
-import static at.tecs.smartpos_demo.Utils.encrypt;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -66,27 +40,17 @@ public class MainPresenter implements MainContract.Presenter {
     private String transactionID;
     private String dateTime;
 
-    private String TID;
-    private String hostname;
-    private String port;
+    private String TID = "";
+    private String hostname = "";
+    private String port = "";
 
     private Response lastResponse;
 
-    private ArrayList<String> transactionNames = new ArrayList<>();
-    private ArrayList<String> terminalNums = new ArrayList<>();
-    private ArrayList<String> hostnames = new ArrayList<>();
-    private ArrayList<String> ports = new ArrayList<>();
-
     private final PaymentService paymentService;
-    private final SmartPOSController smartPOSController;
-
-    public static boolean bluetooth = false;
 
 
     MainPresenter() {
         paymentService = new PaymentService();
-
-        smartPOSController = new SmartPOSController();
     }
 
     @Override
@@ -117,33 +81,14 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void saveTermNum(String terminalNum) {
 
-        for(int i = 0; i < terminalNums.size(); i ++) {
-            if(terminalNum.equals(terminalNums.get(i))) {
-                view.showToast("Terminal number is already saved !");
-                return;
-            }
+        if(!repository.getTerminalNumbers().contains(terminalNum.replace(" ", ""))) {
+            repository.saveTerminalNum(new TerminalNumberEntity(terminalNum.replace(" ", "")));
         }
-
-        repository.saveTerminalNum(new TerminalNumberEntity(terminalNum));
-
-        terminalNums.add(terminalNum);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connectionView.setTerminalNumAdapter(arrayAdapter);
     }
 
     @Override
     public void deleteTermNum(String terminalNum) {
         repository.deleteTerminalNum(new TerminalNumberEntity(terminalNum));
-
-        terminalNums = repository.getTerminalNumbers();
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connectionView.setTerminalNumAdapter(arrayAdapter);
     }
 
     /**
@@ -153,33 +98,14 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void saveHostName(String hostname) {
 
-        for(int i = 0; i < hostnames.size(); i ++) {
-            if(hostname.equals(hostnames.get(i))) {
-                view.showToast("Hostname is already saved !");
-                return;
-            }
+        if(!repository.getHostnames().contains(hostname.replace(" ", ""))) {
+            repository.saveHostname(new HostnameEntity(hostname.replace(" ", "")));
         }
-
-        repository.saveHostname(new HostnameEntity(hostname));
-
-        hostnames.add(hostname);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connectionView.setHostnameAdapter(arrayAdapter);
     }
 
     @Override
     public void deleteHostName(String hostname) {
         repository.deleteHostname(new HostnameEntity(hostname));
-
-        hostnames = repository.getHostnames();
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connectionView.setHostnameAdapter(arrayAdapter);
     }
 
     /**
@@ -189,33 +115,14 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void savePort(String port) {
 
-        for(int i = 0; i < ports.size(); i ++) {
-            if(port.equals(ports.get(i))) {
-                view.showToast("Port is already saved !");
-                return;
-            }
+        if(!repository.getPorts().contains(port.replace(" ", ""))) {
+            repository.savePort(new PortEntity(port));
         }
-
-        repository.savePort(new PortEntity(port));
-
-        ports.add(port);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connectionView.setPortAdapter(arrayAdapter);
     }
 
     @Override
     public void deletePort(String port) {
         repository.deletePort(new PortEntity(port));
-
-        ports = repository.getPorts();
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connectionView.setPortAdapter(arrayAdapter);
     }
 
     /**
@@ -242,15 +149,19 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onConnected() {
                     view.showConnected();
 
-                    if(paymentService.getType() == TCP)
-                        view.showToast("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
-                    else
-                        view.showToast("Connected to " + paymentService.getDeviceName() + ":" + paymentService.getDeviceAddress());
+                    if(paymentService.getType() == TCP) {
+                        view.showMessage("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    }
 
                     paymentService.listen(new ResponseListener() {
                         @Override
                         public void onResponseReceived(Response response) {     //Readed response
                             lastResponse = response;
+
+                            if(!response.msgType.equals("5747")) { //Ignore notification messages
+                                repository.saveResponse(convertResponse(response));
+                            }
+
                             view.showResponseTab(Integer.parseInt(response.responseCode));
                             if(responseView != null) {
                                 responseView.showResponse(response);
@@ -265,7 +176,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                         @Override
                         public void onReadFailed() {
-                            view.showToast("Read Failed !");
+                            view.showMessage("Read Failed!");
                             disconnect();
                         }
                     });
@@ -275,7 +186,7 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onUnknownHost(UnknownHostException e) {
                     e.printStackTrace();
 
-                    view.showToast("Unknown Host !");
+                    view.showMessage("Unknown Host!");
                     view.showDisconnected();
                 }
 
@@ -283,7 +194,7 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onSocketFail(IOException e) {
                     e.printStackTrace();
 
-                    view.showToast("Socket Failed !");
+                    view.showMessage("Connection lost!");
                     view.showDisconnected();
                 }
             });
@@ -297,7 +208,7 @@ public class MainPresenter implements MainContract.Presenter {
         try {
             paymentService.disconnect();
 
-            view.showToast("Disconnected from " + paymentService.getHostname() + ":" + paymentService.getPort());
+            view.showMessage("Disconnected from " + paymentService.getHostname() + ":" + paymentService.getPort());
             view.showDisconnected();
         } catch (IOException e) {
             e.printStackTrace();
@@ -311,11 +222,13 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.terminalNum = TID;
         transaction.dateTime = dateTime;
 
-        if(responseView != null)
+        if(responseView != null) {
             responseView.clearResponse();
+        }
 
         try {
             paymentService.sendTransaction(transaction);
+            repository.saveTransaction(convertTransaction(transactionEntity));
         } catch (TransactionFieldException e) {
             e.printStackTrace();
         }
@@ -341,9 +254,11 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setPort(String port) {
-        paymentService.setPort(Integer.parseInt(port));
+        if(port != null && !port.isEmpty()) {
+            paymentService.setPort(Integer.parseInt(port));
 
-        this.port = port;
+            this.port = port;
+        }
     }
 
     @Override
@@ -367,26 +282,96 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void takeConnectionView(MainContract.View.ConnectionTab view) {
-       //connectionView = view;
-
-        initializeConnectionSpinners();
-    }
-
-    @Override
-    public void takeTransactionView(MainContract.View.TransactionTab view) {
-        //transactionView = view;
-
-        initializeTransactionSpinners();
-    }
-
-    @Override
     public void takeResponseView(MainContract.View.ResponseTab view) {
         responseView = view;
 
         if(lastResponse != null) {
             responseView.showResponse(lastResponse);
         }
+    }
+
+    @Override
+    public String getHostname() {
+        return hostname;
+    }
+
+    @Override
+    public String getPort() {
+        return port;
+    }
+
+    @Override
+    public String getTerminalNum() {
+        return TID;
+    }
+
+    @Override
+    public void loadDefaults() {
+        PortEntity portEntity = new PortEntity();
+        portEntity.port = "9990";
+
+        repository.savePort(portEntity);
+
+        HostnameEntity hostnameEntity = new HostnameEntity();
+        hostnameEntity.hostname = "localhost";
+
+        repository.saveHostname(hostnameEntity);
+
+        TransactionEntity transaction = new TransactionEntity();
+        transaction.name = "Sale";
+        transaction.amountVisibility = true;
+        transaction.currencyVisibility = true;
+        transaction.msgType = Transaction.MessageType.SALE;
+        transaction.sourceID = "1";
+        transaction.sourceIDVisibility = false;
+        transaction.receiptNum = "1";
+        transaction.receiptNumVisibility = false;
+        transaction.originInd = "0";
+        transaction.originIndVisibility = false;
+
+        repository.saveTransaction(transaction);
+
+        transaction = new TransactionEntity();
+        transaction.name = "Refund";
+        transaction.amountVisibility = true;
+        transaction.currencyVisibility = true;
+        transaction.msgType = Transaction.MessageType.CREDIT_NOTE;
+        transaction.sourceID = "1";
+        transaction.sourceIDVisibility = false;
+        transaction.receiptNum = "1";
+        transaction.receiptNumVisibility = false;
+        transaction.originInd = "0";
+        transaction.originIndVisibility = false;
+
+        repository.saveTransaction(transaction);
+
+        transaction = new TransactionEntity();
+        transaction.name = "Cancellation";
+        transaction.cardNumVisibility = true;
+        transaction.amountVisibility = true;
+        transaction.currencyVisibility = true;
+        transaction.msgType = Transaction.MessageType.CANCEL;
+        transaction.sourceID = "1";
+        transaction.sourceIDVisibility = false;
+        transaction.cardNum = "TXID";
+        transaction.receiptNum = "1";
+        transaction.receiptNumVisibility = false;
+        transaction.originInd = "2";
+        transaction.originIndVisibility = false;
+
+        repository.saveTransaction(transaction);
+
+        transaction = new TransactionEntity();
+        transaction.name = "Connection status";
+        transaction.msgType = Transaction.MessageType.CONNECTION_STATUS;
+
+        repository.saveTransaction(transaction);
+
+        transaction = new TransactionEntity();
+        transaction.name = "Reconciliation request";
+        transaction.msgType = Transaction.MessageType.RECONCILIATION_REQUEST;
+
+        repository.saveTransaction(transaction);
     }
 
     private class Incrementer extends TimerTask {
@@ -418,51 +403,9 @@ public class MainPresenter implements MainContract.Presenter {
                     //transactionView.showTransactionAuto(transactionID, dateTime);
             }
 
-            if(!isConnected()) {
+            if(!isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("")) {
                 connect();
             }
-        }
-    }
-
-    private void initializeConnectionSpinners() {
-
-        terminalNums = repository.getTerminalNumbers();
-
-        if (!terminalNums.isEmpty()) {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, terminalNums);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            //connectionView.setTerminalNumAdapter(arrayAdapter);
-        }
-
-        hostnames = repository.getHostnames();
-
-        if (!hostnames.isEmpty()) {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, hostnames);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            //connectionView.setHostnameAdapter(arrayAdapter);
-        }
-
-        ports = repository.getPorts();
-
-        if (!ports.isEmpty()) {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, ports);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            //connectionView.setPortAdapter(arrayAdapter);
-        }
-    }
-
-    private void initializeTransactionSpinners() {
-        transactionNames = repository.getTransactionsNames();
-
-        if (!transactionNames.isEmpty()) {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, transactionNames);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            //transactionView.setTransactionAdapter(arrayAdapter);
-            //transactionView.showTransaction(repository.getTransaction(transactionNames.get(0)));
         }
     }
 
@@ -494,6 +437,36 @@ public class MainPresenter implements MainContract.Presenter {
         return trans;
     }
 
+    private TransHistoryEntity convertTransaction(TransactionEntity trans) {
+        TransHistoryEntity transHistoryEntity = new TransHistoryEntity();
+
+        transHistoryEntity.name = trans.name;
+        transHistoryEntity.ID = Long.valueOf(transactionID);
+        transHistoryEntity.transID = transactionID;
+        transHistoryEntity.terminalNum = TID;
+        transHistoryEntity.msgType = trans.msgType;
+        transHistoryEntity.dateTime = trans.dateTime;
+        transHistoryEntity.sourceID = trans.sourceID;
+        transHistoryEntity.cardNum = trans.cardNum;
+        transHistoryEntity.cvc2 = trans.cvc2;
+        transHistoryEntity.amount = trans.amount;
+        transHistoryEntity.currency = trans.currency;
+        transHistoryEntity.terminalNum = trans.terminalNum;
+        transHistoryEntity.receiptNum = trans.receiptNum;
+        transHistoryEntity.transPlace = trans.transPlace;
+        transHistoryEntity.authorNum = trans.authorNum;
+        transHistoryEntity.originInd = trans.originInd;
+        transHistoryEntity.password = trans.password;
+        transHistoryEntity.userdata = trans.userdata;
+        transHistoryEntity.langCode = trans.langCode;
+        transHistoryEntity.desCurrency = trans.desCurrency;
+        transHistoryEntity.receiptLayout = trans.receiptLayout;
+        transHistoryEntity.txOrigin = trans.txOrigin;
+        transHistoryEntity.personalID = trans.personalID;
+
+        return transHistoryEntity;
+    }
+
     private Transaction convertTransaction(TransactionEntity transaction, String ID) {
         Transaction trans = new Transaction();
 
@@ -519,5 +492,40 @@ public class MainPresenter implements MainContract.Presenter {
         trans.personalID = transaction.personalID;
 
         return trans;
+    }
+
+    private RespHistoryEntity convertResponse(Response response) {
+        RespHistoryEntity respHistoryEntity = new RespHistoryEntity();
+
+        respHistoryEntity.creditCardIssuer = response.creditCardIssuer;
+        respHistoryEntity.cardNum = response.cardNum;
+        respHistoryEntity.transactionType = response.transactionType;
+        respHistoryEntity.responseText = response.responseText;
+        respHistoryEntity.responseCode = response.responseCode;
+        respHistoryEntity.authorNum = response.authorNum;
+        respHistoryEntity.length = response.length;
+        respHistoryEntity.ID = Long.valueOf(response.transID);
+        respHistoryEntity.transID = response.transID;
+        respHistoryEntity.msgType = response.msgType;
+        respHistoryEntity.transactionDateTime = response.transactionDateTime;
+        respHistoryEntity.VUNum = response.VUNum;
+        respHistoryEntity.operatorID = response.operatorID;
+        respHistoryEntity.serienNR = response.serienNR;
+        respHistoryEntity.origTXID = response.origTXID;
+        respHistoryEntity.stan = response.stan;
+        respHistoryEntity.origStan = response.origStan;
+        respHistoryEntity.svc = response.svc;
+        respHistoryEntity.ecrData = response.ecrData;
+        respHistoryEntity.exchangeRate = response.exchangeRate;
+        respHistoryEntity.foreignTXAmount = response.foreignTXAmount;
+        respHistoryEntity.balanceAmount = response.balanceAmount;
+        respHistoryEntity.merchantName = response.merchantName;
+        respHistoryEntity.merchantAddress = response.merchantAddress;
+        respHistoryEntity.receiptHeader = response.receiptHeader;
+        respHistoryEntity.receiptFooter = response.receiptFooter;
+        respHistoryEntity.bonusPoints = response.bonusPoints;
+        respHistoryEntity.exFee = response.exFee;
+
+        return respHistoryEntity;
     }
 }

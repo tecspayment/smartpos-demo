@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
@@ -58,6 +60,8 @@ public class TransactionSettingsActivity extends AppCompatActivity {
     private ImageButton txOriginVisibilityButton;
     private ImageButton personalIDVisibilityButton;
 
+    private ToggleButton visibilityCheckBox;
+
     private boolean edit = true;
 
     @Override
@@ -103,6 +107,8 @@ public class TransactionSettingsActivity extends AppCompatActivity {
         nameEdit = findViewById(R.id.nameEditText);
         messageTypeEdit = findViewById(R.id.messageTypeEditText);
 
+        visibilityCheckBox = findViewById(R.id.visibilityCheckBox);
+
         amountEditText = findViewById(R.id.amountEditText);
         currencyEditText = findViewById(R.id.currencyEditText);
         transSourceIDEdit = findViewById(R.id.transSourceIDEdit);
@@ -139,6 +145,116 @@ public class TransactionSettingsActivity extends AppCompatActivity {
         txOriginVisibilityButton = findViewById(R.id.txOriginVisibilityButton);
         personalIDVisibilityButton = findViewById(R.id.personalIDVisibilityButton);
 
+        visibilityCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(visibilityCheckBox.isChecked()) {
+                    if (transaction.amountVisibility == null || !transaction.amountVisibility) {
+                        amountVisibilityButton.performClick();
+                    }
+                    if (transaction.currencyVisibility == null || !transaction.currencyVisibility) {
+                        currencyVisibilityButton.performClick();
+                    }
+                    if (transaction.sourceIDVisibility == null || !transaction.sourceIDVisibility) {
+                        sourceIDVisibilityButton.performClick();
+                    }
+                    if (transaction.cardNumVisibility == null || !transaction.cardNumVisibility) {
+                        cardNumVisibilityButton.performClick();
+                    }
+                    if (transaction.cvc2Visibility == null || !transaction.cvc2Visibility) {
+                        cvc2VisibilityButton.performClick();
+                    }
+                    if (transaction.receiptNumVisibility == null || !transaction.receiptNumVisibility) {
+                        receiptNumVisibilityButton.performClick();
+                    }
+                    if (transaction.paymentReasonVisibility == null || !transaction.paymentReasonVisibility) {
+                        reasonVisibilityButton.performClick();
+                    }
+                    if (transaction.transPlaceVisibility == null || !transaction.transPlaceVisibility) {
+                        transPlaceVisibilityButton.performClick();
+                    }
+                    if (transaction.authorNumVisibility == null || !transaction.authorNumVisibility) {
+                        authorNumVisibilityButton.performClick();
+                    }
+                    if (transaction.originIndVisibility == null || !transaction.originIndVisibility) {
+                        origIndVisibilityButton.performClick();
+                    }
+                    if (transaction.passwordVisibility == null || !transaction.passwordVisibility) {
+                        passwordVisibilityButton.performClick();
+                    }
+                    if (transaction.userdataVisibility == null || !transaction.userdataVisibility) {
+                        ecrDataVisibilityButton.performClick();
+                    }
+                    if (transaction.langCodeVisibility == null || !transaction.langCodeVisibility) {
+                        langCodeVisibilityButton.performClick();
+                    }
+                    if (transaction.receiptLayoutVisibility == null || !transaction.receiptLayoutVisibility) {
+                        receiptLayoutVisibilityButton.performClick();
+                    }
+                    if (transaction.desCurrencyVisibility == null || !transaction.desCurrencyVisibility) {
+                        destCurrencyVisibilityButton.performClick();
+                    }
+                    if (transaction.txOriginVisibility == null || !transaction.txOriginVisibility) {
+                        txOriginVisibilityButton.performClick();
+                    }
+                    if (transaction.personalIDVisibility == null || !transaction.personalIDVisibility) {
+                        personalIDVisibilityButton.performClick();
+                    }
+                } else {
+                    if (transaction.amountVisibility != null && transaction.amountVisibility) {
+                        amountVisibilityButton.performClick();
+                    }
+                    if (transaction.currencyVisibility != null && transaction.currencyVisibility) {
+                        currencyVisibilityButton.performClick();
+                    }
+                    if (transaction.sourceIDVisibility != null && transaction.sourceIDVisibility) {
+                        sourceIDVisibilityButton.performClick();
+                    }
+                    if (transaction.cardNumVisibility != null && transaction.cardNumVisibility) {
+                        cardNumVisibilityButton.performClick();
+                    }
+                    if (transaction.cvc2Visibility != null && transaction.cvc2Visibility) {
+                        cvc2VisibilityButton.performClick();
+                    }
+                    if (transaction.receiptNumVisibility != null && transaction.receiptNumVisibility) {
+                        receiptNumVisibilityButton.performClick();
+                    }
+                    if (transaction.paymentReasonVisibility != null && transaction.paymentReasonVisibility) {
+                        reasonVisibilityButton.performClick();
+                    }
+                    if (transaction.transPlaceVisibility != null && transaction.transPlaceVisibility) {
+                        transPlaceVisibilityButton.performClick();
+                    }
+                    if (transaction.authorNumVisibility != null && transaction.authorNumVisibility) {
+                        authorNumVisibilityButton.performClick();
+                    }
+                    if (transaction.originIndVisibility != null && transaction.originIndVisibility) {
+                        origIndVisibilityButton.performClick();
+                    }
+                    if (transaction.passwordVisibility != null && transaction.passwordVisibility) {
+                        passwordVisibilityButton.performClick();
+                    }
+                    if (transaction.userdataVisibility != null && transaction.userdataVisibility) {
+                        ecrDataVisibilityButton.performClick();
+                    }
+                    if (transaction.langCodeVisibility != null && transaction.langCodeVisibility) {
+                        langCodeVisibilityButton.performClick();
+                    }
+                    if (transaction.receiptLayoutVisibility != null && transaction.receiptLayoutVisibility) {
+                        receiptLayoutVisibilityButton.performClick();
+                    }
+                    if (transaction.desCurrencyVisibility != null && transaction.desCurrencyVisibility) {
+                        destCurrencyVisibilityButton.performClick();
+                    }
+                    if (transaction.txOriginVisibility != null && transaction.txOriginVisibility) {
+                        txOriginVisibilityButton.performClick();
+                    }
+                    if (transaction.personalIDVisibility != null && transaction.personalIDVisibility) {
+                        personalIDVisibilityButton.performClick();
+                    }
+                }
+            }
+        });
 
         if(transaction.name != null) {
             nameEdit.setText(transaction.name);
@@ -146,6 +262,78 @@ public class TransactionSettingsActivity extends AppCompatActivity {
 
         if(transaction.msgType != null) {
             messageTypeEdit.setText(transaction.msgType);
+        }
+
+        if(transaction.amount != null) {
+            amountEditText.setText(transaction.amount);
+        }
+
+        if(transaction.sourceID != null) {
+            transSourceIDEdit.setText(transaction.sourceID);
+        }
+
+        if(transaction.cardNum != null) {
+            cardNumEditText.setText(transaction.cardNum);
+        }
+
+        if(transaction.cvc2 != null) {
+            cvc2EditText.setText(transaction.cvc2);
+        }
+
+        if(transaction.amount != null)  {
+            amountEditText.setText(transaction.amount);
+        }
+
+        if(transaction.currency != null) {
+            currencyEditText.setText(transaction.currency);
+        }
+
+        if(transaction.receiptNum != null) {
+            receiptNumEditText.setText(transaction.receiptNum);
+        }
+
+        if(transaction.paymentReason != null) {
+            paymentReasonEditText.setText(transaction.paymentReason);
+        }
+
+        if(transaction.transPlace != null) {
+            transPlaceEditText.setText(transaction.transPlace);
+        }
+
+        if(transaction.authorNum != null) {
+            authNumberEditText.setText(transaction.authorNum);
+        }
+
+        if(transaction.originInd != null) {
+            originIndicatorEditText.setText(transaction.originInd);
+        }
+
+        if(transaction.password != null) {
+            passwordEditText.setText(transaction.password);
+        }
+
+        if(transaction.userdata != null) {
+            ecrDataEditText.setText(transaction.userdata);
+        }
+
+        if(transaction.langCode != null) {
+            languageCodeEditText.setText(transaction.langCode);
+        }
+
+        if(transaction.receiptLayout != null) {
+            receiptLayoutEditText.setText(transaction.receiptLayout);
+        }
+
+        if(transaction.desCurrency != null) {
+            destinationCurrencyEditText.setText(transaction.desCurrency);
+        }
+
+        if(transaction.txOrigin != null) {
+            txOriginEditText.setText(transaction.txOrigin);
+        }
+
+        if(transaction.personalID != null) {
+            personalIDEditText.setText(transaction.personalID);
         }
 
         if (transaction.amountVisibility == null || !transaction.amountVisibility) {
@@ -509,7 +697,7 @@ public class TransactionSettingsActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Repository.getInstance(getApplicationContext()).deleteTransation(String.valueOf(transaction.id));
+                Repository.getInstance(getApplicationContext()).deleteTransation(transaction);
                 finish();
             }
         });

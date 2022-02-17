@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tecs_dark_background">
+    android:background="@color/colorPrimaryDark">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/messageText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logText">
+        app:layout_constraintTop_toBottomOf="@+id/tidText">
 
         <EditText
             android:id="@+id/editTextTextPersonName"
@@ -27,14 +28,15 @@
 
     <ImageButton
         android:id="@+id/onlineStatus"
-        android:layout_width="0dp"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="end|bottom"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/okey_button"
+        android:background="@drawable/circle"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/round_done_white_48dp"
         android:tint="@color/colorAccent"
@@ -47,10 +49,11 @@
 
     <ImageButton
         android:id="@+id/menuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:background="@android:color/transparent"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/onlineStatus"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="88090205"
+        android:fontFamily="@font/manrope"
+        android:text="TID not set"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -71,18 +75,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/logText"
-        android:layout_width="wrap_content"
+        android:id="@+id/messageText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Send: SALE (1)"
-        android:textColor="@android:color/white"
-        android:textColorHighlight="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textColorLink="@android:color/white"
-        android:textStyle="italic"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="@font/manrope"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tidText" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

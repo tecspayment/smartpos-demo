@@ -51,6 +51,7 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/manrope"
         android:text="There is no receipt to be shown"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
@@ -66,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/manrope"
         android:text='To enable ECR receipt set ECR_RCPT to "1"'
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
@@ -82,6 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/manrope"
         android:text="Receipt"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"

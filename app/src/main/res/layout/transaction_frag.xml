@@ -1,658 +1,408 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/manrope"
+        android:text="Transaction"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <CheckBox
-            android:id="@+id/automaticCheck2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:checked="true"
-            android:text="@string/automatic_fields_update"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/round_menu_open_white_48dp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout13"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout12">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/authorNumInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/authorization_number"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="9"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/originInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/origin_indicator"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="1"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/passInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="8"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout15">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/userDataInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/user_data"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLength="250"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout17"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout16">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/langCodeInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/language_code"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLength="2"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout18"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout17">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/receiptInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/receipt_layout"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="2"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout19"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout18">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/destCurrencyInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/destination_currency"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLength="3"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout20"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout19">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txOriginInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tx_origin"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="1"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout21"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout20">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/personalIDInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/personal_id"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="50"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout12"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/transPlaceInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/transaction_place"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLength="13"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout10">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/paymentReasonInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/payment_reason"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLength="39"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/receiptNumInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/receipt_number"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="20"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/cvc2Input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/transaction_cvc2"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="4"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/cardNumInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/card_number"
-                android:imeOptions="actionDone"
-                android:maxLength="40"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/sourceIDInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/transaction_source_id"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="2"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/dateTimeInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/transaction_date_time"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/transactionIDInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/transaction_id"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/msgTypeInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/message_type"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="4"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/currencyInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/currency"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:maxLength="3"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transInputLayout">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/amountInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/amount"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="11"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/transactionSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:enabled="true"
-            android:text="@string/save"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionDelete" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/transInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/transactionSave"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionDelete">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/transactionInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="true"
-                android:hint="@string/name"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                tools:visibility="visible" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/transactionAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/add"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-        <Spinner
-            android:id="@+id/transactionSpinner"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:spinnerMode="dialog"
-            app:layout_constraintEnd_toStartOf="@+id/transactionAdd"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/transaction"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alipayFrame" />
-
-        <Button
-            android:id="@+id/transactionDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/delete"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionAdd" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/alipayFrame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/automaticCheck2">
-
-            <Button
-                android:id="@+id/alipayScanButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="SCAN"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-            <Button
-                android:id="@+id/alipayQRButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="8dp"
-                android:text="QR"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AliPay"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                tools:layout_editor_absoluteX="179dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/alipayAmount"
+                    android:id="@+id/length"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="AliPay Amount"
-                    android:inputType="number" />
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/length"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout17">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/currency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/currency"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/sourceID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/transaction_source_id"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/cardNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/card_number"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/cvc2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/transaction_cvc2"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout5"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/recieptNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/receipt_number"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout6"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/paymentReason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/payment_reason"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout7"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout7"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/transactionPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/transaction_place"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout8"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout8"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/authNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/authorization_number"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout9"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout9"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/originIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/origin_indicator"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout10"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout10"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout10">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/password"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/ecrData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/ecr_data"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout12"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout12"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout12">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/langCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/language_code"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout13"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout13"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/receiptLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/receipt_layout"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout14"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout14"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/destCurrency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/destination_currency"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout15"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout15"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout15">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txOrigin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/tx_origin"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout16"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout16">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/personalID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/personal_id"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope"
+                    android:hint="@string/amount"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.data.repository.dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -15,8 +16,8 @@ public interface TerminalNumberDAO {
     @Query("SELECT * FROM TerminalNumberEntity")
     List<TerminalNumberEntity> getAllTerminalNums();
 
-    @Query("DELETE FROM TerminalNumberEntity WHERE termNum=:termNum")
-    void deleteTerminalNum(String termNum);
+    @Delete
+    void deleteTerminalNum(TerminalNumberEntity termNum);
 
     @Insert
     void insertTerminalNum(TerminalNumberEntity terminalNumberEntity);

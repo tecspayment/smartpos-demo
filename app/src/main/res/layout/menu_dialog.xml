@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tecs_super_dark_round_container_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/tecs_dark_line_container"
+            android:fontFamily="@font/manrope"
+            android:text="Settings"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/historyButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/tecs_dark_line_container"
+            android:fontFamily="@font/manrope"
+            android:text="History"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="@+id/settingsButton"
+            app:layout_constraintStart_toStartOf="@+id/settingsButton"
+            app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+
+    <Button
+        android:id="@+id/controllerButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tecs_dark_line_container"
+        android:fontFamily="@font/manrope"
+        android:text="SmartPOS Controller"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/historyButton"
+        app:layout_constraintStart_toStartOf="@+id/historyButton"
+        app:layout_constraintTop_toBottomOf="@+id/historyButton" />
+
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/tecs_dark_line_container"
+        android:fontFamily="@font/manrope"
+        android:text="Close"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/controllerButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/controllerButton"
+        app:layout_constraintTop_toBottomOf="@+id/reconnectButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/reconnectButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tecs_dark_line_container"
+        android:fontFamily="@font/manrope"
+        android:text="Reconnect"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/controllerButton"
+        app:layout_constraintStart_toStartOf="@+id/controllerButton"
+        app:layout_constraintTop_toBottomOf="@+id/controllerButton" />
+
+</android.support.constraint.ConstraintLayout>

@@ -23,5 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".tx_settings.TransactionSettingsActivity" />
+        <activity android:name=".history_list.HistoryListActivity" />
+        <activity android:name=".tx_history.TransHistoryActivity" />
+        <activity android:name=".settings.SettingsActivity" />
     </application>
 </manifest>

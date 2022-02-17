@@ -9,7 +9,9 @@ import java.util.List;
 
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
+import at.tecs.smartpos_demo.data.repository.entity.RespHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TerminalNumberEntity;
+import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 
@@ -48,8 +50,16 @@ public class Repository {
         database.transactionDAO().insertTransaction(transactionEntity);
     }
 
-    public void deleteTransation(String name) {
-        database.transactionDAO().deleteTransaction(name);
+    public void deleteTransation(TransactionEntity transactionEntity) {
+        database.transactionDAO().deleteTransaction(transactionEntity);
+    }
+
+    public void deleteTransations() {
+        ArrayList<TransactionEntity> transactionEntities = (ArrayList<TransactionEntity>) database.transactionDAO().getAllTransactions();
+
+        for(TransactionEntity transactionEntity : transactionEntities) {
+            database.transactionDAO().deleteTransaction(transactionEntity);
+        }
     }
 
     public void savePort(PortEntity portEntity) {
@@ -57,7 +67,15 @@ public class Repository {
     }
 
     public void deletePort(PortEntity portEntity) {
-        database.portDAO().deletePort(portEntity.port);
+        database.portDAO().deletePort(portEntity);
+    }
+
+    public void deletePorts() {
+        ArrayList<PortEntity> ports = (ArrayList<PortEntity>) database.portDAO().getAllPorts();
+
+        for(PortEntity port : ports) {
+            database.portDAO().deletePort(port);
+        }
     }
 
     public void saveTerminalNum(TerminalNumberEntity terminalNumberEntity) {
@@ -65,7 +83,14 @@ public class Repository {
     }
 
     public void deleteTerminalNum(TerminalNumberEntity terminalNumberEntity) {
-        database.terminalNumberDAO().deleteTerminalNum(terminalNumberEntity.termNum);
+        database.terminalNumberDAO().deleteTerminalNum(terminalNumberEntity);
+    }
+    public void deleteTerminalNums() {
+        ArrayList<TerminalNumberEntity> tids = (ArrayList<TerminalNumberEntity>) database.terminalNumberDAO().getAllTerminalNums();
+
+        for(TerminalNumberEntity tid : tids) {
+            database.terminalNumberDAO().deleteTerminalNum(tid);
+        }
     }
 
     public void saveHostname(HostnameEntity hostnameEntity) {
@@ -73,7 +98,15 @@ public class Repository {
     }
 
     public void deleteHostname(HostnameEntity hostnameEntity) {
-        database.hostnameDAO().deleteHostname(hostnameEntity.hostname);
+        database.hostnameDAO().deleteHostname(hostnameEntity);
+    }
+
+    public void deleteHostnames() {
+        ArrayList<HostnameEntity> hostnameEntities = (ArrayList<HostnameEntity>) database.hostnameDAO().getAllHostnames();
+
+        for(HostnameEntity hostname : hostnameEntities) {
+            database.hostnameDAO().deleteHostname(hostname);
+        }
     }
 
     public TransactionEntity getTransaction(String name) {
@@ -140,6 +173,41 @@ public class Repository {
         }
 
         return names;
+    }
+
+    public ArrayList<TransHistoryEntity> getAllTransactionHistory() {
+
+        return (ArrayList<TransHistoryEntity>) database.transHistoryDAO().getAll();
+    }
+
+    public void saveTransaction(TransHistoryEntity transHistoryEntity) {
+        database.transHistoryDAO().insertTransactionHistory(transHistoryEntity);
+    }
+
+    public void saveResponse(RespHistoryEntity respHistoryEntity) {
+        database.respHistoryDAO().insertResponseHistory(respHistoryEntity);
+    }
+
+    public TransHistoryEntity getTransactionHistory(Long txID) {
+       return database.transHistoryDAO().getTransactionHistory(txID);
+    }
+
+    public RespHistoryEntity getResponseHistory(Long txID) {
+        return database.respHistoryDAO().getResponseHistory(txID);
+    }
+
+    public void clearHistory() {
+        ArrayList<TransHistoryEntity> transHistoryEntities = (ArrayList<TransHistoryEntity>) database.transHistoryDAO().getAll();
+
+        for(TransHistoryEntity entity : transHistoryEntities) {
+            database.transHistoryDAO().removeTransaction(entity);
+        }
+
+        ArrayList<RespHistoryEntity> respHistoryEntities = (ArrayList<RespHistoryEntity>) database.respHistoryDAO().getAll();
+
+        for(RespHistoryEntity entity : respHistoryEntities) {
+            database.respHistoryDAO().removeResponse(entity);
+        }
     }
 
     private String getHostname(String hostname) {

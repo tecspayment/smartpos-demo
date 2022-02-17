@@ -1,10 +1,12 @@
 package at.tecs.smartpos_demo.main.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -28,6 +30,7 @@ public class ConnectionSettingsDialog extends Dialog {
         super(context, themeResId);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +50,41 @@ public class ConnectionSettingsDialog extends Dialog {
         ArrayAdapter<String> tidsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tids);
         tidEditText.setAdapter(tidsAdapter);
 
+        tidEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                tidEditText.showDropDown();
+                return false;
+            }
+        });
+
         Repository repository = Repository.getInstance(getContext());
 
         ArrayList<String> ports = repository.getPorts();
 
         ArrayAdapter<String> portsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ports);
-        hostEditText.setAdapter(portsAdapter);
+        portEditText.setAdapter(portsAdapter);
+
+        portEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                portEditText.showDropDown();
+                return false;
+            }
+        });
 
         ArrayList<String> hostnames = Repository.getInstance(getContext()).getHostnames();
 
         ArrayAdapter<String> hostnamesAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, hostnames);
-        portEditText.setAdapter(hostnamesAdapter);
+        hostEditText.setAdapter(hostnamesAdapter);
+
+        hostEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hostEditText.showDropDown();
+                return false;
+            }
+        });
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

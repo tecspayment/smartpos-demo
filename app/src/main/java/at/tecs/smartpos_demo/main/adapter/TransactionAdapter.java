@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
-    private ArrayList<TransactionEntity> transactions;
+    private final ArrayList<TransactionEntity> transactions;
     private final Callback.TransactionsTabCallBack callBack;
     private final Context context;
 
@@ -38,7 +39,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final ImageButton transSettingsButton;
         private final Button transSendButton;
         private final ImageButton expandButton;
         private final TextView messageTypeText;
@@ -84,7 +84,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
             transSendButton = view.findViewById(R.id.transSendButton);
             expandButton = view.findViewById(R.id.expandButton);
-            transSettingsButton = view.findViewById(R.id.transSettingsButton);
 
             messageTypeText = view.findViewById(R.id.messageTypeEdit);
             amountEditText = view.findViewById(R.id.amountEditText);
@@ -141,28 +140,38 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         final int index = i;
 
-        viewHolder.transSettingsButton.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 showTransactionSettings(getTransaction(transaction, viewHolder), context);
+                return false;
             }
         });
 
         viewHolder.transSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TransactionEntity currentTransaction = getTransaction(transaction, viewHolder);
                 Repository repository = Repository.getInstance(context);
-                repository.updateTransaction(transaction);
+                repository.updateTransaction(currentTransaction);
 
-                int currentPossition = transactions.indexOf(transaction);
+                int currentPossition = transactions.indexOf(currentTransaction);
                 transactions.remove(currentPossition);
-                transactions.add(0, transaction);
+                transactions.add(0, currentTransaction);
 
                 for(int i = 0; i < transactions.size(); i++) {
                     notifyItemChanged(i);
                 }
 
-                callBack.performTransaction(transaction);
+                callBack.performTransaction(currentTransaction);
+            }
+        });
+
+        viewHolder.transSendButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showTransactionSettings(getTransaction(transaction, viewHolder), context);
+                return false;
             }
         });
 
@@ -170,9 +179,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             @Override
             public void onClick(View v) {
                 if(transaction.expanded) {
-                    ((ImageButton) v).setImageResource(R.drawable.outline_expand_less_white_24dp);
+                    ((ImageButton) v).setImageResource(R.drawable.outline_expand_less_white_48dp);
                 } else {
-                    ((ImageButton) v).setImageResource(R.drawable.outline_expand_more_white_24dp);
+                    ((ImageButton) v).setImageResource(R.drawable.outline_expand_more_white_48dp);
                 }
 
                 transaction.expanded = !transaction.expanded;
@@ -187,7 +196,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         return transactions.size();
     }
 
-    private void showTransaction(TransactionEntity transaction,final ViewHolder viewHolder) {
+    private void showTransaction(TransactionEntity transaction, final ViewHolder viewHolder) {
+
+        Log.e("TEST", "Show Transaction: " + transaction.name);
 
         if(transaction.msgType != null) {
             viewHolder.messageTypeText.setText(transaction.msgType);
@@ -383,8 +394,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     private TransactionEntity getTransaction(TransactionEntity transactionEntity, ViewHolder viewHolder) {
 
-        if(viewHolder.amountEditText.getText() != null && !viewHolder.amountEditText.getText().toString().equals(""))
+        if(viewHolder.amountEditText.getText() != null && !viewHolder.amountEditText.getText().toString().equals("")) {
             transactionEntity.amount = viewHolder.amountEditText.getText().toString();
+        } else {
+            Log.e("TEST", "viewHolder.amountEditText is empty!");
+        }
         if(viewHolder.currencyEditText.getText() != null && !viewHolder.currencyEditText.getText().toString().equals(""))
             transactionEntity.currency = viewHolder.currencyEditText.getText().toString();
         if(viewHolder.transSourceIDEdit.getText() != null && !viewHolder.transSourceIDEdit.getText().toString().equals(""))

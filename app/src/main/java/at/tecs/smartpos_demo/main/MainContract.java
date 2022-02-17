@@ -15,44 +15,24 @@ public interface MainContract {
 
         void showResponseTab(int code);
 
-        void showLog(String log);
-
         void showConnected();
 
         void showDisconnected();
 
-        void showToast(String msg);
-
-        void showNataliStatus(int status);
+        void showMessage(String msg);
 
         Context getContext();
 
-        interface ConnectionTab {
+        void showTID(String tid);
 
-            void setTerminalNumAdapter(ArrayAdapter<String> terminalNumAdapter);
+        void showHostname(String hostname);
 
-            void setHostnameAdapter(ArrayAdapter<String> hostnameAdapter);
-
-            void setPortAdapter(ArrayAdapter<String> portAdapter);
-
-            boolean checkConnectionInputs();
-
-            void showTCP();
-
-            //void showBluetooth();
-        }
+        void showPort(String port);
 
         interface TransactionTab {
-
-            void setTransactionAdapter(ArrayAdapter<String> transactionAdapter);
-
             Transaction createTransaction();
 
             void showTransaction(TransactionEntity transactionEntity);
-
-            void showTransactionAuto(final String transactionID, final String dateTime);
-
-            boolean checkTransactionInputs();
         }
 
         interface ResponseTab {
@@ -64,13 +44,6 @@ public interface MainContract {
             void showReceipt(String receipt);
             void clearReceipt();
         }
-
-        /*
-        interface CardTab {
-            void showResponse(String text);
-            void changeOpen(String text);
-        }
-        */
     }
 
     interface Presenter {
@@ -111,45 +84,16 @@ public interface MainContract {
 
         void loadTransaction(String name);
 
-        //int startNatali(Context context);
-
         Response getLastResponse();
 
         PaymentService getPaymentService();
 
-        void takeConnectionView(MainContract.View.ConnectionTab view);
-
-        void takeTransactionView(MainContract.View.TransactionTab view);
-
         void takeResponseView(MainContract.View.ResponseTab view);
 
-        //void takeCardView(MainContract.View.CardTab view);
+        void loadDefaults();
 
-        //void takePrintView(MainContract.View.PrintTab view);
-
-        /*
-        void openCardControl();
-
-        void authenticateM0CardControl(String data);
-
-        void authenticateM1CardControl(String keyMode, String snr, String blockID, String key);
-
-        void readCardControl(String blockID);
-
-        void writeCardControl(String blockID, String data);
-
-        void transmitCardControl(String data);
-
-        void transmitCardControlReadAll(String key, int start, int end);
-
-        void printerPrint(String data, int dataType);
-
-        void printerFeedLine(int linesCount);
-
-        void printerFullReceipt();
-
-        ConnectionType getSelected();
-        */
-
+        String getHostname();
+        String getPort();
+        String getTerminalNum();
     }
 }
