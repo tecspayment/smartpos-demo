@@ -58,7 +58,7 @@
         android:scaleType="fitCenter"
         android:src="@drawable/outline_add_white_48dp"
         android:tint="@color/colorAccent"
-        app:backgroundTint="@color/colorTecsDarkOkey"
+        app:backgroundTint="@color/colorPrimary"
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"

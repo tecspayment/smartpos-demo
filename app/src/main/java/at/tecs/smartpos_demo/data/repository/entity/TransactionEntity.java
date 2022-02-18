@@ -141,10 +141,23 @@ public class TransactionEntity implements Serializable {
                 "ID: " + id + "\n" +
                 "TID: " + terminalNum + "\n" +
                 "msgType: " + msgType + "\n" +
-                "sourceID: " + sourceID + "\n" +
-                "cardNum: " + cardNum + "\n" +
-                "cvc2: " + cvc2 + "\n" +
-                "amount: " + amount + "\n" +
-                "currency: " + currency + "\n";
+                "sourceID: " + sourceID + " - visbility: " + sourceIDVisibility + "\n" +
+                "cardNum: " + cardNum + " - visbility: " + cardNumVisibility + "\n" +
+                "cvc2: " + cvc2 + " - visbility: " + cvc2Visibility + "\n" +
+                "amount: " + amount + " - visbility: " + amountVisibility + "\n" +
+                "currency: " + currency + " - visbility: " + currencyVisibility + "\n" +
+                "receiptNum: " + receiptNum + " - visbility: " + receiptNumVisibility + "\n" +
+                "paymentReason: " + paymentReason + " - visbility: " + paymentReasonVisibility + "\n" +
+                "transPlace: " + transPlace + " - visbility: " + transPlaceVisibility + "\n" +
+                "authorNum: " + authorNum + " - visbility: " + authorNumVisibility + "\n" +
+                "originInd: " + originInd + " - visbility: " + originIndVisibility + "\n" +
+                "password: " + password + " - visbility: " + passwordVisibility + "\n" +
+                "userdata: " + userdata + " - visbility: " + userdataVisibility + "\n" +
+                "langCode: " + langCode + " - visbility: " + langCodeVisibility + "\n" +
+                "receiptLayout: " + receiptLayout + " - visbility: " + receiptLayoutVisibility + "\n" +
+                "desCurrency: " + desCurrency + " - visbility: " + desCurrencyVisibility + "\n" +
+                "txOrigin: " + txOrigin + " - visbility: " + txOriginVisibility + "\n" +
+                "personalID: " + personalID + " - visbility: " + personalIDVisibility + "\n";
+
     }
 }

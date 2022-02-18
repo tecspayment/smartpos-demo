@@ -138,8 +138,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         showTransaction(transaction, viewHolder);
 
-        final int index = i;
-
         viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -186,7 +184,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
                 transaction.expanded = !transaction.expanded;
 
-                notifyItemChanged(index);
+                Log.e("TEST", "Transaction: " + transaction.name + " - " + transactions.indexOf(transaction));
+
+                notifyItemChanged(transactions.indexOf(transaction));
             }
         });
     }
@@ -196,9 +196,22 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         return transactions.size();
     }
 
-    private void showTransaction(TransactionEntity transaction, final ViewHolder viewHolder) {
+    private void showTransaction(TransactionEntity transaction,@NonNull final ViewHolder viewHolder) {
 
         Log.e("TEST", "Show Transaction: " + transaction.name);
+        Log.e("TEST", "Show Transaction: " + transaction);
+
+        if(!transaction.amountVisibility && !transaction.currencyVisibility &&
+                !transaction.sourceIDVisibility && !transaction.cardNumVisibility &&
+                !transaction.cvc2Visibility && !transaction.receiptNumVisibility &&
+                !transaction.paymentReasonVisibility && !transaction.transPlaceVisibility &&
+                !transaction.authorNumVisibility && !transaction.originIndVisibility &&
+                !transaction.passwordVisibility && !transaction.userdataVisibility &&
+                !transaction.langCodeVisibility && !transaction.receiptLayoutVisibility &&
+                !transaction.desCurrencyVisibility && !transaction.txOriginVisibility &&
+                !transaction.personalIDVisibility) {
+            viewHolder.expandButton.setVisibility(View.GONE);
+        }
 
         if(transaction.msgType != null) {
             viewHolder.messageTypeText.setText(transaction.msgType);
@@ -211,158 +224,162 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         if(transaction.expanded) {
             if (transaction.amount != null) {
                 viewHolder.amountEditText.setText(transaction.amount);
-                if (transaction.amountVisibility != null && !transaction.amountVisibility) {
-                    viewHolder.amountEditLayout.setVisibility(View.GONE);
-                    viewHolder.currencyEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.amountEditLayout.setVisibility(View.VISIBLE);
-                    viewHolder.currencyEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.amountVisibility != null && !transaction.amountVisibility) {
+                viewHolder.amountEditLayout.setVisibility(View.GONE);
+                viewHolder.currencyEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.amountEditLayout.setVisibility(View.VISIBLE);
+                viewHolder.currencyEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.currency != null) {
                 viewHolder.currencyEditText.setText(transaction.currency);
-                if (transaction.currencyVisibility != null && !transaction.currencyVisibility) {
-                    viewHolder.currencyEditText.setEnabled(false);
-                } else {
-                    viewHolder.currencyEditLayout.setVisibility(View.VISIBLE);
-                    viewHolder.currencyEditText.setEnabled(true);
-                }
+            }
+            if (transaction.currencyVisibility != null && !transaction.currencyVisibility) {
+                viewHolder.currencyEditText.setEnabled(false);
+            } else {
+                viewHolder.currencyEditLayout.setVisibility(View.VISIBLE);
+                viewHolder.currencyEditText.setEnabled(true);
             }
 
             if (transaction.sourceID != null) {
                 viewHolder.transSourceIDEdit.setText(transaction.sourceID);
-                if (transaction.sourceIDVisibility != null && !transaction.sourceIDVisibility) {
-                    viewHolder.transSourceIDEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.transSourceIDEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.sourceIDVisibility != null && !transaction.sourceIDVisibility) {
+                viewHolder.transSourceIDEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.transSourceIDEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.cardNum != null) {
                 viewHolder.cardNumEditText.setText(transaction.cardNum);
-                if (transaction.cardNumVisibility != null && !transaction.cardNumVisibility) {
-                    viewHolder.cardNumEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.cardNumEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.cardNumVisibility != null && !transaction.cardNumVisibility) {
+                viewHolder.cardNumEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.cardNumEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.cvc2 != null) {
                 viewHolder.cvc2EditText.setText(transaction.cvc2);
-                if (transaction.cvc2Visibility != null && !transaction.cvc2Visibility) {
-                    viewHolder.cvc2EditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.cvc2EditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.cvc2Visibility != null && !transaction.cvc2Visibility) {
+                viewHolder.cvc2EditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.cvc2EditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.receiptNum != null) {
                 viewHolder.receiptNumEditText.setText(transaction.receiptNum);
-                if (transaction.receiptNumVisibility != null && !transaction.receiptNumVisibility) {
-                    viewHolder.receiptNumEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.receiptNumEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.receiptNumVisibility != null && !transaction.receiptNumVisibility) {
+                viewHolder.receiptNumEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.receiptNumEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.paymentReason != null) {
                 viewHolder.paymentReasonEditText.setText(transaction.paymentReason);
-                if (transaction.paymentReasonVisibility != null && !transaction.paymentReasonVisibility) {
-                    viewHolder.paymentReasonEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.paymentReasonEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.paymentReasonVisibility != null && !transaction.paymentReasonVisibility) {
+                viewHolder.paymentReasonEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.paymentReasonEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.transPlace != null) {
                 viewHolder.transPlaceEditText.setText(transaction.transPlace);
-                if (transaction.transPlaceVisibility != null && !transaction.transPlaceVisibility) {
-                    viewHolder.transPlaceEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.transPlaceEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.transPlaceVisibility != null && !transaction.transPlaceVisibility) {
+                viewHolder.transPlaceEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.transPlaceEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.authorNum != null) {
                 viewHolder.authNumberEditText.setText(transaction.transPlace);
-                if (transaction.authorNumVisibility != null && !transaction.authorNumVisibility) {
-                    viewHolder.authNumberEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.authNumberEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.authorNumVisibility != null && !transaction.authorNumVisibility) {
+                viewHolder.authNumberEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.authNumberEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.originInd != null) {
                 viewHolder.originIndicatorEditText.setText(transaction.originInd);
-                if (transaction.originIndVisibility != null && !transaction.originIndVisibility) {
-                    viewHolder.originIndicatorEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.originIndicatorEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.originIndVisibility != null && !transaction.originIndVisibility) {
+                viewHolder.originIndicatorEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.originIndicatorEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.password != null) {
                 viewHolder.passwordEditText.setText(transaction.password);
-                if (transaction.passwordVisibility != null && !transaction.passwordVisibility) {
-                    viewHolder.passwordEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.passwordEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.passwordVisibility != null && !transaction.passwordVisibility) {
+                viewHolder.passwordEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.passwordEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.userdata != null) {
                 viewHolder.ecrDataEditText.setText(transaction.userdata);
-                if (transaction.userdataVisibility != null && !transaction.userdataVisibility) {
-                    viewHolder.ecrDataEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.ecrDataEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.userdataVisibility != null && !transaction.userdataVisibility) {
+                viewHolder.ecrDataEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.ecrDataEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.langCode != null) {
                 viewHolder.languageCodeEditText.setText(transaction.langCode);
-                if (transaction.langCodeVisibility != null && !transaction.langCodeVisibility) {
-                    viewHolder.languageCodeEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.languageCodeEditLayout.setVisibility(View.VISIBLE);
-                }
             }
+            if (transaction.langCodeVisibility != null && !transaction.langCodeVisibility) {
+                viewHolder.languageCodeEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.languageCodeEditLayout.setVisibility(View.VISIBLE);
+            }
+
 
             if (transaction.receiptLayout != null) {
                 viewHolder.receiptLayoutEditText.setText(transaction.receiptLayout);
-                if (transaction.receiptLayoutVisibility != null && !transaction.receiptLayoutVisibility) {
-                    viewHolder.receiptLayoutEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.receiptLayoutEditLayout.setVisibility(View.VISIBLE);
-                }
             }
+            if (transaction.receiptLayoutVisibility != null && !transaction.receiptLayoutVisibility) {
+                viewHolder.receiptLayoutEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.receiptLayoutEditLayout.setVisibility(View.VISIBLE);
+            }
+
 
             if (transaction.desCurrency != null) {
                 viewHolder.destinationCurrencyEditText.setText(transaction.desCurrency);
-                if (transaction.desCurrencyVisibility != null && !transaction.desCurrencyVisibility) {
-                    viewHolder.destinationCurrencyEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.destinationCurrencyEditLayout.setVisibility(View.VISIBLE);
-                }
             }
+            if (transaction.desCurrencyVisibility != null && !transaction.desCurrencyVisibility) {
+                viewHolder.destinationCurrencyEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.destinationCurrencyEditLayout.setVisibility(View.VISIBLE);
+            }
+
 
             if (transaction.txOrigin != null) {
                 viewHolder.txOriginEditText.setText(transaction.txOrigin);
-                if (transaction.txOriginVisibility != null && !transaction.txOriginVisibility) {
-                    viewHolder.txOriginEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.txOriginEditLayout.setVisibility(View.VISIBLE);
-                }
+            }
+            if (transaction.txOriginVisibility != null && !transaction.txOriginVisibility) {
+                viewHolder.txOriginEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.txOriginEditLayout.setVisibility(View.VISIBLE);
             }
 
             if (transaction.personalID != null) {
                 viewHolder.personalIDEditText.setText(transaction.personalID);
-                if (transaction.personalIDVisibility != null && !transaction.personalIDVisibility) {
-                    viewHolder.personalIDEditLayout.setVisibility(View.GONE);
-                } else {
-                    viewHolder.personalIDEditLayout.setVisibility(View.VISIBLE);
-                }
+
+            }
+            if (transaction.personalIDVisibility != null && !transaction.personalIDVisibility) {
+                viewHolder.personalIDEditLayout.setVisibility(View.GONE);
+            } else {
+                viewHolder.personalIDEditLayout.setVisibility(View.VISIBLE);
             }
         } else {
             viewHolder.amountEditLayout.setVisibility(View.GONE);

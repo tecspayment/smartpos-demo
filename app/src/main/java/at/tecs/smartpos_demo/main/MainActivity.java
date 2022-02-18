@@ -22,6 +22,7 @@ import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.MainAdapter;
 import at.tecs.smartpos_demo.main.dialog.ConnectionSettingsDialog;
 import at.tecs.smartpos_demo.main.dialog.MenuDialog;
+import at.tecs.smartpos_demo.main.dialog.MessageDialog;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
 import static at.tecs.smartpos.data.Response.Code.*;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.intro_act);
+        setContentView(R.layout.main_act);
 
         preferences = getSharedPreferences("at.tecs.smartpos_demo", MODE_PRIVATE);
 
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         mainAdapter.setResponseTabCallback(responseTabCallback);
         mainAdapter.setTransactionsTabCallBack(transactionsTabCallBack);
+        mainAdapter.setReceiptTabCallBack(receiptTabCallBack);
 
         viewPager.setAdapter(mainAdapter);
 
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
      * @param msg Message which will be displayed
      */
     @Override
-    public void showMessage(final String msg) {
+    public void showNotification(final String msg) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -180,41 +182,41 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             switch (code) { //Show status response
                 case TX_WAITING_FOR_CARD:
-                    showMessage("Terminal is in Initialize command and waiting for insert,swipe or tap card");
+                    showNotification("Terminal is in Initialize command and waiting for insert,swipe or tap card");
                     break;
                 case TX_IN_PROGRESS:
-                    showMessage("TransactionEntity is in progress");
+                    showNotification("TransactionEntity is in progress");
                     break;
                 case TX_NOT_IN_PROGRESS:
-                    showMessage("TransactionEntity is not in progress");
+                    showNotification("TransactionEntity is not in progress");
                     break;
                 case TX_WAITING_FOR_REMOVE_CARD:
-                    showMessage("Waiting for remove card");
+                    showNotification("Waiting for remove card");
                     break;
                 case TX_INITIALSE:
-                    showMessage("Transactions is in initialization state");
+                    showNotification("Transactions is in initialization state");
                     break;
                 case TX_FC_WAITING_FOR_CARD:
-                    showMessage("Terminal is in Initialize command and waiting for insert card");
+                    showNotification("Terminal is in Initialize command and waiting for insert card");
                     break;
                 case TX_WAS_SENT_WAIT_ON_REMOVE_CARD:
                 case TX_CANCELED_WAIT_ON_REMOVE_CARD:
-                    showMessage("Terminal waiting on remove card");
+                    showNotification("Terminal waiting on remove card");
                     break;
                 case DATA_EXCHANGE_START:
-                    showMessage("Open connection and sending data");
+                    showNotification("Open connection and sending data");
                     break;
                 case DATA_EXCHANGE_END:
-                    showMessage("Receive data and close connection");
+                    showNotification("Receive data and close connection");
                     break;
                 case DATA_EXCHANGE_FAILED:
-                    showMessage("Connection failure");
+                    showNotification("Connection failure");
                     break;
                 case SALE:
-                    showMessage("Start sale transaction");
+                    showNotification("Start sale transaction");
                     break;
                 case VOID:
-                    showMessage("Start void transaction");
+                    showNotification("Start void transaction");
                     break;
 
                 default:    //Show normal response
@@ -242,6 +244,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showPort(String port) {
 
+    }
+
+    @Override
+    public void showMessage(final String title, final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MessageDialog messageDialog = new MessageDialog(getContext());
+                messageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                messageDialog.setTitle(title);
+                messageDialog.setText(text);
+                messageDialog.show();
+            }
+        });
     }
 
     private final BroadcastReceiver nataliReceiver = new BroadcastReceiver() {
@@ -286,12 +302,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     };
 
+    private final Callback.ReceiptTabCallBack receiptTabCallBack = new Callback.ReceiptTabCallBack() {
+        @Override
+        public void onAttach(ReceiptTab view) {
+            presenter.takeReceiptView(view);
+        }
+    };
+
     private final at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback connectionSettingsDialogCallback = new at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback() {
         @Override
         public void saveConnection(String tid, String hostname, String port) {
-            presenter.saveHostName(hostname);
-            presenter.savePort(port);
-            presenter.saveTermNum(tid);
+            if(!hostname.isEmpty()) {
+                presenter.saveHostName(hostname);
+            }
+            if(!port.isEmpty()) {
+                presenter.savePort(port);
+            }
+            if(!tid.isEmpty()) {
+                presenter.saveTermNum(tid);
+            }
 
             presenter.setHostname(hostname);
             presenter.setTID(tid);

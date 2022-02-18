@@ -29,13 +29,17 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
         receiptContainer = view.findViewById(R.id.receiptContainer);
         receiptTextView = view.findViewById(R.id.receiptTextView);
 
+        if(callback != null) {
+            callback.onAttach(this);
+        }
+
         return view;
     }
 
     @Override
-    public void showReceipt(String receipt) {
+    public void showReceipt(String merchantReceipt, String customerReceipt) {
         receiptContainer.setVisibility(View.VISIBLE);
-        receiptTextView.setText(receipt);
+        receiptTextView.setText(merchantReceipt);
     }
 
     @Override

@@ -19,7 +19,9 @@ public interface MainContract {
 
         void showDisconnected();
 
-        void showMessage(String msg);
+        void showNotification(String msg);
+
+        void showMessage(String title, String text);
 
         Context getContext();
 
@@ -41,7 +43,7 @@ public interface MainContract {
         }
 
         interface ReceiptTab {
-            void showReceipt(String receipt);
+            void showReceipt(String merchantReceipt, String customerReceipt);
             void clearReceipt();
         }
     }
@@ -82,13 +84,12 @@ public interface MainContract {
 
         void deletePort(String port);
 
-        void loadTransaction(String name);
-
         Response getLastResponse();
 
         PaymentService getPaymentService();
 
         void takeResponseView(MainContract.View.ResponseTab view);
+        void takeReceiptView(MainContract.View.ReceiptTab view);
 
         void loadDefaults();
 

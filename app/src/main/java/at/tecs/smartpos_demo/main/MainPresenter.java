@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -10,7 +11,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import at.tecs.smartpos.PaymentService;
-import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
 import at.tecs.smartpos.data.Response;
@@ -31,6 +31,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
     private MainContract.View.ResponseTab responseView;
+    private MainContract.View.ReceiptTab receiptView;
 
     private Repository repository;
 
@@ -150,7 +151,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.showConnected();
 
                     if(paymentService.getType() == TCP) {
-                        view.showMessage("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                        view.showNotification("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
                     }
 
                     paymentService.listen(new ResponseListener() {
@@ -166,6 +167,18 @@ public class MainPresenter implements MainContract.Presenter {
                             if(responseView != null) {
                                 responseView.showResponse(response);
                             }
+
+                            if(response.getScanData() != null && !response.getScanData().isEmpty()) {
+                                view.showMessage("Scan result", response.getScanData());
+                            }
+
+                            Log.e("TEST", "Customer Receipt: " + response.getCustomerReceipt());
+                            Log.e("TEST", "Merchant Receipt: " + response.getMerchantReceipt());
+
+                            if(response.getCustomerReceipt() != null && !response.getCustomerReceipt().isEmpty() ||
+                                    response.getMerchantReceipt() != null && !response.getMerchantReceipt().isEmpty()) {
+                                receiptView.showReceipt(response.getMerchantReceipt(), response.getCustomerReceipt());
+                            }
                         }
 
                         @Override
@@ -176,7 +189,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                         @Override
                         public void onReadFailed() {
-                            view.showMessage("Read Failed!");
+                            view.showNotification("Read Failed!");
                             disconnect();
                         }
                     });
@@ -186,7 +199,7 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onUnknownHost(UnknownHostException e) {
                     e.printStackTrace();
 
-                    view.showMessage("Unknown Host!");
+                    view.showNotification("Unknown Host!");
                     view.showDisconnected();
                 }
 
@@ -194,7 +207,7 @@ public class MainPresenter implements MainContract.Presenter {
                 public void onSocketFail(IOException e) {
                     e.printStackTrace();
 
-                    view.showMessage("Connection lost!");
+                    view.showNotification("Connection lost!");
                     view.showDisconnected();
                 }
             });
@@ -208,12 +221,11 @@ public class MainPresenter implements MainContract.Presenter {
         try {
             paymentService.disconnect();
 
-            view.showMessage("Disconnected from " + paymentService.getHostname() + ":" + paymentService.getPort());
+            view.showNotification("Disconnected from " + paymentService.getHostname() + ":" + paymentService.getPort());
             view.showDisconnected();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -228,21 +240,12 @@ public class MainPresenter implements MainContract.Presenter {
 
         try {
             paymentService.sendTransaction(transaction);
-            repository.saveTransaction(convertTransaction(transactionEntity));
+            if(paymentService.isConnected()) {
+                repository.saveTransaction(convertTransaction(transactionEntity));
+            }
         } catch (TransactionFieldException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Load transaction from database.
-     * @param name Name of saved transaction.
-     */
-    @Override
-    public void loadTransaction(String name) {
-        TransactionEntity transactionEntity = repository.getTransaction(name);
-
-        //transactionView.showTransaction(transactionEntity);
     }
 
     @Override
@@ -291,6 +294,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void takeReceiptView(MainContract.View.ReceiptTab view) {
+        receiptView = view;
+    }
+
+    @Override
     public String getHostname() {
         return hostname;
     }
@@ -321,13 +329,25 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.name = "Sale";
         transaction.amountVisibility = true;
         transaction.currencyVisibility = true;
+        transaction.sourceIDVisibility = false;
+        transaction.cardNumVisibility = false;
+        transaction.cvc2Visibility = false;
+        transaction.receiptNumVisibility = false;
+        transaction.paymentReasonVisibility = false;
+        transaction.transPlaceVisibility = false;
+        transaction.authorNumVisibility = false;
+        transaction.originIndVisibility = false;
+        transaction.passwordVisibility = false;
+        transaction.userdataVisibility = false;
+        transaction.langCodeVisibility = false;
+        transaction.receiptLayoutVisibility = false;
+        transaction.desCurrencyVisibility = false;
+        transaction.txOriginVisibility = false;
+        transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.SALE;
         transaction.sourceID = "1";
-        transaction.sourceIDVisibility = false;
         transaction.receiptNum = "1";
-        transaction.receiptNumVisibility = false;
         transaction.originInd = "0";
-        transaction.originIndVisibility = false;
 
         repository.saveTransaction(transaction);
 
@@ -335,13 +355,25 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.name = "Refund";
         transaction.amountVisibility = true;
         transaction.currencyVisibility = true;
+        transaction.sourceIDVisibility = false;
+        transaction.cardNumVisibility = false;
+        transaction.cvc2Visibility = false;
+        transaction.receiptNumVisibility = false;
+        transaction.paymentReasonVisibility = false;
+        transaction.transPlaceVisibility = false;
+        transaction.authorNumVisibility = false;
+        transaction.originIndVisibility = false;
+        transaction.passwordVisibility = false;
+        transaction.userdataVisibility = false;
+        transaction.langCodeVisibility = false;
+        transaction.receiptLayoutVisibility = false;
+        transaction.desCurrencyVisibility = false;
+        transaction.txOriginVisibility = false;
+        transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CREDIT_NOTE;
         transaction.sourceID = "1";
-        transaction.sourceIDVisibility = false;
         transaction.receiptNum = "1";
-        transaction.receiptNumVisibility = false;
         transaction.originInd = "0";
-        transaction.originIndVisibility = false;
 
         repository.saveTransaction(transaction);
 
@@ -350,24 +382,75 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.cardNumVisibility = true;
         transaction.amountVisibility = true;
         transaction.currencyVisibility = true;
+        transaction.amountVisibility = true;
+        transaction.currencyVisibility = true;
+        transaction.sourceIDVisibility = false;
+        transaction.cvc2Visibility = false;
+        transaction.receiptNumVisibility = false;
+        transaction.paymentReasonVisibility = false;
+        transaction.transPlaceVisibility = false;
+        transaction.authorNumVisibility = false;
+        transaction.originIndVisibility = false;
+        transaction.passwordVisibility = false;
+        transaction.userdataVisibility = false;
+        transaction.langCodeVisibility = false;
+        transaction.receiptLayoutVisibility = false;
+        transaction.desCurrencyVisibility = false;
+        transaction.txOriginVisibility = false;
+        transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CANCEL;
         transaction.sourceID = "1";
-        transaction.sourceIDVisibility = false;
         transaction.cardNum = "TXID";
         transaction.receiptNum = "1";
-        transaction.receiptNumVisibility = false;
         transaction.originInd = "2";
-        transaction.originIndVisibility = false;
 
         repository.saveTransaction(transaction);
 
         transaction = new TransactionEntity();
         transaction.name = "Connection status";
+        transaction.cardNumVisibility = false;
+        transaction.amountVisibility = false;
+        transaction.currencyVisibility = false;
+        transaction.amountVisibility = false;
+        transaction.currencyVisibility = false;
+        transaction.sourceIDVisibility = false;
+        transaction.cvc2Visibility = false;
+        transaction.receiptNumVisibility = false;
+        transaction.paymentReasonVisibility = false;
+        transaction.transPlaceVisibility = false;
+        transaction.authorNumVisibility = false;
+        transaction.originIndVisibility = false;
+        transaction.passwordVisibility = false;
+        transaction.userdataVisibility = false;
+        transaction.langCodeVisibility = false;
+        transaction.receiptLayoutVisibility = false;
+        transaction.desCurrencyVisibility = false;
+        transaction.txOriginVisibility = false;
+        transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CONNECTION_STATUS;
 
         repository.saveTransaction(transaction);
 
         transaction = new TransactionEntity();
+        transaction.cardNumVisibility = false;
+        transaction.amountVisibility = false;
+        transaction.currencyVisibility = false;
+        transaction.amountVisibility = false;
+        transaction.currencyVisibility = false;
+        transaction.sourceIDVisibility = false;
+        transaction.cvc2Visibility = false;
+        transaction.receiptNumVisibility = false;
+        transaction.paymentReasonVisibility = false;
+        transaction.transPlaceVisibility = false;
+        transaction.authorNumVisibility = false;
+        transaction.originIndVisibility = false;
+        transaction.passwordVisibility = false;
+        transaction.userdataVisibility = false;
+        transaction.langCodeVisibility = false;
+        transaction.receiptLayoutVisibility = false;
+        transaction.desCurrencyVisibility = false;
+        transaction.txOriginVisibility = false;
+        transaction.personalIDVisibility = false;
         transaction.name = "Reconciliation request";
         transaction.msgType = Transaction.MessageType.RECONCILIATION_REQUEST;
 
