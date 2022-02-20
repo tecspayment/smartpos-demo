@@ -1,6 +1,7 @@
 package at.tecs.smartpos_demo.settings;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +16,14 @@ import at.tecs.smartpos_demo.data.repository.Repository;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private SharedPreferences preferences = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_act);
+
+        preferences = getSharedPreferences("at.tecs.smartpos_demo", MODE_PRIVATE);
 
         Button clearHistoryButton = findViewById(R.id.clearHistoryButton);
         Button clearTIDButton = findViewById(R.id.clearTIDButton);
@@ -121,19 +126,19 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         CheckBox autoConnectCheckBox = findViewById(R.id.autoConnectCheckBox);
-        CheckBox hideMsgTypeCheckBox = findViewById(R.id.hideMsgTypeCheckBox);
+
+        boolean autoConnect = preferences.getBoolean("auto_connect", true);
+
+        autoConnectCheckBox.setChecked(autoConnect);
 
         autoConnectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
-
-        hideMsgTypeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                if(isChecked) {
+                    preferences.edit().putBoolean("auto_connect", true).commit();
+                } else {
+                    preferences.edit().putBoolean("auto_connect", false).commit();
+                }
             }
         });
     }

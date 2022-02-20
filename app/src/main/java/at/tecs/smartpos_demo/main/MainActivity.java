@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -55,6 +56,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.loadDefaults();   //Load default transactions
 
             preferences.edit().putBoolean("firstRun", false).commit();
+            preferences.edit().putBoolean("auto_connect", true).commit();
+            preferences.edit().putString("hostname", "localhost").commit();
+            preferences.edit().putString("port", "9990").commit();
+
+            showMessage("Connection parameters", "Please set terminal number!");
+        }
+
+        boolean autoConnect = preferences.getBoolean("auto_connect", true);
+        String hostname = preferences.getString("hostname", "localhost");
+        String port = preferences.getString("port", "9990");
+        String tid = preferences.getString("tid", "");
+        presenter.setAutoConnect(autoConnect);
+        presenter.setHostname(hostname);
+        presenter.setPort(port);
+
+        if(!tid.isEmpty()) {
+            presenter.setTID(tid);
+            showTID(tid);
         }
     }
 
@@ -79,6 +98,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 menuDialog.setCallback(menuDialogCallback);
 
                 menuDialog.show();
+            }
+        });
+
+        onlineStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!presenter.isAutoConnect()) {
+                    if(!presenter.isConnected()) {
+                        presenter.connect();
+                    } else {
+                        presenter.disconnect();
+                    }
+                }
             }
         });
 
@@ -313,12 +345,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void saveConnection(String tid, String hostname, String port) {
             if(!hostname.isEmpty()) {
+                preferences.edit().putString("hostname", hostname).commit();
                 presenter.saveHostName(hostname);
             }
             if(!port.isEmpty()) {
+                preferences.edit().putString("port", port).commit();
                 presenter.savePort(port);
             }
             if(!tid.isEmpty()) {
+                preferences.edit().putString("tid", tid).commit();
                 presenter.saveTermNum(tid);
             }
 

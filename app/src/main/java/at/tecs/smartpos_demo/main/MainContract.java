@@ -62,6 +62,10 @@ public interface MainContract {
 
         void setTID(String TID);
 
+        void setAutoConnect(boolean autoConnect);
+
+        boolean isAutoConnect();
+
         boolean isConnected();
 
         void startAutomatic(boolean automatic);

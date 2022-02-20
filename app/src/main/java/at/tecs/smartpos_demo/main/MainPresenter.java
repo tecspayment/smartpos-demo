@@ -45,6 +45,8 @@ public class MainPresenter implements MainContract.Presenter {
     private String hostname = "";
     private String port = "";
 
+    private boolean autoConnect = true;
+
     private Response lastResponse;
 
     private final PaymentService paymentService;
@@ -230,9 +232,9 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void send(TransactionEntity transactionEntity) {
+        transactionEntity.terminalNum = TID;
+        transactionEntity.dateTime = dateTime;
         Transaction transaction = convertTransaction(transactionEntity, transactionID);
-        transaction.terminalNum = TID;
-        transaction.dateTime = dateTime;
 
         if(responseView != null) {
             responseView.clearResponse();
@@ -266,7 +268,18 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setTID(String TID) {
+        Log.e("TEST", "setTID - " + TID);
         this.TID = TID;
+    }
+
+    @Override
+    public void setAutoConnect(boolean autoConnect) {
+        this.autoConnect = autoConnect;
+    }
+
+    @Override
+    public boolean isAutoConnect() {
+        return this.autoConnect;
     }
 
     @Override
@@ -482,11 +495,9 @@ public class MainPresenter implements MainContract.Presenter {
                 Date date = new Date(System.currentTimeMillis());
                 transactionID = formatter.format(date);
                 dateTime = formatter.format(date);
-                //if(transactionView != null)
-                    //transactionView.showTransactionAuto(transactionID, dateTime);
             }
 
-            if(!isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("")) {
+            if(autoConnect && !isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("")) {
                 connect();
             }
         }
@@ -522,6 +533,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     private TransHistoryEntity convertTransaction(TransactionEntity trans) {
         TransHistoryEntity transHistoryEntity = new TransHistoryEntity();
+
+        Log.e("TEST", "convertTransaction: \nID: " + transactionID + "\n terminalNum: " + trans.terminalNum + "\ndateTime: " + trans.dateTime);
 
         transHistoryEntity.name = trans.name;
         transHistoryEntity.ID = Long.valueOf(transactionID);

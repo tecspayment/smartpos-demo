@@ -47,23 +47,6 @@
         app:layout_constraintStart_toStartOf="@+id/clearHistoryButton"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <CheckBox
-        android:id="@+id/hideMsgTypeCheckBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:buttonTint="@color/colorAccent"
-        android:fontFamily="@font/manrope"
-        android:text="Hide Message types"
-        android:textColor="@color/colorAccent"
-        android:textColorLink="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/closeButton"
-        app:layout_constraintEnd_toEndOf="@+id/clearHistoryButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/clearHistoryButton"
-        app:layout_constraintTop_toBottomOf="@+id/autoConnectCheckBox"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/clearTIDButton"
         android:layout_width="0dp"
@@ -82,13 +65,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginTop="817dp"
         android:background="@drawable/tecs_dark_line_container"
         android:fontFamily="@font/manrope"
         android:text="Close"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autoConnectCheckBox"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/clearTransactionButton"
