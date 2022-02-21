@@ -177,8 +177,8 @@ public class MainPresenter implements MainContract.Presenter {
                             Log.e("TEST", "Customer Receipt: " + response.getCustomerReceipt());
                             Log.e("TEST", "Merchant Receipt: " + response.getMerchantReceipt());
 
-                            if(response.getCustomerReceipt() != null && !response.getCustomerReceipt().isEmpty() ||
-                                    response.getMerchantReceipt() != null && !response.getMerchantReceipt().isEmpty()) {
+                            if((response.getCustomerReceipt() != null && !response.getCustomerReceipt().isEmpty()) ||
+                                    (response.getMerchantReceipt() != null && !response.getMerchantReceipt().isEmpty())) {
                                 receiptView.showReceipt(response.getMerchantReceipt(), response.getCustomerReceipt());
                             }
                         }

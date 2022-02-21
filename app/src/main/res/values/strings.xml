@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">smartpos-demo</string>
+    <string name="app_name">SmartPOS</string>
     <string name="abort">Abort</string>
     <string name="send">SEND</string>
     <string name="currency">Currency</string>

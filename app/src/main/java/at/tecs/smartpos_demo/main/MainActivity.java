@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mainAdapter.setTransactionsTabCallBack(transactionsTabCallBack);
         mainAdapter.setReceiptTabCallBack(receiptTabCallBack);
 
+        viewPager.setOffscreenPageLimit(3);
+
         viewPager.setAdapter(mainAdapter);
 
         tidText.setOnClickListener(new View.OnClickListener() {
@@ -261,6 +263,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                     break;
             }
+    }
+
+    @Override
+    public void showTab(final int position) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.setCurrentItem(position);
+            }
+        });
+
     }
 
     @Override

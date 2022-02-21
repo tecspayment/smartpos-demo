@@ -15,6 +15,8 @@ public interface MainContract {
 
         void showResponseTab(int code);
 
+        void showTab(int position);
+
         void showConnected();
 
         void showDisconnected();
