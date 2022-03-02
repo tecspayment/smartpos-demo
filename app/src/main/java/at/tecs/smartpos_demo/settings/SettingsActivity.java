@@ -141,5 +141,39 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        CheckBox showDialogCheckBox = findViewById(R.id.showDialogCheckBox);
+
+        boolean showDialogResponse = preferences.getBoolean("show_dialog_response", false);
+
+        showDialogCheckBox.setChecked(showDialogResponse);
+
+        showDialogCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    preferences.edit().putBoolean("show_dialog_response", true).commit();
+                } else {
+                    preferences.edit().putBoolean("show_dialog_response", false).commit();
+                }
+            }
+        });
+
+        CheckBox autoShowResponseCheckBox = findViewById(R.id.autoShowResponseCheckBox);
+
+        boolean autoShowResponse = preferences.getBoolean("auto_show_response", false);
+
+        autoShowResponseCheckBox.setChecked(autoShowResponse);
+
+        autoShowResponseCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    preferences.edit().putBoolean("auto_show_response", true).commit();
+                } else {
+                    preferences.edit().putBoolean("auto_show_response", false).commit();
+                }
+            }
+        });
     }
 }

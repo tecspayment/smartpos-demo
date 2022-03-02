@@ -66,6 +66,10 @@ public interface MainContract {
 
         void setAutoConnect(boolean autoConnect);
 
+        void setShowDialog(boolean showDialog);
+
+        void setShowAutoResponse(boolean autoResponse);
+
         boolean isAutoConnect();
 
         boolean isConnected();

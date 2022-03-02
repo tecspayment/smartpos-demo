@@ -142,4 +142,32 @@
         app:layout_constraintStart_toStartOf="@+id/clearHostnamesButton"
         app:layout_constraintTop_toBottomOf="@+id/clearHostnamesButton" />
 
+    <CheckBox
+        android:id="@+id/showDialogCheckBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:buttonTint="@color/colorAccent"
+        android:fontFamily="@font/manrope"
+        android:text="Show response dialog"
+        android:textColor="@color/colorAccent"
+        android:textColorLink="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/autoConnectCheckBox"
+        app:layout_constraintStart_toStartOf="@+id/autoConnectCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/autoConnectCheckBox" />
+
+    <CheckBox
+        android:id="@+id/autoShowResponseCheckBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:buttonTint="@color/colorAccent"
+        android:fontFamily="@font/manrope"
+        android:text="Automatically show response tab"
+        android:textColor="@color/colorAccent"
+        android:textColorLink="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/showDialogCheckBox"
+        app:layout_constraintStart_toStartOf="@+id/showDialogCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/showDialogCheckBox" />
+
 </android.support.constraint.ConstraintLayout>

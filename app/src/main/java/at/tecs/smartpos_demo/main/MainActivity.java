@@ -63,13 +63,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             showMessage("Connection parameters", "Please set terminal number!");
         }
 
+        boolean showDialogResponse = preferences.getBoolean("show_dialog_response", false);
         boolean autoConnect = preferences.getBoolean("auto_connect", true);
+        boolean showAutoResponse = preferences.getBoolean("auto_show_response", true);
         String hostname = preferences.getString("hostname", "localhost");
         String port = preferences.getString("port", "9990");
         String tid = preferences.getString("tid", "");
+
+        presenter.setShowDialog(showDialogResponse);
         presenter.setAutoConnect(autoConnect);
         presenter.setHostname(hostname);
         presenter.setPort(port);
+        presenter.setShowAutoResponse(showAutoResponse);
 
         if(!tid.isEmpty()) {
             presenter.setTID(tid);

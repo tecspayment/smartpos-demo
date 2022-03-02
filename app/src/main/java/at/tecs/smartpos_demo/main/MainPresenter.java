@@ -46,6 +46,8 @@ public class MainPresenter implements MainContract.Presenter {
     private String port = "";
 
     private boolean autoConnect = true;
+    private boolean showDialog = false;
+    private boolean showAutoResponse = true;
 
     private Response lastResponse;
 
@@ -165,8 +167,16 @@ public class MainPresenter implements MainContract.Presenter {
                                 repository.saveResponse(convertResponse(response));
                             }
 
-                            view.showResponseTab(Integer.parseInt(response.responseCode));
+                            if(showAutoResponse) {
+                                view.showResponseTab(Integer.parseInt(response.responseCode));
+                            }
+
                             if(responseView != null) {
+                                if(showDialog) {
+
+                                    view.showMessage("Transaction result", response.responseText);
+                                }
+
                                 responseView.showResponse(response);
                             }
 
@@ -268,13 +278,22 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setTID(String TID) {
-        Log.e("TEST", "setTID - " + TID);
         this.TID = TID;
     }
 
     @Override
     public void setAutoConnect(boolean autoConnect) {
         this.autoConnect = autoConnect;
+    }
+
+    @Override
+    public void setShowDialog(boolean showDialog) {
+        this.showDialog = showDialog;
+    }
+
+    @Override
+    public void setShowAutoResponse(boolean autoResponse) {
+        this.showAutoResponse = autoResponse;
     }
 
     @Override
