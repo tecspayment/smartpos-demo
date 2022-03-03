@@ -23,7 +23,7 @@ public interface MainContract {
 
         void showNotification(String msg);
 
-        void showMessage(String title, String text);
+        void showMessage(String title, String text, int imageResource);
 
         Context getContext();
 

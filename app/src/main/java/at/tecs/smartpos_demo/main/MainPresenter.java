@@ -16,6 +16,7 @@ import at.tecs.smartpos.connector.ResponseListener;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos.exception.TransactionFieldException;
+import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
 import at.tecs.smartpos_demo.data.repository.entity.PortEntity;
@@ -181,14 +182,22 @@ public class MainPresenter implements MainContract.Presenter {
                                         }
                                     }
 
-                                    view.showMessage("Transaction result", responseText.toString());
+                                    int imageResource = -1;
+
+                                    if(response.responseCode.equals("0000")) {
+                                        imageResource = R.drawable.outline_thumb_up_white_48dp;
+                                    } else {
+                                        imageResource = R.drawable.outline_thumb_down_white_48dp;
+                                    }
+
+                                    view.showMessage("Transaction result", responseText.toString(), imageResource);
                                 }
 
                                 responseView.showResponse(response);
                             }
 
                             if(response.getScanData() != null && !response.getScanData().isEmpty()) {
-                                view.showMessage("Scan result", response.getScanData());
+                                view.showMessage("Scan result", response.getScanData(), R.drawable.outline_qr_code_white_48dp);
                             }
 
                             Log.e("TEST", "Customer Receipt: " + response.getCustomerReceipt());

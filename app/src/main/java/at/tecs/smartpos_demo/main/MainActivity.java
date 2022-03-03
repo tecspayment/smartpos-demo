@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             preferences.edit().putString("hostname", "localhost").commit();
             preferences.edit().putString("port", "9990").commit();
 
-            showMessage("Connection parameters", "Please set terminal number!");
+            showMessage("Connection parameters", "Please set terminal number!", R.drawable.outline_warning_white_48dp);
         }
 
         boolean showDialogResponse = preferences.getBoolean("show_dialog_response", false);
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showMessage(final String title, final String text) {
+    public void showMessage(final String title, final String text, final int imageResource) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -305,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 messageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 messageDialog.setTitle(title);
                 messageDialog.setText(text);
+                messageDialog.setImage(imageResource);
                 messageDialog.show();
             }
         });
