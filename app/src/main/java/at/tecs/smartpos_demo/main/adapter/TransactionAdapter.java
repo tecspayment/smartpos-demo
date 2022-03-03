@@ -198,8 +198,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     private void showTransaction(TransactionEntity transaction,@NonNull final ViewHolder viewHolder) {
 
-        Log.e("TEST", "Show Transaction: " + transaction.name);
-        Log.e("TEST", "Show Transaction: " + transaction);
+        //Log.e("TEST", "Show Transaction: " + transaction.name);
+        //Log.e("TEST", "Show Transaction: " + transaction);
 
         if(!transaction.amountVisibility && !transaction.currencyVisibility &&
                 !transaction.sourceIDVisibility && !transaction.cardNumVisibility &&
@@ -298,7 +298,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             }
 
             if (transaction.authorNum != null) {
-                viewHolder.authNumberEditText.setText(transaction.transPlace);
+                viewHolder.authNumberEditText.setText(transaction.authorNum);
             }
             if (transaction.authorNumVisibility != null && !transaction.authorNumVisibility) {
                 viewHolder.authNumberEditLayout.setVisibility(View.GONE);

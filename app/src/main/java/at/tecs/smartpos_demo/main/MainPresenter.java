@@ -268,10 +268,17 @@ public class MainPresenter implements MainContract.Presenter {
 
         try {
             paymentService.sendTransaction(transaction);
+            Log.e("TEST", "Transaction: " + transactionEntity.name);
+            Log.e("TEST", "Transaction: " + transactionEntity);
             if(paymentService.isConnected()) {
                 repository.saveTransaction(convertTransaction(transactionEntity));
+            } else {
+                disconnect();
+
+                view.showMessage("Error", "Please try again!", R.drawable.outline_warning_white_48dp);
             }
         } catch (TransactionFieldException e) {
+            view.showMessage("Error", e.getMessage(), R.drawable.outline_warning_white_48dp);
             e.printStackTrace();
         }
     }
