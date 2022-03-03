@@ -173,8 +173,15 @@ public class MainPresenter implements MainContract.Presenter {
 
                             if(responseView != null) {
                                 if(showDialog) {
+                                    StringBuilder responseText = new StringBuilder();
+                                    for(int i = response.responseText.length() - 1; i >= 0; i--) {
+                                        if(response.responseText.charAt(i) != ' ') {
+                                            responseText.append(response.responseText.substring(0, i + 1));
+                                            break;
+                                        }
+                                    }
 
-                                    view.showMessage("Transaction result", response.responseText);
+                                    view.showMessage("Transaction result", responseText.toString());
                                 }
 
                                 responseView.showResponse(response);

@@ -161,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         CheckBox autoShowResponseCheckBox = findViewById(R.id.autoShowResponseCheckBox);
 
-        boolean autoShowResponse = preferences.getBoolean("auto_show_response", false);
+        boolean autoShowResponse = preferences.getBoolean("auto_show_response", true);
 
         autoShowResponseCheckBox.setChecked(autoShowResponse);
 
