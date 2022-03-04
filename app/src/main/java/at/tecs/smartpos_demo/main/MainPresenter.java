@@ -403,6 +403,10 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.sourceID = "1";
         transaction.receiptNum = "1";
         transaction.originInd = "0";
+        transaction.langCode = "EN";
+        transaction.receiptLayout = "1";
+        transaction.desCurrency = "EUR";
+        transaction.txOrigin = "1";
 
         repository.saveTransaction(transaction);
 
@@ -429,6 +433,11 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.sourceID = "1";
         transaction.receiptNum = "1";
         transaction.originInd = "0";
+        transaction.langCode = "EN";
+        transaction.receiptLayout = "1";
+        transaction.desCurrency = "EUR";
+        transaction.txOrigin = "1";
+
 
         repository.saveTransaction(transaction);
 
@@ -458,6 +467,11 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.cardNum = "TXID";
         transaction.receiptNum = "1";
         transaction.originInd = "2";
+        transaction.langCode = "EN";
+        transaction.receiptLayout = "1";
+        transaction.desCurrency = "EUR";
+        transaction.txOrigin = "2";
+
 
         repository.saveTransaction(transaction);
 
