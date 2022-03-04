@@ -10,6 +10,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             preferences.edit().putString("hostname", "localhost").commit();
             preferences.edit().putString("port", "9990").commit();
 
-            showMessage("Connection parameters", "Please set terminal number!", R.drawable.outline_warning_white_48dp);
+            showMessage("Connection parameters", "Please set terminal number!", R.drawable.outline_warning_white_48dp, -1);
         }
 
         boolean showDialogResponse = preferences.getBoolean("show_dialog_response", false);
@@ -306,18 +308,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showMessage(final String title, final String text, final int imageResource) {
+    public void showMessage(final String title, final String text, final int imageResource,final int timeout) {
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MessageDialog messageDialog = new MessageDialog(getContext());
+                final MessageDialog messageDialog = new MessageDialog(getContext());
                 messageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 messageDialog.setTitle(title);
                 messageDialog.setText(text);
                 messageDialog.setImage(imageResource);
                 messageDialog.show();
+
+                if(timeout > 0) {
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(messageDialog.isShowing()) {
+                                messageDialog.dismiss();
+                            }
+                        }
+                    }, timeout);
+                }
             }
         });
+
+
     }
 
     private final BroadcastReceiver nataliReceiver = new BroadcastReceiver() {

@@ -190,14 +190,14 @@ public class MainPresenter implements MainContract.Presenter {
                                         imageResource = R.drawable.outline_thumb_down_white_48dp;
                                     }
 
-                                    view.showMessage("Transaction result", responseText.toString(), imageResource);
+                                    view.showMessage("Transaction result", responseText.toString(), imageResource, 3 * 1000);
                                 }
 
                                 responseView.showResponse(response);
                             }
 
                             if(response.getScanData() != null && !response.getScanData().isEmpty()) {
-                                view.showMessage("Scan result", response.getScanData(), R.drawable.outline_qr_code_white_48dp);
+                                view.showMessage("Scan result", response.getScanData(), R.drawable.outline_qr_code_white_48dp, -1);
                             }
 
                             Log.e("TEST", "Customer Receipt: " + response.getCustomerReceipt());
@@ -275,10 +275,10 @@ public class MainPresenter implements MainContract.Presenter {
             } else {
                 disconnect();
 
-                view.showMessage("Error", "Please try again!", R.drawable.outline_warning_white_48dp);
+                view.showMessage("Error", "Please try again!", R.drawable.outline_warning_white_48dp, 3000);
             }
         } catch (TransactionFieldException e) {
-            view.showMessage("Error", e.getMessage(), R.drawable.outline_warning_white_48dp);
+            view.showMessage("Error", e.getMessage(), R.drawable.outline_warning_white_48dp, -1);
             e.printStackTrace();
         }
     }
