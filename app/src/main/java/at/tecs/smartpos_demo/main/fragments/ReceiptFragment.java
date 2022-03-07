@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
@@ -18,7 +19,7 @@ import at.tecs.smartpos_demo.main.MainContract;
 
 public class ReceiptFragment extends Fragment implements MainContract.View.ReceiptTab {
 
-    private ConstraintLayout receiptContainer;
+    private ScrollView receiptContainer;
     private TextView receiptTextView;
     private TextView messageText1;
     private TextView messageText2;
