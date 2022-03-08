@@ -135,6 +135,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final TransactionEntity transaction = transactions.get(i);
+        transaction.expanded = true; //Disable expandable feature
 
         showTransaction(transaction, viewHolder);
 
@@ -173,6 +174,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             }
         });
 
+        /* //Disable expandable feature
         viewHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +191,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 notifyItemChanged(transactions.indexOf(transaction));
             }
         });
+        */
     }
 
     @Override
@@ -201,6 +204,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         //Log.e("TEST", "Show Transaction: " + transaction.name);
         //Log.e("TEST", "Show Transaction: " + transaction);
 
+        /*
         if(!transaction.amountVisibility && !transaction.currencyVisibility &&
                 !transaction.sourceIDVisibility && !transaction.cardNumVisibility &&
                 !transaction.cvc2Visibility && !transaction.receiptNumVisibility &&
@@ -212,6 +216,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 !transaction.personalIDVisibility) {
             viewHolder.expandButton.setVisibility(View.GONE);
         }
+        */
 
         if(transaction.msgType != null) {
             viewHolder.messageTypeText.setText(transaction.msgType);

@@ -636,6 +636,7 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

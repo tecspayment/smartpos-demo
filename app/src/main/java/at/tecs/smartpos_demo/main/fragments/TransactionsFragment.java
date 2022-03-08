@@ -33,10 +33,13 @@ public class TransactionsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        /*
         ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
 
         transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, callback, getContext()));
         transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+         */
     }
 
     @Nullable
