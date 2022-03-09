@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.MainAdapter;
@@ -369,6 +370,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void reconnect() {
             presenter.disconnect();
+        }
+
+        @Override
+        public void maintenance() {
+            TransactionEntity transaction = new TransactionEntity();
+            transaction.msgType = "7976";
+
+            presenter.send(transaction);
         }
     };
 

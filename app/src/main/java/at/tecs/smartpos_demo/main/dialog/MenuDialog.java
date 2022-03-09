@@ -1,9 +1,12 @@
 package at.tecs.smartpos_demo.main.dialog;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +29,26 @@ public class MenuDialog extends Dialog {
         setContentView(R.layout.menu_dialog);
 
         Button cancelButton = findViewById(R.id.closeButton);
-        Button settingsButton = findViewById(R.id.settingsButton);
+        Button settingsButton = findViewById(R.id.smartPOSSettingsButton);
         Button historyButton = findViewById(R.id.historyButton);
         Button controllerButton = findViewById(R.id.controllerButton);
         Button reconnectButton = findViewById(R.id.reconnectButton);
+        Button androidSettingsButton = findViewById(R.id.androidSettingsButton);
+        Button nataliSettingsButton = findViewById(R.id.nataliSettingsButton);
+
+        nataliSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.maintenance();
+            }
+        });
+
+        androidSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().startActivity(new Intent(Settings.ACTION_SETTINGS));
+            }
+        });
 
         reconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override

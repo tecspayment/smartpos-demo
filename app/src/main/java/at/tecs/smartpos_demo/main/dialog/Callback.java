@@ -8,5 +8,6 @@ public interface Callback {
 
     interface MenuDialogCallback {
         void reconnect();
+        void maintenance();
     }
 }
