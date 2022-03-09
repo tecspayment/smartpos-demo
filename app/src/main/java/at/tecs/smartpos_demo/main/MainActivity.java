@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private TextView tidText;
     private ImageButton onlineStatus;
     private ImageButton menuButton;
+    private TextView IPTextView;
 
     private SharedPreferences preferences = null;
 
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         onlineStatus = findViewById(R.id.onlineStatus);
         menuButton = findViewById(R.id.menuButton);
         messageText = findViewById(R.id.messageText);
+        IPTextView = findViewById(R.id.IPTextView);
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +178,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.disconnect();
         unregisterReceiver(nataliReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    public void showIP(String IP) {
+        IPTextView.setText("IP: " + IP);
     }
 
     /**

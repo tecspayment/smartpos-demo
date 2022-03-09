@@ -13,6 +13,8 @@ public interface MainContract {
 
     interface View {
 
+        void showIP(String IP);
+
         void showResponseTab(int code);
 
         void showTab(int position);

@@ -1,6 +1,9 @@
 package at.tecs.smartpos_demo.main;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.text.format.Formatter;
 import android.util.Log;
 
 import java.io.IOException;
@@ -70,6 +73,12 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void start() {
         timer.schedule(incrementer, 1000, 1000);
+
+        Context context = view.getContext().getApplicationContext();
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+
+        view.showIP(ip);
     }
 
     @Override
