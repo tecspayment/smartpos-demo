@@ -28,5 +28,6 @@
         <activity android:name=".history_list.HistoryListActivity" />
         <activity android:name=".tx_history.TransHistoryActivity" />
         <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".smartpos_controller.SmartPOSControllerActivity" />
     </application>
 </manifest>

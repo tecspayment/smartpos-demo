@@ -14,6 +14,7 @@ import android.widget.Button;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.history_list.HistoryListActivity;
 import at.tecs.smartpos_demo.settings.SettingsActivity;
+import at.tecs.smartpos_demo.smartpos_controller.SmartPOSControllerActivity;
 
 public class MenuDialog extends Dialog {
 
@@ -83,7 +84,8 @@ public class MenuDialog extends Dialog {
         controllerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), SmartPOSControllerActivity.class);
+                getContext().startActivity(intent);
             }
         });
     }
