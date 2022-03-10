@@ -3,6 +3,9 @@ package at.tecs.smartpos_demo.main;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.format.Formatter;
 import android.util.Log;
 
@@ -277,6 +280,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         try {
             paymentService.sendTransaction(transaction);
+
             Log.e("TEST", "Transaction: " + transactionEntity.name);
             Log.e("TEST", "Transaction: " + transactionEntity);
             if(paymentService.isConnected()) {
@@ -539,6 +543,17 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.msgType = Transaction.MessageType.RECONCILIATION_REQUEST;
 
         repository.saveTransaction(transaction);
+    }
+
+    @Override
+    public void vibrate() {
+        Vibrator vibrator = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            vibrator.vibrate(500);
+        }
     }
 
     private class Incrementer extends TimerTask {

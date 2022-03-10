@@ -95,6 +95,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             @Override
             public boolean onLongClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+
+                while(transHistoryEntity.transID.length() != 20) {
+                    transHistoryEntity.transID = "0" + transHistoryEntity.transID;
+                }
+
                 ClipData clip = ClipData.newPlainText("transID", transHistoryEntity.transID);
                 clipboard.setPrimaryClip(clip);
 

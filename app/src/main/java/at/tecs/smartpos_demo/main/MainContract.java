@@ -96,6 +96,8 @@ public interface MainContract {
 
         void deletePort(String port);
 
+        void vibrate();
+
         Response getLastResponse();
 
         PaymentService getPaymentService();
