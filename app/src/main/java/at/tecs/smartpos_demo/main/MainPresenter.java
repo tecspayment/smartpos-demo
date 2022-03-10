@@ -409,6 +409,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.SALE;
+        transaction.currency = "EUR";
         transaction.sourceID = "1";
         transaction.receiptNum = "1";
         transaction.originInd = "0";
@@ -439,6 +440,8 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CREDIT_NOTE;
+        transaction.amount = "1";
+        transaction.currency = "EUR";
         transaction.sourceID = "1";
         transaction.receiptNum = "1";
         transaction.originInd = "0";
@@ -472,6 +475,8 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CANCEL;
+        transaction.amount = "1";
+        transaction.currency = "EUR";
         transaction.sourceID = "1";
         transaction.cardNum = "TXID";
         transaction.receiptNum = "1";

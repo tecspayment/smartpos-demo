@@ -28,14 +28,14 @@
         android:id="@+id/historyButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/tecs_dark_line_container"
         android:fontFamily="@font/manrope"
         android:text="History"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
         app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintTop_toBottomOf="@+id/nataliSettingsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
         android:id="@+id/controllerButton"
@@ -84,14 +84,14 @@
         android:id="@+id/androidSettingsButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/tecs_dark_line_container"
         android:fontFamily="@font/manrope"
         android:text="Android settings"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
         app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <Button
         android:id="@+id/nataliSettingsButton"
@@ -105,5 +105,29 @@
         app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
         app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
         app:layout_constraintTop_toBottomOf="@+id/smartPOSSettingsButton" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/manrope"
+        android:text="Settings:"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/manrope"
+        android:text="Features:"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nataliSettingsButton" />
 
 </android.support.constraint.ConstraintLayout>
