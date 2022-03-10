@@ -27,7 +27,7 @@ import at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
-    private final ArrayList<TransactionEntity> transactions;
+    private ArrayList<TransactionEntity> transactions;
     private final Callback.TransactionsTabCallBack callBack;
     private final Context context;
 
@@ -418,8 +418,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         if(viewHolder.amountEditText.getText() != null && !viewHolder.amountEditText.getText().toString().equals("")) {
             transactionEntity.amount = viewHolder.amountEditText.getText().toString();
-        } else {
-            Log.e("TEST", "viewHolder.amountEditText is empty!");
         }
         if(viewHolder.currencyEditText.getText() != null && !viewHolder.currencyEditText.getText().toString().equals(""))
             transactionEntity.currency = viewHolder.currencyEditText.getText().toString();
@@ -457,5 +455,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         return transactionEntity;
     }
 
+    public void setTransaction(ArrayList<TransactionEntity> transactions) {
+        this.transactions = transactions;
+    }
 
+    public ArrayList<TransactionEntity> getTransactions() {
+        return this.transactions;
+    }
 }

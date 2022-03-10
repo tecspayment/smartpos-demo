@@ -1,8 +1,6 @@
 package at.tecs.smartpos_demo.main.fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,20 +24,16 @@ import at.tecs.smartpos_demo.tx_settings.TransactionSettingsActivity;
 public class TransactionsFragment extends Fragment {
 
     private Callback.TransactionsTabCallBack callback;
-
-    private RecyclerView transactionRecyclerView;
+    private TransactionAdapter transactionAdapter;
 
     @Override
     public void onResume() {
         super.onResume();
-
-        /*
-        ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
-
-        transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, callback, getContext()));
-        transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-         */
+        if(transactionAdapter != null) {
+            ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
+            transactionAdapter.setTransaction(transactionEntities);
+            transactionAdapter.notifyDataSetChanged();
+        }
     }
 
     @Nullable
@@ -47,12 +41,15 @@ public class TransactionsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.transactions_frag, container, false);
 
-        transactionRecyclerView = view.findViewById(R.id.transactionRecyclerView);
+        Log.e("TEST", "TransactionsFragment.onCreateView");
+
+        RecyclerView transactionRecyclerView = view.findViewById(R.id.transactionRecyclerView);
         ImageButton addButton = view.findViewById(R.id.addButton);
 
         ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
 
-        transactionRecyclerView.setAdapter(new TransactionAdapter(transactionEntities, callback, getContext()));
+        transactionAdapter = new TransactionAdapter(transactionEntities, callback, getContext());
+        transactionRecyclerView.setAdapter(transactionAdapter);
         transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         addButton.setOnClickListener(new View.OnClickListener() {
