@@ -409,6 +409,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.SALE;
+        transaction.amount = "1";
         transaction.currency = "EUR";
         transaction.sourceID = "1";
         transaction.receiptNum = "1";
