@@ -28,6 +28,7 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
     private TextView receiptTextView;
     private TextView messageText1;
     private TextView messageText2;
+    private TextView instructionTextView;
 
     private Callback.ReceiptTabCallBack callback;
 
@@ -46,6 +47,8 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
         receiptTextView = view.findViewById(R.id.receiptTextView);
         messageText1 = view.findViewById(R.id.messageText1);
         messageText2 = view.findViewById(R.id.messageText2);
+
+        instructionTextView = view.findViewById(R.id.instructionTextView);
 
         if(callback != null) {
             callback.onAttach(this);
@@ -121,6 +124,7 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
                     messageText1.setVisibility(View.INVISIBLE);
                     messageText2.setVisibility(View.INVISIBLE);
 
+                    instructionTextView.setVisibility(View.VISIBLE);
                     receiptContainer.setVisibility(View.VISIBLE);
                     receiptTextView.setText(merchantReceipt);
                     merchantVisible = true;
@@ -139,6 +143,7 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
                     messageText1.setVisibility(View.VISIBLE);
                     messageText2.setVisibility(View.VISIBLE);
 
+                    instructionTextView.setVisibility(View.GONE);
                     receiptContainer.setVisibility(View.GONE);
                     receiptTextView.setText("");
                 }
