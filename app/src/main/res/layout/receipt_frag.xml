@@ -27,11 +27,11 @@
         android:background="@color/colorAccent"
         android:fadingEdge="horizontal|vertical"
         android:fadingEdgeLength="8dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/textView16">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -101,4 +101,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/manrope"
+        android:text="Hold to save receipt."
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@+id/receiptContainer"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 </android.support.constraint.ConstraintLayout>

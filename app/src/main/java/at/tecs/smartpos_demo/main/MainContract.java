@@ -47,7 +47,7 @@ public interface MainContract {
         }
 
         interface ReceiptTab {
-            void showReceipt(String merchantReceipt, String customerReceipt);
+            void showReceipt(String merchantReceipt, String customerReceipt, String datetime);
             void clearReceipt();
         }
     }

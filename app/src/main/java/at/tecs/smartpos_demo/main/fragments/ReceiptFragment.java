@@ -2,6 +2,7 @@ package at.tecs.smartpos_demo.main.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -12,7 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.main.MainContract;
@@ -26,8 +31,9 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
 
     private Callback.ReceiptTabCallBack callback;
 
-    private  String merchantReceipt = "";
-    private  String customerReceipt = "";
+    private String merchantReceipt = "";
+    private String customerReceipt = "";
+    private String datetime = "";
 
     private boolean merchantVisible = true;
 
@@ -58,14 +64,53 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
             }
         });
 
+        receiptTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String root = Environment.getExternalStorageDirectory().toString();
+
+                String fileName;
+                if(merchantVisible) {
+                    fileName = root + "/merchant_receipt_" + datetime + ".txt";
+                } else {
+                    fileName = root + "/customer_receipt_" + datetime + ".txt";
+                }
+
+                File receiptFile = new File(fileName);
+
+                try {
+
+                    FileOutputStream out = new FileOutputStream(receiptFile);
+                    if(merchantVisible) {
+                        out.write(merchantReceipt.getBytes());
+                    } else {
+                        out.write(customerReceipt.getBytes());
+                    }
+                    out.flush();
+                    out.close();
+
+                    if(merchantVisible) {
+                        Toast.makeText(getContext(), "Merchant receipt has been saved!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Customer receipt has been saved!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            }
+        });
+
         return view;
     }
 
     @Override
-    public void showReceipt(final String merchantReceipt,final String customerReceipt) {
+    public void showReceipt(final String merchantReceipt,final String customerReceipt, String datetime) {
 
         this.merchantReceipt = merchantReceipt;
         this.customerReceipt = customerReceipt;
+        this.datetime = datetime;
 
         Activity activity = getActivity();
 
