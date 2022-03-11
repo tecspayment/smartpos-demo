@@ -32,6 +32,7 @@ import at.tecs.smartpos_demo.main.dialog.MessageDialog;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
 import static at.tecs.smartpos.data.Response.Code.*;
+import static at.tecs.smartpos_demo.Utils.showToast;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -194,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                showToast(getContext(), "Connected");
                 onlineStatus.setImageResource(R.drawable.round_done_white_48dp);
             }
         });
@@ -207,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                showToast(getContext(), "Disconnected");
                 onlineStatus.setImageResource(R.drawable.outline_close_white_48dp);
             }
         });
@@ -384,8 +387,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         @Override
         public void killNatali() {
             TransactionEntity transaction = new TransactionEntity();
-            transaction.msgType = "7976";
-            transaction.name = "NaTALI Menu";
+            transaction.msgType = "4544";
+            transaction.name = "NaTALI Kill";
 
             presenter.send(transaction);
         }
