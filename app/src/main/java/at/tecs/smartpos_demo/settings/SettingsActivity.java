@@ -1,5 +1,7 @@
 package at.tecs.smartpos_demo.settings;
 
+import static at.tecs.smartpos_demo.Utils.showToast;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
         clearHostnamesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Please hold the button.", Toast.LENGTH_SHORT).show();
+                showToast(context, "Please hold the button.");
             }
         });
 
@@ -55,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 repository.deleteHostnames();
-                Toast.makeText(context, "Hostnames cleared!", Toast.LENGTH_LONG).show();
+                showToast(context, "Hostnames cleared!");
                 return true;
             }
         });
@@ -63,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         clearPortsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Please hold the button.", Toast.LENGTH_SHORT).show();
+                showToast(context, "Please hold the button.");
             }
         });
 
@@ -71,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 repository.deletePorts();
-                Toast.makeText(context, "Ports cleared!", Toast.LENGTH_LONG).show();
+                showToast(context, "Ports cleared!");
                 return true;
             }
         });
@@ -80,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
         clearHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Please hold the button.", Toast.LENGTH_SHORT).show();
+                showToast(context, "Please hold the button.");
             }
         });
 
@@ -88,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 repository.clearHistory();
-                Toast.makeText(context, "History cleared!", Toast.LENGTH_LONG).show();
+                showToast(context, "History cleared!");
                 return true;
             }
         });
@@ -96,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
         clearTIDButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Please hold the button.", Toast.LENGTH_SHORT).show();
+                showToast(context, "Please hold the button.");
             }
         });
 
@@ -104,7 +106,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 repository.deleteTerminalNums();
-                Toast.makeText(context, "Terminal numbers cleared!", Toast.LENGTH_LONG).show();
+                showToast(context, "Terminal numbers cleared!");
                 return false;
             }
         });
@@ -112,7 +114,7 @@ public class SettingsActivity extends AppCompatActivity {
         clearTransactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Please hold the button.", Toast.LENGTH_SHORT).show();
+                showToast(context, "Please hold the button.");
             }
         });
 
@@ -120,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 repository.deleteTransations();
-                Toast.makeText(context, "Transactions cleared!", Toast.LENGTH_LONG).show();
+                showToast(context, "Transactions cleared!");
                 return true;
             }
         });

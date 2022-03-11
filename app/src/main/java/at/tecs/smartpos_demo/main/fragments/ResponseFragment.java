@@ -2,6 +2,8 @@ package at.tecs.smartpos_demo.main.fragments;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
+import static at.tecs.smartpos_demo.Utils.showToast;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -95,7 +97,7 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
                 ClipData clip = ClipData.newPlainText("transID", transID.getText().toString());
                 clipboard.setPrimaryClip(clip);
 
-                Toast.makeText(getContext(), "Copied!", Toast.LENGTH_SHORT).show();
+                showToast(getContext(), "Copied!");
             }
         });
 

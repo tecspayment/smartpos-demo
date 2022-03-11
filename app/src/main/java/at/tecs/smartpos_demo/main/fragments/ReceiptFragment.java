@@ -1,5 +1,7 @@
 package at.tecs.smartpos_demo.main.fragments;
 
+import static at.tecs.smartpos_demo.Utils.showToast;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
@@ -93,9 +95,9 @@ public class ReceiptFragment extends Fragment implements MainContract.View.Recei
                     out.close();
 
                     if(merchantVisible) {
-                        Toast.makeText(getContext(), "Merchant receipt has been saved!", Toast.LENGTH_SHORT).show();
+                        showToast(getContext(), "Merchant receipt has been saved!");
                     } else {
-                        Toast.makeText(getContext(), "Customer receipt has been saved!", Toast.LENGTH_SHORT).show();
+                        showToast(getContext(), "Customer receipt has been saved!");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

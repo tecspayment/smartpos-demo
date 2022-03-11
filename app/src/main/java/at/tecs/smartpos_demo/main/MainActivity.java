@@ -376,6 +376,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         public void maintenance() {
             TransactionEntity transaction = new TransactionEntity();
             transaction.msgType = "7976";
+            transaction.name = "NaTALI Menu";
+
+            presenter.send(transaction);
+        }
+
+        @Override
+        public void killNatali() {
+            TransactionEntity transaction = new TransactionEntity();
+            transaction.msgType = "7976";
+            transaction.name = "NaTALI Menu";
 
             presenter.send(transaction);
         }

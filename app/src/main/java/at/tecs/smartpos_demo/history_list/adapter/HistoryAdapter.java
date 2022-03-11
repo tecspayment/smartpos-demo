@@ -2,6 +2,8 @@ package at.tecs.smartpos_demo.history_list.adapter;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
+import static at.tecs.smartpos_demo.Utils.showToast;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -103,7 +105,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 ClipData clip = ClipData.newPlainText("transID", transHistoryEntity.transID);
                 clipboard.setPrimaryClip(clip);
 
-                Toast.makeText(context, "Transaction ID Copied!", Toast.LENGTH_SHORT).show();
+                showToast(context, "Transaction ID Copied!");
                 return false;
             }
         });

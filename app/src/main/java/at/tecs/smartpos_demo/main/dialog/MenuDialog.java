@@ -36,11 +36,21 @@ public class MenuDialog extends Dialog {
         Button reconnectButton = findViewById(R.id.reconnectButton);
         Button androidSettingsButton = findViewById(R.id.androidSettingsButton);
         Button nataliSettingsButton = findViewById(R.id.nataliSettingsButton);
+        Button killButton = findViewById(R.id.killButton);
+
+        killButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.killNatali();
+                dismiss();
+            }
+        });
 
         nataliSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.maintenance();
+                dismiss();
             }
         });
 
@@ -55,6 +65,7 @@ public class MenuDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 callback.reconnect();
+                dismiss();
             }
         });
 
