@@ -152,11 +152,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             public void onClick(View v) {
                 TransactionEntity currentTransaction = getTransaction(transaction, viewHolder);
                 Repository repository = Repository.getInstance(context);
+
                 repository.updateTransaction(currentTransaction);
 
                 int currentPossition = transactions.indexOf(currentTransaction);
                 transactions.remove(currentPossition);
                 transactions.add(0, currentTransaction);
+
+                for(int i = 0; i < transactions.size(); i++) {
+                    transactions.get(i).index = i;
+                    repository.updateTransaction(transactions.get(i));
+                }
 
                 for(int i = 0; i < transactions.size(); i++) {
                     notifyItemChanged(i);

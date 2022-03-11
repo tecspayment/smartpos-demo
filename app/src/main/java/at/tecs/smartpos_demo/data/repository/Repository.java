@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import at.tecs.smartpos_demo.data.repository.entity.HostnameEntity;
@@ -114,7 +116,14 @@ public class Repository {
     }
 
     public ArrayList<TransactionEntity> getAllTransactions() {
-        return (ArrayList<TransactionEntity>) database.transactionDAO().getAllTransactions();
+        ArrayList<TransactionEntity> transactionEntities = (ArrayList<TransactionEntity>) database.transactionDAO().getAllTransactions();
+        Collections.sort(transactionEntities, new Comparator<TransactionEntity>() {
+            @Override
+            public int compare(TransactionEntity o1, TransactionEntity o2) {
+                return o1.index - o2.index;
+            }
+        });
+        return transactionEntities;
     }
 
     public void updateTransaction(TransactionEntity transactionEntity) {

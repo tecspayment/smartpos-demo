@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showToast(getContext(), "Connected");
+                //showToast(getContext(), "Connected");
                 onlineStatus.setImageResource(R.drawable.round_done_white_48dp);
             }
         });
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showToast(getContext(), "Disconnected");
+                //showToast(getContext(), "Disconnected");
                 onlineStatus.setImageResource(R.drawable.outline_close_white_48dp);
             }
         });

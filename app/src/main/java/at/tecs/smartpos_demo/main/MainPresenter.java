@@ -413,6 +413,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.SALE;
+        transaction.index = 0;
         transaction.amount = "1";
         transaction.currency = "EUR";
         transaction.sourceID = "1";
@@ -445,6 +446,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CREDIT_NOTE;
+        transaction.index = 1;
         transaction.amount = "1";
         transaction.currency = "EUR";
         transaction.sourceID = "1";
@@ -480,6 +482,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.msgType = Transaction.MessageType.CANCEL;
+        transaction.index = 2;
         transaction.amount = "1";
         transaction.currency = "EUR";
         transaction.sourceID = "1";
@@ -515,6 +518,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.desCurrencyVisibility = false;
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
+        transaction.index = 3;
         transaction.msgType = Transaction.MessageType.CONNECTION_STATUS;
 
         repository.saveTransaction(transaction);
@@ -540,6 +544,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.txOriginVisibility = false;
         transaction.personalIDVisibility = false;
         transaction.name = "Reconciliation request";
+        transaction.index = 4;
         transaction.msgType = Transaction.MessageType.RECONCILIATION_REQUEST;
 
         repository.saveTransaction(transaction);

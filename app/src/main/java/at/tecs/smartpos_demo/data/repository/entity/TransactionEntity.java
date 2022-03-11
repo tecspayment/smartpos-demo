@@ -19,6 +19,9 @@ public class TransactionEntity implements Serializable {
 
     public boolean expanded = false;
 
+    @ColumnInfo(name = "index")
+    public Integer index;
+
     @ColumnInfo(name = "name")
     public String name;
 

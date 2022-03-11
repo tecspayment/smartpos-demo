@@ -693,6 +693,8 @@ public class TransactionSettingsActivity extends AppCompatActivity {
                 transaction.personalID = personalIDEditText.getText().toString();
                 transaction.txOrigin = txOriginEditText.getText().toString();
 
+                transaction.index = Repository.getInstance(getApplicationContext()).getAllTransactions().size();
+
                 if(!edit)
                     Repository.getInstance(getApplicationContext()).saveTransaction(transaction);
                 else
