@@ -27,7 +27,7 @@
         android:background="@color/colorAccent"
         android:fadingEdge="horizontal|vertical"
         android:fadingEdgeLength="8dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +112,7 @@
         android:text="Hold to save receipt."
         android:textColor="@color/colorAccent"
         android:textSize="10sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/receiptContainer"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 </android.support.constraint.ConstraintLayout>
