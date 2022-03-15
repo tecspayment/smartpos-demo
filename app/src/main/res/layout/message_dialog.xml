@@ -5,7 +5,9 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:background="@drawable/tecs_super_dark_round_container_background"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/titleText"
