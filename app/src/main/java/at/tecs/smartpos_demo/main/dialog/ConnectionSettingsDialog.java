@@ -47,7 +47,7 @@ public class ConnectionSettingsDialog extends Dialog {
 
         ArrayList<String> tids = Repository.getInstance(getContext()).getTerminalNumbers();
 
-        ArrayAdapter<String> tidsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tids);
+        ArrayAdapter<String> tidsAdapter = new ArrayAdapter<>(getContext(), R.layout.hint_view, tids);
         tidEditText.setAdapter(tidsAdapter);
 
         tidEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -62,7 +62,7 @@ public class ConnectionSettingsDialog extends Dialog {
 
         ArrayList<String> ports = repository.getPorts();
 
-        ArrayAdapter<String> portsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ports);
+        ArrayAdapter<String> portsAdapter = new ArrayAdapter<>(getContext(), R.layout.hint_view, ports);
         portEditText.setAdapter(portsAdapter);
 
         portEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -75,7 +75,7 @@ public class ConnectionSettingsDialog extends Dialog {
 
         ArrayList<String> hostnames = Repository.getInstance(getContext()).getHostnames();
 
-        ArrayAdapter<String> hostnamesAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, hostnames);
+        ArrayAdapter<String> hostnamesAdapter = new ArrayAdapter<>(getContext(), R.layout.hint_view, hostnames);
         hostEditText.setAdapter(hostnamesAdapter);
 
         hostEditText.setOnTouchListener(new View.OnTouchListener() {
