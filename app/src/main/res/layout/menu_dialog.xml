@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="@+id/controllerButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/controllerButton"
-        app:layout_constraintTop_toBottomOf="@+id/killButton"
+        app:layout_constraintTop_toBottomOf="@+id/launchButton"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -142,5 +142,18 @@
         app:layout_constraintEnd_toEndOf="@+id/reconnectButton"
         app:layout_constraintStart_toStartOf="@+id/reconnectButton"
         app:layout_constraintTop_toBottomOf="@+id/reconnectButton" />
+
+    <Button
+        android:id="@+id/launchButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tecs_dark_line_container"
+        android:fontFamily="@font/manrope"
+        android:text="Launch NaTALI"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/killButton"
+        app:layout_constraintStart_toStartOf="@+id/killButton"
+        app:layout_constraintTop_toBottomOf="@+id/killButton" />
 
 </android.support.constraint.ConstraintLayout>

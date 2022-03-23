@@ -9,6 +9,7 @@ public interface Callback {
     interface MenuDialogCallback {
         void reconnect();
         void maintenance();
-        void killNatali();
+        void killNaTALI();
+        void launchNaTALI();
     }
 }

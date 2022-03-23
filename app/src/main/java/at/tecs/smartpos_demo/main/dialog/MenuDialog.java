@@ -1,8 +1,6 @@
 package at.tecs.smartpos_demo.main.dialog;
 
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,11 +35,12 @@ public class MenuDialog extends Dialog {
         Button androidSettingsButton = findViewById(R.id.androidSettingsButton);
         Button nataliSettingsButton = findViewById(R.id.nataliSettingsButton);
         Button killButton = findViewById(R.id.killButton);
+        Button launchButton = findViewById(R.id.launchButton);
 
         killButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.killNatali();
+                callback.killNaTALI();
                 dismiss();
             }
         });
@@ -97,6 +96,13 @@ public class MenuDialog extends Dialog {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SmartPOSControllerActivity.class);
                 getContext().startActivity(intent);
+            }
+        });
+
+        launchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.launchNaTALI();
             }
         });
     }

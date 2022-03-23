@@ -385,12 +385,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
 
         @Override
-        public void killNatali() {
+        public void killNaTALI() {
             TransactionEntity transaction = new TransactionEntity();
             transaction.msgType = "4544";
             transaction.name = "NaTALI Kill";
 
             presenter.send(transaction);
+        }
+
+        @Override
+        public void launchNaTALI() {
+            try {
+                Intent intent = new Intent();
+                intent.setClassName("at.tecs.androidnatali.tecs", "at.tecs.androidnatali.MasterActivity");
+                startActivity(intent);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
     };
 
