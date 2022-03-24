@@ -8,152 +8,182 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-    <Button
-        android:id="@+id/smartPOSSettingsButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="SmartPOS Settings"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/androidSettingsButton" />
-
-    <Button
-        android:id="@+id/historyButton"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="History"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <Button
-        android:id="@+id/controllerButton"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="SmartPOS Controller"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/historyButton"
-        app:layout_constraintStart_toStartOf="@+id/historyButton"
-        app:layout_constraintTop_toBottomOf="@+id/historyButton" />
-
-    <Button
-        android:id="@+id/closeButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="Close"
-        android:textColor="@color/colorAccent"
+    <ScrollView
+        android:layout_width="300dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/controllerButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/controllerButton"
-        app:layout_constraintTop_toBottomOf="@+id/launchButton"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/reconnectButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="Reconnect"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/controllerButton"
-        app:layout_constraintStart_toStartOf="@+id/controllerButton"
-        app:layout_constraintTop_toBottomOf="@+id/controllerButton" />
-
-    <Button
-        android:id="@+id/androidSettingsButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="Android settings"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <Button
-        android:id="@+id/nataliSettingsButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="Natali settings"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
-        app:layout_constraintTop_toBottomOf="@+id/smartPOSSettingsButton" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/manrope"
-        android:text="Settings:"
-        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/manrope"
-        android:text="Features:"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nataliSettingsButton" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/killButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="Kill NaTALI"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/reconnectButton"
-        app:layout_constraintStart_toStartOf="@+id/reconnectButton"
-        app:layout_constraintTop_toBottomOf="@+id/reconnectButton" />
+            <Button
+                android:id="@+id/smartPOSSettingsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="SmartPOS Settings"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/androidSettingsButton" />
 
-    <Button
-        android:id="@+id/launchButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/tecs_dark_line_container"
-        android:fontFamily="@font/manrope"
-        android:text="Launch NaTALI"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@+id/killButton"
-        app:layout_constraintStart_toStartOf="@+id/killButton"
-        app:layout_constraintTop_toBottomOf="@+id/killButton" />
+            <Button
+                android:id="@+id/historyButton"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="History"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
+                app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+            <Button
+                android:id="@+id/controllerButton"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="SmartPOS Controller"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/historyButton"
+                app:layout_constraintStart_toStartOf="@+id/historyButton"
+                app:layout_constraintTop_toBottomOf="@+id/historyButton" />
+
+            <Button
+                android:id="@+id/closeButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Close"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/controllerButton"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/controllerButton"
+                app:layout_constraintTop_toBottomOf="@+id/launchButton"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/reconnectButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Reconnect"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/controllerButton"
+                app:layout_constraintStart_toStartOf="@+id/controllerButton"
+                app:layout_constraintTop_toBottomOf="@+id/controllerButton" />
+
+            <Button
+                android:id="@+id/androidSettingsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Android settings"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
+                app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <Button
+                android:id="@+id/nataliSettingsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Natali settings"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/smartPOSSettingsButton"
+                app:layout_constraintStart_toStartOf="@+id/smartPOSSettingsButton"
+                app:layout_constraintTop_toBottomOf="@+id/smartPOSSettingsButton" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/manrope"
+                android:text="Settings:"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/manrope"
+                android:text="Features:"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nataliSettingsButton" />
+
+            <Button
+                android:id="@+id/killButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Kill NaTALI"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/reconnectButton"
+                app:layout_constraintStart_toStartOf="@+id/reconnectButton"
+                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+            <Button
+                android:id="@+id/launchButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Launch NaTALI"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/killButton"
+                app:layout_constraintStart_toStartOf="@+id/killButton"
+                app:layout_constraintTop_toBottomOf="@+id/killButton" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope"
+                android:text="Hold to activate:"
+                android:textColor="@color/colorAccent"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reconnectButton" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>

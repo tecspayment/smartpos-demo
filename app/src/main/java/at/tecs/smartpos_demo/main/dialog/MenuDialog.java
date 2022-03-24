@@ -37,11 +37,12 @@ public class MenuDialog extends Dialog {
         Button killButton = findViewById(R.id.killButton);
         Button launchButton = findViewById(R.id.launchButton);
 
-        killButton.setOnClickListener(new View.OnClickListener() {
+        killButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View view) {
                 callback.killNaTALI();
                 dismiss();
+                return false;
             }
         });
 
@@ -99,10 +100,12 @@ public class MenuDialog extends Dialog {
             }
         });
 
-        launchButton.setOnClickListener(new View.OnClickListener() {
+        launchButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view) {
                 callback.launchNaTALI();
+                dismiss();
+                return false;
             }
         });
     }

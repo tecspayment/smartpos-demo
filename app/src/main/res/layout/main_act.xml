@@ -33,7 +33,6 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="end|bottom"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -46,7 +45,6 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/tidText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tidText"
         app:layout_constraintTop_toTopOf="@+id/tidText" />
 
     <ImageButton
@@ -64,15 +62,16 @@
 
     <TextView
         android:id="@+id/tidText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/manrope"
+        android:gravity="center"
         android:text="TID not set"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/onlineStatus"
+        app:layout_constraintStart_toEndOf="@+id/menuButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
