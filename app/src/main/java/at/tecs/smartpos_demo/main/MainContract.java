@@ -107,6 +107,8 @@ public interface MainContract {
 
         void loadDefaults();
 
+        void abort();
+
         String getHostname();
         String getPort();
         String getTerminalNum();

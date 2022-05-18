@@ -382,6 +382,55 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void abort() {
+        final PaymentService paymentService = new PaymentService();
+        paymentService.setHostname(hostname);
+        paymentService.setPort(Integer.parseInt(port));
+        paymentService.connect(new ConnectionListener() {
+            @Override
+            public void onConnected() {
+                try {
+                    Log.e("TEST", "Send ABORT");
+                    Transaction transaction = new Transaction();
+                    transaction.ID = transactionID;
+                    transaction.dateTime = dateTime;
+                    transaction.terminalNum = TID;
+                    transaction.msgType = "0017";
+                    transaction.sourceID = "1";
+                    transaction.amount = "1";
+                    transaction.currency = "EUR";
+                    transaction.receiptNum = "1";
+                    transaction.originInd = "0";
+                    paymentService.sendTransaction(transaction);
+                } catch (TransactionFieldException e) {
+                    e.printStackTrace();
+                    view.showNotification("Abort failed!");
+                }
+            }
+
+            @Override
+            public void onUnknownHost(UnknownHostException e) {
+                try {
+                    paymentService.disconnect();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                view.showNotification("Abort failed!");
+            }
+
+            @Override
+            public void onSocketFail(IOException e) {
+                try {
+                    paymentService.disconnect();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                view.showNotification("Abort failed!");
+            }
+        });
+    }
+
+    @Override
     public void loadDefaults() {
         PortEntity portEntity = new PortEntity();
         portEntity.port = "9990";

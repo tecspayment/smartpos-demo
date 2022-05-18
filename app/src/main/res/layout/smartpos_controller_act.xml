@@ -159,6 +159,26 @@
                 android:fontFamily="@font/manrope"
                 android:text="Test 2"
                 android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/test3Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Printer test 1"
+                android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/test4Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/tecs_dark_line_container"
+                android:fontFamily="@font/manrope"
+                android:text="Printer test 2"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
     </ScrollView>
 

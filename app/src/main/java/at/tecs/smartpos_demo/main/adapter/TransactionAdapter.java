@@ -168,7 +168,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                     notifyItemChanged(i);
                 }
 
-                callBack.performTransaction(currentTransaction);
+                if(callBack != null) {
+                    callBack.performTransaction(currentTransaction);
+                }
             }
         });
 

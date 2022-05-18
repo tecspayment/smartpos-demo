@@ -39,14 +39,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:layoutAnimation="@anim/card_anim"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addButton"
@@ -63,4 +63,28 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/abortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/outline_highlight_off_white_24dp" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/manrope"
+        android:text="@string/abort"
+        android:textColor="@color/colorAccent"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/abortButton"
+        app:layout_constraintStart_toStartOf="@+id/abortButton"
+        app:layout_constraintTop_toBottomOf="@+id/abortButton" />
 </android.support.constraint.ConstraintLayout>

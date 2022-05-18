@@ -22,6 +22,7 @@ public interface Callback {
 
     interface TransactionsTabCallBack {
         void performTransaction(TransactionEntity transactionEntity);
+        void performAbort();
     }
 
     interface ReceiptTabCallBack {

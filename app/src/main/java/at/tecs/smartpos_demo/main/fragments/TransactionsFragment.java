@@ -41,10 +41,9 @@ public class TransactionsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.transactions_frag, container, false);
 
-        Log.e("TEST", "TransactionsFragment.onCreateView");
-
         RecyclerView transactionRecyclerView = view.findViewById(R.id.transactionRecyclerView);
         ImageButton addButton = view.findViewById(R.id.addButton);
+        ImageButton abortButton = view.findViewById(R.id.abortButton);
 
         ArrayList<TransactionEntity> transactionEntities = Repository.getInstance(getContext()).getAllTransactions();
 
@@ -61,6 +60,13 @@ public class TransactionsFragment extends Fragment {
                         getActivity().startActivity(intent);
                     }
                 }
+            }
+        });
+
+        abortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.performAbort();
             }
         });
 

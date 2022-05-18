@@ -415,7 +415,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private final Callback.TransactionsTabCallBack transactionsTabCallBack = new Callback.TransactionsTabCallBack() {
         @Override
         public void performTransaction(TransactionEntity transactionEntity) {
-            presenter.send(transactionEntity);
+            if(transactionEntity != null) {
+                presenter.send(transactionEntity);
+            }
+        }
+
+        @Override
+        public void performAbort() {
+            presenter.abort();
         }
     };
 

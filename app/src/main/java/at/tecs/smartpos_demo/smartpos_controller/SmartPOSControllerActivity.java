@@ -33,6 +33,8 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
         Button closeRFButton = findViewById(R.id.closeRFButton);
         Button test1Button = findViewById(R.id.test1Button);
         Button test2Button = findViewById(R.id.test2Button);
+        Button printer1Button = findViewById(R.id.test3Button);
+        Button printer2Button = findViewById(R.id.test4Button);
 
         logTextView = findViewById(R.id.logTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
@@ -69,6 +71,20 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
             @Override
             public void onClick(View v) {
                 presenter.performTest2();
+            }
+        });
+
+        printer1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.printerTest1();
+            }
+        });
+
+        printer2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.printerTest2();
             }
         });
     }

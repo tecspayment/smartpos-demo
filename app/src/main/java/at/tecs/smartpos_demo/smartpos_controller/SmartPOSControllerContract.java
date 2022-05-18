@@ -9,6 +9,8 @@ public interface SmartPOSControllerContract {
         void close();
         void performTest1();
         void performTest2();
+        void printerTest1();
+        void printerTest2();
     }
 
     interface View {
