@@ -34,14 +34,16 @@ import at.tecs.smartpos_demo.main.fragments.Callback;
 import static at.tecs.smartpos.data.Response.Code.*;
 import static at.tecs.smartpos_demo.Utils.showToast;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     //Natali application status
-    private final static int SERVICE_ALIVE = 100;
-    private final static int SERVICE_STOPED = 101;
-    private final static int INTERPRET_STOPED = 102;
-    private final static int SERVICE_LAUNCHED = 103;
-    private final static int SERVICE_RELOADING = 104;
+    public final static int SERVICE_ALIVE = 100;
+    public final static int SERVICE_STOPED = 101;
+    public final static int INTERPRET_STOPED = 102;
+    public final static int SERVICE_LAUNCHED = 103;
+    public final static int SERVICE_RELOADING = 104;
 
     private final MainContract.Presenter presenter = new MainPresenter();
 
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -458,210 +462,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     };
 
     /*
-    private final Callback.ConnectionTabCallback connectionTabCallback = new Callback.ConnectionTabCallback() {
-        @Override
-        public void saveTerminalNumber(String terminalNum) {
-            presenter.saveTermNum(terminalNum);
-        }
+    private final static int SERVICE_ALIVE = 100;
+    private final static int SERVICE_STOPED = 101;
+    private final static int INTERPRET_STOPED = 102;
+    private final static int SERVICE_LAUNCHED = 103;
+    private final static int SERVICE_RELOADING = 104;
 
-        @Override
-        public void deleteTerminalNumber(String terminalNum) {
-            presenter.deleteTermNum(terminalNum);
-        }
+     */
 
+    private final BroadcastReceiver nataliStatusReceiver = new BroadcastReceiver() {
         @Override
-        public void saveHostname(String hostname) {
-            presenter.saveHostName(hostname);
-        }
+        public void onReceive(Context context, Intent intent) {
+            if(intent != null && Objects.equals(intent.getAction(),"at.tecs.androidnatali.SERVICE_STATUS")) {
+                int status = intent.getIntExtra("status", -1);
 
-        @Override
-        public void deleteHostname(String hostname) {
-            presenter.deleteHostName(hostname);
-        }
-
-        @Override
-        public void savePort(String port) {
-            presenter.savePort(port);
-        }
-
-        @Override
-        public void deletePort(String port) {
-            presenter.deletePort(port);
-        }
-
-        @Override
-        public void selectHostname(String hostname) {
-            presenter.setHostname(hostname);
-        }
-
-        @Override
-        public void selectPort(String port) {
-            presenter.setPort(port);
-        }
-
-        @Override
-        public void selectTID(String TID) {
-            presenter.setTID(TID);
-        }
-
-        @Override
-        public void onAttach(ConnectionTab view) {
-            presenter.takeConnectionView(view);
-        }
-
-        @Override
-        public void startScan() {
-            presenter.startScan();
-        }
-
-        @Override
-        public void stopScan() {
-            presenter.stopScan();
-        }
-
-        @Override
-        public void selectDevice(BluetoothDevice bluetoothDevice) {
-            presenter.setBluetoothDevice(bluetoothDevice);
-        }
-
-        @Override
-        public Set<BluetoothDevice> getPairedDevices() {
-            return presenter.getPairedDevices();
-        }
-
-        @Override
-        public ConnectionType selectedConnection() {
-            return presenter.getSelected();
+                if(status != -1) {
+                    presenter.setNataliStatus(status);
+                }
+            }
         }
     };
-
-    private final Callback.TransactionTabCallback transactionTabCallback = new Callback.TransactionTabCallback() {
-        @Override
-        public void saveTransaction(Transaction transaction, String name) {
-            presenter.saveTransaction(transaction, name);
-        }
-
-        @Override
-        public void deleteTransaction(String name) {
-            presenter.deleteTransaction(name);
-        }
-
-        @Override
-        public void startAutomatic(boolean start) {
-            presenter.startAutomatic(start);
-        }
-
-        @Override
-        public void loadTransaction(String transactionID) {
-            presenter.loadTransaction(transactionID);
-        }
-
-        @Override
-        public void onAttach(TransactionTab view) {
-            presenter.takeTransactionView(view);
-        }
-
-        @Override
-        public void performAliPayScan() {
-            presenter.send();
-        }
-
-        @Override
-        public void performAliPayQR() {
-            presenter.send();
-        }
-    };
-
-    private final Callback.TemplatesTabCallback templatesTabCallback = new Callback.TemplatesTabCallback() {
-        @Override
-        public void onAttach(TemplatesTab view) {
-            presenter.takeTemplatesView(view);
-        }
-
-        @Override
-        public void performSale(String amount, String currency) {
-            presenter.sale(amount, currency);
-        }
-
-        @Override
-        public void performRefund(String amount, String currecy) {
-            presenter.refund(amount, currecy);
-        }
-
-        @Override
-        public void performCancellation(String transID, String amount, String currency) {
-            presenter.cancellation(transID, amount, currency);
-        }
-
-        @Override
-        public void performAbort() {
-            presenter.abort();
-        }
-    };
-
-    private final Callback.CardTabCallback cardTabCallback = new Callback.CardTabCallback() {
-        @Override
-        public void onAttach(CardTab view) {
-            presenter.takeCardView(view);
-        }
-
-        @Override
-        public void performConnect() {
-            presenter.openCardControl();
-        }
-
-        @Override
-        public void performAuthenticateM0(String data) {
-            presenter.authenticateM0CardControl(data);
-        }
-
-        @Override
-        public void performAuthenticateM1(String keyMode, String snr, String blockID, String key) {
-            presenter.authenticateM1CardControl(keyMode, snr, blockID, key);
-        }
-
-        @Override
-        public void performReadBlock(String blockID) {
-            presenter.readCardControl(blockID);
-        }
-
-        @Override
-        public void performWriteBlock(String blockID, String data) {
-            presenter.writeCardControl(blockID, data);
-        }
-
-        @Override
-        public void performTransmit(String data) {
-            presenter.transmitCardControl(data);
-        }
-
-        @Override
-        public void performTransmitReadWholeCard(String key, int start, int end) {
-            presenter.transmitCardControlReadAll(key, start, end);
-        }
-    };
-
-    private final Callback.PrintTabCallback printTabCallback = new Callback.PrintTabCallback() {
-        @Override
-        public void onAttach(PrintTab view) {
-            presenter.takePrintView(view);
-        }
-
-
-        @Override
-        public void performFeedLine(int linesCount) {
-            presenter.printerFeedLine(linesCount);
-        }
-
-        @Override
-        public void performPrint(String dataToPrint, int dataType) {
-            presenter.printerPrint(dataToPrint, dataType);
-        }
-
-        @Override
-        public void printFullReceipt() {
-            presenter.printerFullReceipt();
-        }
-    };
-    */
 }

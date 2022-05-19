@@ -33,6 +33,11 @@ import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 import static at.tecs.smartpos.data.ConnectionType.TCP;
 import static at.tecs.smartpos_demo.Utils.showToast;
+import static at.tecs.smartpos_demo.main.MainActivity.INTERPRET_STOPED;
+import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_ALIVE;
+import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_LAUNCHED;
+import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_RELOADING;
+import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_STOPED;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -56,6 +61,8 @@ public class MainPresenter implements MainContract.Presenter {
     private boolean autoConnect = true;
     private boolean showDialog = false;
     private boolean showAutoResponse = true;
+
+    private int nataliStatus = -1;
 
     private Response lastResponse;
 
@@ -333,6 +340,28 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setShowAutoResponse(boolean autoResponse) {
         this.showAutoResponse = autoResponse;
+    }
+
+    @Override
+    public void setNataliStatus(int status) {
+        nataliStatus = status;
+
+        switch (status) {
+            case SERVICE_ALIVE:
+                if(isConnected()) { //Reconnect
+                    showToast(view.getContext(), "Reconnected!");
+                    disconnect();
+                    connect();
+                }
+                break;
+            case SERVICE_LAUNCHED:
+            case SERVICE_STOPED:
+            case INTERPRET_STOPED:
+            case SERVICE_RELOADING:
+                if(isConnected())
+                    disconnect();
+                break;
+        }
     }
 
     @Override

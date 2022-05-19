@@ -72,6 +72,8 @@ public interface MainContract {
 
         void setShowAutoResponse(boolean autoResponse);
 
+        void setNataliStatus(int status);
+
         boolean isAutoConnect();
 
         boolean isConnected();
