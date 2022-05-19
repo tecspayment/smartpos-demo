@@ -32,6 +32,7 @@ import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 import static at.tecs.smartpos.data.ConnectionType.TCP;
+import static at.tecs.smartpos_demo.Utils.showToast;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -280,6 +281,8 @@ public class MainPresenter implements MainContract.Presenter {
 
         try {
             paymentService.sendTransaction(transaction);
+
+            showToast(view.getContext(),"Send - " + transactionEntity.name);
 
             Log.e("TEST", "Transaction: " + transactionEntity.name);
             Log.e("TEST", "Transaction: " + transactionEntity);
