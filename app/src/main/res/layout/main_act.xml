@@ -1,119 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <TextView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/messageText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IPTextView">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
+    </android.support.v4.view.ViewPager>
+
+    <ImageButton
         android:id="@+id/onlineStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|bottom"
         android:layout_marginTop="16dp"
-        android:text="@string/offline"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/connectImage"
-        app:layout_constraintTop_toTopOf="@+id/connectButton" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/circle"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/round_done_white_48dp"
+        android:tint="@color/colorAccent"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/tidText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tidText" />
 
-    <ImageView
-        android:id="@+id/connectImage"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:contentDescription="@string/presence_offline"
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/onlineStatus"
-        app:layout_constraintEnd_toStartOf="@+id/onlineStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/onlineStatus"
-        app:srcCompat="@android:drawable/presence_offline" />
+        app:srcCompat="@drawable/round_menu_white_48dp" />
 
-    <Button
-        android:id="@+id/connectButton"
+    <TextView
+        android:id="@+id/tidText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#85BC0F"
-        android:text="@string/connect"
-        android:textAllCaps="true"
-        android:textColor="#EDEDED"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/onlineStatus"
-        app:layout_constraintTop_toBottomOf="@+id/connectionSpinner" />
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/manrope"
+        android:gravity="center"
+        android:text="TID not set"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/onlineStatus"
+        app:layout_constraintStart_toEndOf="@+id/menuButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/sendButton"
+    <TextView
+        android:id="@+id/messageText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/send_button"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="@font/manrope"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/IPTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connectButton">
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/connection" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/trans" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/responses" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/card" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/print" />
-
-    </android.support.design.widget.TabLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/sendButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-
-    <Spinner
-        android:id="@+id/connectionSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fontFamily="@font/manrope"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/tidText"
+        app:layout_constraintStart_toStartOf="@+id/tidText"
+        app:layout_constraintTop_toBottomOf="@+id/tidText" />
 
 </android.support.constraint.ConstraintLayout>

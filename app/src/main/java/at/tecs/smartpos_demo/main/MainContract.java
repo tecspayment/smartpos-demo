@@ -1,14 +1,10 @@
 package at.tecs.smartpos_demo.main;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
 
-import java.util.Set;
-
 import at.tecs.smartpos.PaymentService;
-import at.tecs.smartpos.data.ConnectionType;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
@@ -17,44 +13,32 @@ public interface MainContract {
 
     interface View {
 
+        void showIP(String IP);
+
         void showResponseTab(int code);
+
+        void showTab(int position);
 
         void showConnected();
 
         void showDisconnected();
 
-        void showToast(String msg);
+        void showNotification(String msg);
 
-        void showNataliStatus(int status);
+        void showMessage(String title, String text, int imageResource, int timeout);
 
         Context getContext();
 
-        interface ConnectionTab {
+        void showTID(String tid);
 
-            void setTerminalNumAdapter(ArrayAdapter<String> terminalNumAdapter);
+        void showHostname(String hostname);
 
-            void setHostnameAdapter(ArrayAdapter<String> hostnameAdapter);
-
-            void setPortAdapter(ArrayAdapter<String> portAdapter);
-
-            boolean checkConnectionInputs();
-
-            void showTCP();
-
-            void showBluetooth();
-        }
+        void showPort(String port);
 
         interface TransactionTab {
-
-            void setTransactionAdapter(ArrayAdapter<String> transactionAdapter);
-
             Transaction createTransaction();
 
             void showTransaction(TransactionEntity transactionEntity);
-
-            void showTransactionAuto(final String transactionID, final String dateTime);
-
-            boolean checkTransactionInputs();
         }
 
         interface ResponseTab {
@@ -62,18 +46,9 @@ public interface MainContract {
             void clearResponse();
         }
 
-        interface TemplatesTab {
-
-
-        }
-
-        interface CardTab {
-            void showResponse(String text);
-            void changeOpen(String text);
-        }
-
-        interface PrintTab {
-
+        interface ReceiptTab {
+            void showReceipt(String merchantReceipt, String customerReceipt, String datetime);
+            void clearReceipt();
         }
     }
 
@@ -85,9 +60,31 @@ public interface MainContract {
 
         void takeView(MainContract.View view);
 
-        void saveTransaction(Transaction transaction, String name);
+        void setHostname(String hostname);
 
-        void deleteTransaction(String name);
+        void setPort(String port);
+
+        void setTID(String TID);
+
+        void setAutoConnect(boolean autoConnect);
+
+        void setShowDialog(boolean showDialog);
+
+        void setShowAutoResponse(boolean autoResponse);
+
+        void setNataliStatus(int status);
+
+        boolean isAutoConnect();
+
+        boolean isConnected();
+
+        void startAutomatic(boolean automatic);
+
+        void connect();
+
+        void disconnect();
+
+        void send(TransactionEntity transactionEntity);
 
         void saveTermNum(String terminalNum);
 
@@ -101,78 +98,21 @@ public interface MainContract {
 
         void deletePort(String port);
 
-        void setHostname(String hostname);
-
-        void setPort(String port);
-
-        void setTID(String TID);
-
-        boolean isConnected();
-
-        void startAutomatic(boolean automatic);
-
-        void connect();
-
-        void disconnect();
-
-        void send();
-
-        void selectConnection(String type);
-
-        void setBluetoothDevice(BluetoothDevice bluetoothDevice);
-
-        void startScan();
-
-        void stopScan();
-
-        Set<BluetoothDevice> getPairedDevices();
-
-        void sale(String amount, String currency);
-        void refund(String amount, String currecy);
-        void cancellation(String transID, String amount, String currency);
-        void abort();
-
-        void loadTransaction(String name);
-
-        //int startNatali(Context context);
+        void vibrate();
 
         Response getLastResponse();
 
         PaymentService getPaymentService();
 
-        void takeConnectionView(MainContract.View.ConnectionTab view);
-
-        void takeTransactionView(MainContract.View.TransactionTab view);
-
         void takeResponseView(MainContract.View.ResponseTab view);
+        void takeReceiptView(MainContract.View.ReceiptTab view);
 
-        void takeTemplatesView(MainContract.View.TemplatesTab view);
+        void loadDefaults();
 
-        void takeCardView(MainContract.View.CardTab view);
+        void abort();
 
-        void takePrintView(MainContract.View.PrintTab view);
-
-        void openCardControl();
-
-        void authenticateM0CardControl(String data);
-
-        void authenticateM1CardControl(String keyMode, String snr, String blockID, String key);
-
-        void readCardControl(String blockID);
-
-        void writeCardControl(String blockID, String data);
-
-        void transmitCardControl(String data);
-
-        void transmitCardControlReadAll(String key, int start, int end);
-
-        void printerPrint(String data, int dataType);
-
-        void printerFeedLine(int linesCount);
-
-        void printerFullReceipt();
-
-        ConnectionType getSelected();
-
+        String getHostname();
+        String getPort();
+        String getTerminalNum();
     }
 }

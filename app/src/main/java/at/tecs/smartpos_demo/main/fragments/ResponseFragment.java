@@ -1,15 +1,21 @@
 package at.tecs.smartpos_demo.main.fragments;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
+import static at.tecs.smartpos_demo.Utils.showToast;
+
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos_demo.R;
@@ -51,7 +57,7 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.response_act, container, false);
+        View view = inflater.inflate(R.layout.response_frag, container, false);
 
         creaditCardIssuer = view.findViewById(R.id.creaditCardIssuer);
         cardNum = view.findViewById(R.id.cardNum);
@@ -81,7 +87,23 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
         bonusPoints = view.findViewById(R.id.bonusPoints);
         exFee = view.findViewById(R.id.exFee);
 
-        callback.onAttach(this);
+        transID.setEnabled(true);
+        transID.setCursorVisible(false);
+        transID.setFocusable(false);
+        transID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("transID", transID.getText().toString());
+                clipboard.setPrimaryClip(clip);
+
+                showToast(getContext(), "Copied!");
+            }
+        });
+
+        if(callback != null) {
+            callback.onAttach(this);
+        }
 
         return view;
     }
@@ -170,7 +192,7 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
             });
     }
 
-    public void setResponseTabCallback(Callback.ResponseTabCallback responseTabCallback) {
+    public void setCallback(Callback.ResponseTabCallback responseTabCallback) {
         this.callback = responseTabCallback;
     }
 }

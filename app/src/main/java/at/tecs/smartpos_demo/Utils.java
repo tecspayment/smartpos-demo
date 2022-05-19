@@ -1,5 +1,13 @@
 package at.tecs.smartpos_demo;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.os.Build;
+import android.support.v4.content.res.ResourcesCompat;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,6 +35,23 @@ public class Utils {
 
     private static final String CIPHER_NAME = "DESede/CBC/NoPadding";
     private static final String CIPHER_PROVIDER = "BC";
+
+    public static void showToast(Context context, String message) {
+        if(context != null) {
+            Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            View view = toast.getView();
+
+            //Gets the actual oval background of the Toast then sets the colour filter
+            view.getBackground().setColorFilter(context.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
+            //Gets the TextView from the Toast so it can be editted
+            TextView text = view.findViewById(android.R.id.message);
+            text.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            text.setTypeface(ResourcesCompat.getFont(context, R.font.manrope));
+
+            toast.show();
+        }
+    }
 
     public static String bytes2HexStr(byte[] bytes) {
         /*

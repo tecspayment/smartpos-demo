@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#005AA4</color>
+    <color name="colorPrimaryDark">#051B60</color>
+    <color name="colorAccent">#FFFFFF</color>
 
     <color name="connected">#85BC0F</color>
     <color name="disconnected">#ef5350</color>
+
+    <color name="colorTecsDarkPrimary">#033A82</color>
+    <color name="colorTecsDarkPrimaryDark">#051B60</color>
+    <color name="colorTecsDarkPrimaryLight">#005AA4</color>
+    <color name="colorTecsDarkOkey">#03FCBA</color>
+    <color name="colorTecsDarkGrey">#202020</color>
 </resources>
 
