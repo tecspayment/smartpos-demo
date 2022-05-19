@@ -1,7 +1,10 @@
 package at.tecs.smartpos_demo.data.repository;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ public class Repository {
         if(database == null) {
             synchronized (Database.class) {
                 if (database == null) {
-                    database = Room.databaseBuilder(context, Database.class, "local_db").allowMainThreadQueries().build();
+                    database = Room.databaseBuilder(context, Database.class, "local_db").fallbackToDestructiveMigration().allowMainThreadQueries().build();
                 }
             }
         }

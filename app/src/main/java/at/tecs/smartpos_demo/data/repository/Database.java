@@ -24,5 +24,4 @@ public abstract class Database extends RoomDatabase {
     public abstract TransactionDAO transactionDAO();
     public abstract TransHistoryDAO transHistoryDAO();
     public abstract RespHistoryDAO respHistoryDAO();
-
 }
