@@ -32,9 +32,7 @@ import at.tecs.smartpos_demo.main.dialog.MessageDialog;
 import at.tecs.smartpos_demo.main.fragments.Callback;
 
 import static at.tecs.smartpos.data.Response.Code.*;
-import static at.tecs.smartpos_demo.Utils.showToast;
 
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public final static int INTERPRET_STOPED = 102;
     public final static int SERVICE_LAUNCHED = 103;
     public final static int SERVICE_RELOADING = 104;
+    public final static int SERVICE_READY_TO_PAY = 105;
 
     private final MainContract.Presenter presenter = new MainPresenter();
 
@@ -94,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        registerReceiver(nataliReceiver, new IntentFilter("at.tecs.androidnatali.SERVICE_STATUS"));
 
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -359,13 +356,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
             int status = intent.getIntExtra("status", -1);
 
+            if(status != -1 && status != SERVICE_ALIVE) {
+                presenter.setNataliStatus(status);
+            }
+
+            //Log.e("TEST", "Received status: " + status);
+
             switch (status) {
-                case SERVICE_ALIVE:
-                    break;
                 case SERVICE_LAUNCHED:
+                    showNotification("NaTALI has launched!");
                 case SERVICE_STOPED:
+                    showNotification("NaTALI has stopped!");
                 case INTERPRET_STOPED:
+                    showNotification("NaTALI's interpreter has stopped!");
                 case SERVICE_RELOADING:
+                    showNotification("NaTALI is reloading!");
                     if(presenter.isConnected())
                         presenter.disconnect();
                     break;
@@ -458,28 +463,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.setPort(port);
 
             showTID(tid);
-        }
-    };
-
-    /*
-    private final static int SERVICE_ALIVE = 100;
-    private final static int SERVICE_STOPED = 101;
-    private final static int INTERPRET_STOPED = 102;
-    private final static int SERVICE_LAUNCHED = 103;
-    private final static int SERVICE_RELOADING = 104;
-
-     */
-
-    private final BroadcastReceiver nataliStatusReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent != null && Objects.equals(intent.getAction(),"at.tecs.androidnatali.SERVICE_STATUS")) {
-                int status = intent.getIntExtra("status", -1);
-
-                if(status != -1) {
-                    presenter.setNataliStatus(status);
-                }
-            }
         }
     };
 }

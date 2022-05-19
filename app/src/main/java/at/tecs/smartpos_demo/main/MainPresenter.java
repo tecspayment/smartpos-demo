@@ -33,11 +33,7 @@ import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 import static at.tecs.smartpos.data.ConnectionType.TCP;
 import static at.tecs.smartpos_demo.Utils.showToast;
-import static at.tecs.smartpos_demo.main.MainActivity.INTERPRET_STOPED;
-import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_ALIVE;
-import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_LAUNCHED;
-import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_RELOADING;
-import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_STOPED;
+import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_READY_TO_PAY;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -220,8 +216,8 @@ public class MainPresenter implements MainContract.Presenter {
                                 view.showMessage("Scan result", response.getScanData(), R.drawable.outline_qr_code_white_48dp, -1);
                             }
 
-                            Log.e("TEST", "Customer Receipt: " + response.getCustomerReceipt());
-                            Log.e("TEST", "Merchant Receipt: " + response.getMerchantReceipt());
+                            Log.i("TEST", "Customer Receipt: " + response.getCustomerReceipt());
+                            Log.i("TEST", "Merchant Receipt: " + response.getMerchantReceipt());
 
                             if((response.getCustomerReceipt() != null && !response.getCustomerReceipt().isEmpty()) ||
                                     (response.getMerchantReceipt() != null && !response.getMerchantReceipt().isEmpty())) {
@@ -291,8 +287,8 @@ public class MainPresenter implements MainContract.Presenter {
 
             showToast(view.getContext(),"Send - " + transactionEntity.name);
 
-            Log.e("TEST", "Transaction: " + transactionEntity.name);
-            Log.e("TEST", "Transaction: " + transactionEntity);
+            Log.i("TEST", "Transaction: " + transactionEntity.name);
+            Log.i("TEST", "Transaction: " + transactionEntity);
             if(paymentService.isConnected()) {
                 repository.saveTransaction(convertTransaction(transactionEntity));
             } else {
@@ -345,23 +341,6 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setNataliStatus(int status) {
         nataliStatus = status;
-
-        switch (status) {
-            case SERVICE_ALIVE:
-                if(isConnected()) { //Reconnect
-                    showToast(view.getContext(), "Reconnected!");
-                    disconnect();
-                    connect();
-                }
-                break;
-            case SERVICE_LAUNCHED:
-            case SERVICE_STOPED:
-            case INTERPRET_STOPED:
-            case SERVICE_RELOADING:
-                if(isConnected())
-                    disconnect();
-                break;
-        }
     }
 
     @Override
@@ -422,7 +401,6 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void onConnected() {
                 try {
-                    Log.e("TEST", "Send ABORT");
                     Transaction transaction = new Transaction();
                     transaction.ID = transactionID;
                     transaction.dateTime = dateTime;
@@ -669,7 +647,7 @@ public class MainPresenter implements MainContract.Presenter {
                 dateTime = formatter.format(date);
             }
 
-            if(autoConnect && !isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("")) {
+            if(autoConnect && !isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("") && nataliStatus == SERVICE_READY_TO_PAY) {
                 connect();
             }
         }
@@ -706,7 +684,7 @@ public class MainPresenter implements MainContract.Presenter {
     private TransHistoryEntity convertTransaction(TransactionEntity trans) {
         TransHistoryEntity transHistoryEntity = new TransHistoryEntity();
 
-        Log.e("TEST", "convertTransaction: \nID: " + transactionID + "\n terminalNum: " + trans.terminalNum + "\ndateTime: " + trans.dateTime);
+        //Log.e("TEST", "convertTransaction: \nID: " + transactionID + "\n terminalNum: " + trans.terminalNum + "\ndateTime: " + trans.dateTime);
 
         transHistoryEntity.name = trans.name;
         transHistoryEntity.ID = Long.valueOf(transactionID);
