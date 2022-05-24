@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public final static int SERVICE_RELOADING = 104;
     public final static int SERVICE_READY_TO_PAY = 105;
 
-    private final MainContract.Presenter presenter = new MainPresenter();
+    private final MainContract.Presenter presenter = MainPresenter.getInstance();
 
     private ViewPager viewPager;
     private TextView messageText;

@@ -42,6 +42,8 @@ public class MainPresenter implements MainContract.Presenter {
     private MainContract.View.ResponseTab responseView;
     private MainContract.View.ReceiptTab receiptView;
 
+    private static MainContract.Presenter instance;
+
     private Repository repository;
 
     private Timer timer;
@@ -64,9 +66,16 @@ public class MainPresenter implements MainContract.Presenter {
 
     private final PaymentService paymentService;
 
-
     MainPresenter() {
         paymentService = new PaymentService();
+    }
+
+    public static MainContract.Presenter getInstance() {
+        if(instance == null) {
+            instance = new MainPresenter();
+        }
+
+        return instance;
     }
 
     @Override
