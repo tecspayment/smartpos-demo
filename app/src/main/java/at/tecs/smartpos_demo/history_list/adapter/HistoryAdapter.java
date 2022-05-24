@@ -1,41 +1,55 @@
 package at.tecs.smartpos_demo.history_list.adapter;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 import static at.tecs.smartpos_demo.Utils.showToast;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import at.tecs.smartpos.PaymentService;
+import at.tecs.smartpos.connector.ConnectionListener;
+import at.tecs.smartpos.exception.TransactionFieldException;
 import at.tecs.smartpos_demo.R;
+import at.tecs.smartpos_demo.data.repository.Repository;
+import at.tecs.smartpos_demo.data.repository.entity.RespHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;
+import at.tecs.smartpos_demo.main.MainPresenter;
 import at.tecs.smartpos_demo.tx_history.TransHistoryActivity;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private final ArrayList<TransHistoryEntity> transHistoryEntities;
     private final Context context;
+    private final CancellationCallback callback;
 
-    public HistoryAdapter(ArrayList<TransHistoryEntity> transHistoryEntities, Context context) {
+    public HistoryAdapter(ArrayList<TransHistoryEntity> transHistoryEntities, CancellationCallback callback, Context context) {
         this.transHistoryEntities = transHistoryEntities;
         this.context = context;
+        this.callback = callback;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +59,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         private final TextView transIDText;
         private final CardView cardContainer;
         private final TextView terminalNumText;
+        private final Button cancelButton;
+        private final TextView responseText;
+        private CancellationCallback callback;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,7 +70,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             dateText = itemView.findViewById(R.id.dateText);
             nameText = itemView.findViewById(R.id.nameText);
             transIDText = itemView.findViewById(R.id.transIDText);
+            responseText = itemView.findViewById(R.id.responseText);
             terminalNumText = itemView.findViewById(R.id.terminalNumText);
+            cancelButton = itemView.findViewById(R.id.cancelButton);
+        }
+
+        void setCallback(CancellationCallback callback) {
+            this.callback = callback;
         }
     }
 
@@ -62,11 +85,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.history_card, viewGroup, false);
 
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.setCallback(callback);
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final TransHistoryEntity transHistoryEntity = transHistoryEntities.get(transHistoryEntities.size() - i - 1);
 
         if(transHistoryEntity.dateTime != null && !transHistoryEntity.dateTime.isEmpty()) {
@@ -81,9 +107,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             }
         }
 
+        RespHistoryEntity response = Repository.getInstance(context).getResponseHistory(transHistoryEntity.ID);
+
         viewHolder.terminalNumText.setText(transHistoryEntity.terminalNum);
         viewHolder.nameText.setText(transHistoryEntity.name);
         viewHolder.transIDText.setText(String.valueOf(transHistoryEntity.transID));
+        if(response != null && response.responseText != null) {
+            viewHolder.responseText.setText(response.responseText.trim());
+        }
         viewHolder.cardContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +140,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 return false;
             }
         });
+
+
+        viewHolder.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewHolder.callback.onClickCancel(transHistoryEntity);
+            }
+        });
     }
 
     @Override
@@ -116,4 +155,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return transHistoryEntities.size();
     }
 
+    public interface CancellationCallback {
+        void onClickCancel(TransHistoryEntity transHistoryEntity);
+
+
+    }
 }
