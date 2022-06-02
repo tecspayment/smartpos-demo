@@ -1,11 +1,8 @@
 package at.tecs.smartpos_demo.data.repository;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import android.database.sqlite.SQLiteConstraintException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +49,11 @@ public class Repository {
     }
 
     public void saveTransaction(TransactionEntity transactionEntity) {
-        database.transactionDAO().insertTransaction(transactionEntity);
+        try {
+            database.transactionDAO().insertTransaction(transactionEntity);
+        } catch (SQLiteConstraintException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void deleteTransation(TransactionEntity transactionEntity) {
@@ -68,7 +69,11 @@ public class Repository {
     }
 
     public void savePort(PortEntity portEntity) {
+        try {
         database.portDAO().insertPort(portEntity);
+        } catch (SQLiteConstraintException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void deletePort(PortEntity portEntity) {
@@ -84,7 +89,11 @@ public class Repository {
     }
 
     public void saveTerminalNum(TerminalNumberEntity terminalNumberEntity) {
-        database.terminalNumberDAO().insertTerminalNum(terminalNumberEntity);
+        try {
+            database.terminalNumberDAO().insertTerminalNum(terminalNumberEntity);
+        } catch (SQLiteConstraintException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void deleteTerminalNum(TerminalNumberEntity terminalNumberEntity) {
@@ -99,7 +108,11 @@ public class Repository {
     }
 
     public void saveHostname(HostnameEntity hostnameEntity) {
-        database.hostnameDAO().insertHostname(hostnameEntity);
+        try {
+            database.hostnameDAO().insertHostname(hostnameEntity);
+        } catch (SQLiteConstraintException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void deleteHostname(HostnameEntity hostnameEntity) {
@@ -193,11 +206,19 @@ public class Repository {
     }
 
     public void saveTransaction(TransHistoryEntity transHistoryEntity) {
-        database.transHistoryDAO().insertTransactionHistory(transHistoryEntity);
+        try {
+            database.transHistoryDAO().insertTransactionHistory(transHistoryEntity);
+        } catch (SQLiteConstraintException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void saveResponse(RespHistoryEntity respHistoryEntity) {
-        database.respHistoryDAO().insertResponseHistory(respHistoryEntity);
+        try {
+            database.respHistoryDAO().insertResponseHistory(respHistoryEntity);
+        } catch (SQLiteConstraintException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public TransHistoryEntity getTransactionHistory(Long txID) {

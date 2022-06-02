@@ -101,6 +101,20 @@ public class ResponseFragment extends Fragment implements MainContract.View.Resp
             }
         });
 
+        cardNum.setEnabled(true);
+        cardNum.setCursorVisible(false);
+        cardNum.setFocusable(false);
+        cardNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("cardNum", cardNum.getText().toString());
+                clipboard.setPrimaryClip(clip);
+
+                showToast(getContext(), "Copied!");
+            }
+        });
+
         if(callback != null) {
             callback.onAttach(this);
         }
