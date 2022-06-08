@@ -140,24 +140,26 @@
                 android:text="Close RF"
                 android:textColor="@color/colorAccent" />
 
-            <Button
-                android:id="@+id/test1Button"
+            <EditText
+                android:id="@+id/keyEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/tecs_dark_line_container"
                 android:fontFamily="@font/manrope"
-                android:text="Test 1"
-                android:textColor="@color/colorAccent" />
+                android:hint="Key"
+                android:padding="8dp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
 
             <Button
-                android:id="@+id/test2Button"
+                android:id="@+id/readAllButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/tecs_dark_line_container"
                 android:fontFamily="@font/manrope"
-                android:text="Test 2"
+                android:text="READ ALL"
                 android:textColor="@color/colorAccent" />
 
             <Button

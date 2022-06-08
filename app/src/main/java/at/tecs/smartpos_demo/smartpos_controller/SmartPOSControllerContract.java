@@ -8,7 +8,7 @@ public interface SmartPOSControllerContract {
         void open();
         void close();
         void performTest1();
-        void performTest2();
+        void readAll();
         void printerTest1();
         void printerTest2();
     }
@@ -17,5 +17,6 @@ public interface SmartPOSControllerContract {
         void description(String description);
         void log(String log);
         void clear();
+        String getKey();
     }
 }

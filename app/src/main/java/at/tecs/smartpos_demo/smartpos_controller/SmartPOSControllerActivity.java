@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import at.tecs.smartpos_demo.R;
@@ -16,6 +17,7 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
 
     private TextView logTextView;
     private TextView descriptionTextView;
+    private EditText keyEditText;
 
     @Override
     protected void onResume() {
@@ -31,8 +33,8 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
         Button cancelButton = findViewById(R.id.cancelButton);
         Button openRFButton = findViewById(R.id.openRFButton);
         Button closeRFButton = findViewById(R.id.closeRFButton);
-        Button test1Button = findViewById(R.id.test1Button);
-        Button test2Button = findViewById(R.id.test2Button);
+        keyEditText = findViewById(R.id.keyEditText);
+        Button readAllButton = findViewById(R.id.readAllButton);
         Button printer1Button = findViewById(R.id.test3Button);
         Button printer2Button = findViewById(R.id.test4Button);
 
@@ -60,17 +62,10 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
             }
         });
 
-        test1Button.setOnClickListener(new View.OnClickListener() {
+        readAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.performTest1();
-            }
-        });
-
-        test2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.performTest2();
+                presenter.readAll();
             }
         });
 
@@ -120,5 +115,10 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
                 descriptionTextView.setText(description);
             }
         });
+    }
+
+    @Override
+    public String getKey() {
+        return keyEditText.getText().toString();
     }
 }

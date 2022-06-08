@@ -1,10 +1,20 @@
 package at.tecs.smartpos_demo.smartpos_controller;
 
 import static at.tecs.ControlParser.Command.RETURN_CODES.SUCCESS;
+import static at.tecs.smartpos_demo.Utils.concatenate;
+import static at.tecs.smartpos_demo.Utils.createIvSpecFromZeros;
+import static at.tecs.smartpos_demo.Utils.createZeros;
+import static at.tecs.smartpos_demo.Utils.decrypt;
+import static at.tecs.smartpos_demo.Utils.encrypt;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.crypto.spec.IvParameterSpec;
 
 import at.tecs.ControlParser.Command;
 import at.tecs.smartpos.CardControl;
@@ -14,6 +24,8 @@ import at.tecs.smartpos.data.PrinterReturnCode;
 import at.tecs.smartpos.data.RFReturnCode;
 import at.tecs.smartpos.utils.ByteUtil;
 import at.tecs.smartpos.utils.Pair;
+import at.tecs.smartpos_demo.Utils;
+import at.tecs.smartpos_demo.utils.TDEAKey;
 
 public class SmartPOSControllerPresenter implements SmartPOSControllerContract.Presenter {
 
@@ -159,66 +171,171 @@ public class SmartPOSControllerPresenter implements SmartPOSControllerContract.P
     }
 
     @Override
-    public void performTest2() {
+    public void readAll() {
         view.clear();
-        view.log("Name: Test 2");
+        view.log("Name: Read All");
         view.log("Start at : " + new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date()));
 
-        view.description("Test 2\n\n" +
+        view.description("Read All\n\n" +
                 "1.  Card reader will be opened for 10 seconds waiting for M1 type card.\n" +
                 "2.  When card is prompted UUID will be read.\n" +
-                "3.  Data will be read from block 0x00.\n" +
-                "4.  Data will be write to block 0x01.\n" +
-                "5.  Data will be read from block 0x00.\n" +
-                "6.  Card reader will be closed.");
+                "3.  All block from interval <1,50> are read.\n" +
+                "4.  Card reader will be closed.");
 
         view.log("RFOpen [10 sec, M1] called!\n");
 
-        smartPOSController.RFOpen(100000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+        smartPOSController.RFOpen(30000, Command.CARD_TYPE.M0, new SmartPOSController.OpenListener() {
+
             @Override
-            public void onDetected(CardControl cardControl, int cardType, byte[] UUID) {
-                view.log("RFOpen -> onDetected!");
-                view.log("RFOpen -> onDetected - UUID: " + ByteUtil.bytes2HexStr_2(UUID));
-                view.log("RFOpen -> onDetected - Card Type: " + cardType + "\n");
+            public void onDetected(CardControl cardControl, int ct, byte[] bytes) {
+                view.log("RF Card successful !");
+                view.log("Card Type : " + ByteUtil.byte2HexStr((byte) ct));
+                view.log("UUID : " + Utils.bytes2HexStr(bytes));
 
-                view.log("RFOpen -> onDetected - RFReadBlock [0x00] called !");
-                Pair<RFReturnCode, byte[]> returnCodes = cardControl.RFReadBlock(0x00);
-                view.log("RFOpen -> onDetected - RFReadBlock [0x00] - Return code:" + returnCodes.first.name());
-                view.log("RFOpen -> onDetected - RFReadBlock [0x00] - Data:" + ByteUtil.bytes2HexStr_2(returnCodes.second));
+                final int start = 0;
+                final int end = 50;
+                final String key = view.getKey(); //"2D F3 8F DF 85 81 62 8C 81 CF 54 52 80 39 F8 0D";
 
-                view.log("");
+                view.log("Start - " + start);
+                view.log("End - " + end);
+                view.log("Key - " + key);
 
-                byte[] data = new byte[]{0x00, 0x01, 0x02, 0x03};
-                view.log("RFOpen -> onDetected - RFWriteBlock [0x01, " + ByteUtil.bytes2HexStr_2(data) + "] called !");
-                RFReturnCode returnCode = cardControl.RFWriteBlock(0x01, data);
-                view.log("RFOpen -> onDetected - RFWriteBlock [0x01, " + ByteUtil.bytes2HexStr_2(data) + "] - Return code:" + returnCode.name());
+                if(key != null && !key.isEmpty()) {   //Performing authentication
+                    TDEAKey TDEAkey = new TDEAKey(ByteUtil.hexStr2Bytes(key));
 
-                view.log("");
+                    Pair<RFReturnCode, byte[]> response = cardControl.RFTransmit(Utils.calcCrc(ByteUtil.hexStr2Bytes("1A00")));
 
-                view.log("RFOpen -> onDetected - RFReadBlock [0x00] called !");
-                returnCodes = cardControl.RFReadBlock(0x00);
-                view.log("RFOpen -> onDetected - RFReadBlock [0x00] - Return code:" + returnCodes.first.name());
-                view.log("RFOpen -> onDetected - RFReadBlock [0x00] - Data:" + ByteUtil.bytes2HexStr_2(returnCodes.second));
+                    if (response.first != RFReturnCode.SUCCESS || response.second.length != 11 || response.second[0] != (byte) 0xAF) {
+                        view.log("Invalid tag key");
 
-                view.log("");
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
 
-                view.log("RFOpen -> onDetected - RFClose called!");
-                returnCode = cardControl.RFClose();
-                view.log("RFOpen -> onDetected - RFClose - Return code: " + returnCode.name());
+                    byte[] encryptedB = Arrays.copyOfRange(response.second, 1, 9);
 
-                view.log("Finished at : " + new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date()));
+                    IvParameterSpec ivSpec = createIvSpecFromZeros(8);
+                    byte[] decryptedB;
+
+                    try {
+                        decryptedB = decrypt(encryptedB, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        view.log("Failed to decrypt B" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] bDash = concatenate(Arrays.copyOfRange(decryptedB, 1, 8), Arrays.copyOfRange(decryptedB, 0, 1));
+
+                    SecureRandom secureRandom = new SecureRandom();
+                    byte[] a = createZeros(8);
+                    secureRandom.nextBytes(a);
+
+                    byte[] aDash = concatenate(Arrays.copyOfRange(a, 1, 8), Arrays.copyOfRange(a, 0, 1));
+                    byte[] abDash = concatenate(a, bDash);
+
+                    ivSpec = new IvParameterSpec(encryptedB);
+
+                    byte[] encryptedAB;
+
+                    try {
+                        encryptedAB = encrypt(abDash, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        view.log("Failed to encrypt AB" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
+
+                    byte[] requestAB = concatenate(new byte[]{(byte) 0xAF}, encryptedAB);
+
+                    Pair<RFReturnCode, byte[]> finalResponse;
+
+                    try {
+                        finalResponse = cardControl.RFTransmit(Utils.calcCrc(requestAB));
+
+                    } catch (Exception e) {
+                        view.log("Failed communication with chip" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
+
+                    if (finalResponse.first != RFReturnCode.SUCCESS || finalResponse.second.length != 11 || finalResponse.second[0] != (byte) 0x00) {
+                        view.log("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
+                    byte[] encryptedADash = Arrays.copyOfRange(finalResponse.second, 1, 9);
+
+                    ivSpec = new IvParameterSpec(Arrays.copyOfRange(encryptedAB, 8, 16));
+
+                    byte[] reconstructedADash;
+
+                    try {
+                        reconstructedADash = decrypt(encryptedADash, TDEAkey, ivSpec);
+
+                    } catch (Exception e) {
+                        view.log("Failed to decrypt ADash" + e);
+
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
+
+                    if (!Arrays.equals(reconstructedADash, aDash)) {
+                        view.log("Invalid tag key");
+
+                        RFReturnCode close = cardControl.RFClose();
+                        view.log("Close status : " + close);
+                        return;
+                    }
+                }
+
+                ArrayList<byte[]> request = new ArrayList<>();
+
+                for (int i = start; i < end; i++) {
+                    request.add(Utils.calcCrc(new byte[]{0x30,(byte) i}));
+                }
+
+                Pair<RFReturnCode, ArrayList<byte[]>> responseTmp = cardControl.RFTransmit(request);
+
+                view.log("Transmit status : " + responseTmp.first);
+                int i = 0;
+                for (byte[] b : responseTmp.second) {
+                    view.log("B" + (i++) +":\t[" + at.tecs.smartpos_demo.utils.ByteUtil.bytes2HexStr(b) + "]");
+                }
+
+                RFReturnCode close = cardControl.RFClose();
+                view.log("Close status : " + close);
             }
 
             @Override
             public void onError(RFReturnCode rfReturnCode) {
-                view.log("RFOpen -> onError!");
-                view.log("RFOpen -> onError - Error: " + rfReturnCode.name());
+                if(RFReturnCode.INTERNAL_ERROR == rfReturnCode) {
+                    view.log("RF Open - INTERNAL_ERROR");
+                }
 
-                view.log("RFOpen -> onDetected - RFClose called!");
-                RFReturnCode returnCode = smartPOSController.RFClose();
-                view.log("RFOpen -> onDetected - RFClose - Return code: " + returnCode.name());
+                if(RFReturnCode.DEVICE_BUSY == rfReturnCode) {
+                    view.log("RF Open - DEVICE_BUSY");
+                }
 
-                view.log("Finished at : " + new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date()));
+                if(RFReturnCode.TIMEOUT == rfReturnCode) {
+                    view.log("RF Open - TIMEOUT");
+                }
+
+                if(RFReturnCode.CONNECTION_FAILED == rfReturnCode) {
+                    view.log("RF Open - CONNECTION_FAILED");
+                }
             }
         });
     }
