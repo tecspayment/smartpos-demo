@@ -179,7 +179,7 @@ public class SmartPOSControllerPresenter implements SmartPOSControllerContract.P
         view.description("Read All\n\n" +
                 "1.  Card reader will be opened for 10 seconds waiting for M1 type card.\n" +
                 "2.  When card is prompted UUID will be read.\n" +
-                "3.  All block from interval <1,50> are read.\n" +
+                "3.  All block from interval <1,44> are read.\n" +
                 "4.  Card reader will be closed.");
 
         view.log("RFOpen [10 sec, M1] called!\n");
@@ -193,8 +193,8 @@ public class SmartPOSControllerPresenter implements SmartPOSControllerContract.P
                 view.log("UUID : " + Utils.bytes2HexStr(bytes));
 
                 final int start = 0;
-                final int end = 50;
-                final String key = view.getKey(); //"2D F3 8F DF 85 81 62 8C 81 CF 54 52 80 39 F8 0D";
+                final int end = 44;
+                final String key = view.getKey(); //"2DF38FDF8581628C81CF54528039F80D";
 
                 view.log("Start - " + start);
                 view.log("End - " + end);
