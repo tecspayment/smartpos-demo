@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import at.tecs.smartpos.PaymentService;
 import at.tecs.smartpos.connector.ConnectionListener;
@@ -64,7 +65,12 @@ public class MainPresenter implements MainContract.Presenter {
 
     private Response lastResponse;
 
-    private final PaymentService paymentService;
+    private String uuid = "d1a82d8d-933e-4f6a-8c79-ee13c6d010e2";
+    private String deviceAddress = "B4:36:A9:F9:78:BD";
+
+    private PaymentService paymentService;
+
+    private String connectionType = "TCP/IP";
 
     MainPresenter() {
         paymentService = new PaymentService();
@@ -447,6 +453,45 @@ public class MainPresenter implements MainContract.Presenter {
                 view.showNotification("Abort failed!");
             }
         });
+    }
+
+    @Override
+    public void saveUUID(String uuid) {
+        this.uuid = uuid;
+    }
+
+    @Override
+    public void saveAddress(String address) {
+        deviceAddress = address;
+    }
+
+    @Override
+    public String getConnectionType() {
+        return connectionType;
+    }
+
+    @Override
+    public String getUUID() {
+        return uuid;
+    }
+
+    @Override
+    public String getAddress() {
+        return deviceAddress;
+    }
+
+    @Override
+    public void setConnectionType(String connectionType) {
+        this.connectionType = connectionType;
+
+        if(connectionType.equals("TCP/IP")) {
+            paymentService = new PaymentService();
+        } else {
+            BluetoothConnection bluetoothConnection = new BluetoothConnection();
+            bluetoothConnection.setUUID(UUID.fromString(uuid));
+            bluetoothConnection.setDeviceAddress(deviceAddress);
+            paymentService = new PaymentService(bluetoothConnection);
+        }
     }
 
     @Override

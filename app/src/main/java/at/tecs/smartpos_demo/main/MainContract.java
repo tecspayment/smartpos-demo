@@ -96,6 +96,12 @@ public interface MainContract {
 
         void savePort(String port);
 
+        void saveUUID(String uuid);
+
+        void saveAddress(String address);
+
+        void setConnectionType(String connectionType);
+
         void deletePort(String port);
 
         void vibrate();
@@ -105,6 +111,7 @@ public interface MainContract {
         PaymentService getPaymentService();
 
         void takeResponseView(MainContract.View.ResponseTab view);
+
         void takeReceiptView(MainContract.View.ReceiptTab view);
 
         void loadDefaults();
@@ -114,5 +121,8 @@ public interface MainContract {
         String getHostname();
         String getPort();
         String getTerminalNum();
+        String getConnectionType();
+        String getUUID();
+        String getAddress();
     }
 }

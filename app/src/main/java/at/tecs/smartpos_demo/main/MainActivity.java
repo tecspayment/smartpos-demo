@@ -158,6 +158,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 connectionDialog.setHost(presenter.getHostname());
                 connectionDialog.setPort(presenter.getPort());
                 connectionDialog.setTID(presenter.getTerminalNum());
+                connectionDialog.setUUID(presenter.getUUID());
+                connectionDialog.setConnectionType(presenter.getConnectionType());
+                connectionDialog.setAddress(presenter.getAddress());
 
                 connectionDialog.show();
             }
@@ -444,7 +447,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private final at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback connectionSettingsDialogCallback = new at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback() {
         @Override
-        public void saveConnection(String tid, String hostname, String port) {
+        public void saveConnection(String tid, String hostname, String port, String connectionType, String UUID, String address) {
             if(!hostname.isEmpty()) {
                 preferences.edit().putString("hostname", hostname).commit();
                 presenter.saveHostName(hostname);

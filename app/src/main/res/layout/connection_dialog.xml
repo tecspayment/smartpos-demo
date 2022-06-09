@@ -34,7 +34,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout66"
+        android:id="@+id/hostTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -42,7 +42,7 @@
         android:textColorHint="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout55">
+        app:layout_constraintTop_toBottomOf="@+id/connectionTypeSpinner">
 
         <AutoCompleteTextView
             android:id="@+id/hostEditText"
@@ -56,16 +56,16 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout67"
+        android:id="@+id/portTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Port"
         android:orientation="vertical"
         android:textColorHint="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout66"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout66"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout66">
+        app:layout_constraintEnd_toEndOf="@+id/hostTextInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/hostTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/hostTextInputLayout">
 
         <AutoCompleteTextView
             android:id="@+id/portEditText"
@@ -80,17 +80,69 @@
         android:id="@+id/saveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/okey_button"
         android:fontFamily="@font/manrope"
         android:text="Save"
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout67"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout67"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout67"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
+        app:layout_constraintTop_toBottomOf="@+id/addressTextInputLayout"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/connectionTypeSpinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/tecs_dark_line_container"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout55" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/uuidTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="UUID"
+        android:textColorHint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
+        app:layout_constraintTop_toBottomOf="@+id/portTextInputLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/uuidEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope"
+            android:maxLines="1"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/addressTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Device address"
+        android:textColorHint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
+        app:layout_constraintTop_toBottomOf="@+id/uuidTextInputLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/addressEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope"
+            android:maxLines="1"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
+    </android.support.design.widget.TextInputLayout>
 
 
 </android.support.constraint.ConstraintLayout>
