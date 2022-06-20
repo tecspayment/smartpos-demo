@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.os.ParcelUuid;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -43,8 +44,9 @@ public class BluetoothConnection implements iConnection {
         BluetoothDevice bluetoothDevice = null;
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         for(BluetoothDevice device : pairedDevices) {
-            if(device.getAddress().toLowerCase().equals(address.toLowerCase())) {
+            if(device.getAddress().equals(address)) {
                 bluetoothDevice = device;
+                break;
             }
         }
 

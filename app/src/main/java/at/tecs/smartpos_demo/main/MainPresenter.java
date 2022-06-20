@@ -242,14 +242,18 @@ public class MainPresenter implements MainContract.Presenter {
 
                         @Override
                         public void onDisconnected() {
-                            //Log.e("TEST", "Disconnected !");
                             view.showDisconnected();
                         }
 
                         @Override
                         public void onReadFailed() {
                             view.showNotification("Read Failed!");
-                            disconnect();
+                            if(connectionType.equals("TCP/IP")) {
+                                disconnect();
+                            } else {
+                                disconnect();
+                                connect();
+                            }
                         }
                     });
                 }
@@ -409,9 +413,16 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void abort() {
-        final PaymentService paymentService = new PaymentService();
-        paymentService.setHostname(hostname);
-        paymentService.setPort(Integer.parseInt(port));
+        if(connectionType.equals("TCP/IP")) {
+            final PaymentService paymentService = new PaymentService();
+            paymentService.setHostname(hostname);
+            paymentService.setPort(Integer.parseInt(port));
+        } else {
+            BluetoothConnection bluetoothConnection = new BluetoothConnection();
+            bluetoothConnection.setUUID(UUID.fromString(uuid));
+            bluetoothConnection.setDeviceAddress(deviceAddress);
+            paymentService = new PaymentService(bluetoothConnection);
+        }
         paymentService.connect(new ConnectionListener() {
             @Override
             public void onConnected() {
@@ -487,6 +498,7 @@ public class MainPresenter implements MainContract.Presenter {
         if(connectionType.equals("TCP/IP")) {
             paymentService = new PaymentService();
         } else {
+            Log.e("TEST", "Creating Bluetooth connection! - " + deviceAddress);
             BluetoothConnection bluetoothConnection = new BluetoothConnection();
             bluetoothConnection.setUUID(UUID.fromString(uuid));
             bluetoothConnection.setDeviceAddress(deviceAddress);

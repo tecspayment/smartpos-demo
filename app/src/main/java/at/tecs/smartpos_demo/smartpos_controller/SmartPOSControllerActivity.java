@@ -1,5 +1,6 @@
 package at.tecs.smartpos_demo.smartpos_controller;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
     protected void onResume() {
         super.onResume();
         presenter.attachView(this);
+        presenter.loadCards();
     }
 
     @Override
@@ -82,6 +84,11 @@ public class SmartPOSControllerActivity extends AppCompatActivity implements Sma
                 presenter.printerTest2();
             }
         });
+    }
+
+    @Override
+    public Context getContext() {
+        return super.getApplicationContext();
     }
 
     @Override

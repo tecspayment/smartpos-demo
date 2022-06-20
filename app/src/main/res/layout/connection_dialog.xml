@@ -89,8 +89,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
-        app:layout_constraintTop_toBottomOf="@+id/addressTextInputLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/scanButton" />
 
     <Spinner
         android:id="@+id/connectionTypeSpinner"
@@ -123,26 +122,62 @@
             android:textColorHint="@color/colorAccent" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/addressTextInputLayout"
+    <Spinner
+        android:id="@+id/scannedDevicesSpinner"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Device address"
-        android:textColorHint="@color/colorAccent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tecs_dark_line_container"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
-        app:layout_constraintTop_toBottomOf="@+id/uuidTextInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/scanTextView" />
 
-        <AutoCompleteTextView
-            android:id="@+id/addressEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope"
-            android:maxLines="1"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
-    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/scanButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tecs_dark_line_container"
+        android:fontFamily="@font/manrope"
+        android:text="SCAN"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/scannedDevicesSpinner"
+        app:layout_constraintStart_toStartOf="@+id/scannedDevicesSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/scannedDevicesSpinner" />
+
+    <Spinner
+        android:id="@+id/pairedDevicesSpinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tecs_dark_line_container"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout55"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout55"
+        app:layout_constraintTop_toBottomOf="@+id/pairedTextView" />
+
+    <TextView
+        android:id="@+id/pairedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/manrope"
+        android:text="Paired devices:"
+        android:textColor="@color/colorAccent"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/pairedDevicesSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/uuidTextInputLayout" />
+
+    <TextView
+        android:id="@+id/scanTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/manrope"
+        android:text="Scanned devices:"
+        android:textColor="@color/colorAccent"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/scannedDevicesSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/pairedDevicesSpinner" />
 
 
 </android.support.constraint.ConstraintLayout>

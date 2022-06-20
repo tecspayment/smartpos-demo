@@ -1,5 +1,7 @@
 package at.tecs.smartpos_demo.smartpos_controller;
 
+import android.content.Context;
+
 public interface SmartPOSControllerContract {
 
     interface Presenter {
@@ -11,6 +13,7 @@ public interface SmartPOSControllerContract {
         void readAll();
         void printerTest1();
         void printerTest2();
+        void loadCards();
     }
 
     interface View {
@@ -18,5 +21,6 @@ public interface SmartPOSControllerContract {
         void log(String log);
         void clear();
         String getKey();
+        Context getContext();
     }
 }
