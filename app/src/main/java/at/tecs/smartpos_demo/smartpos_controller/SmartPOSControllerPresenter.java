@@ -7,11 +7,21 @@ import static at.tecs.smartpos_demo.Utils.createZeros;
 import static at.tecs.smartpos_demo.Utils.decrypt;
 import static at.tecs.smartpos_demo.Utils.encrypt;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.crypto.spec.IvParameterSpec;
@@ -29,6 +39,7 @@ import at.tecs.smartpos_demo.utils.TDEAKey;
 
 public class SmartPOSControllerPresenter implements SmartPOSControllerContract.Presenter {
 
+    private List<MifareCard> cards = new ArrayList<>();
     private SmartPOSControllerContract.View view;
     private final SmartPOSController smartPOSController;
 
@@ -39,6 +50,27 @@ public class SmartPOSControllerPresenter implements SmartPOSControllerContract.P
     @Override
     public void attachView(SmartPOSControllerContract.View view) {
         this.view = view;
+    }
+
+    @Override
+    public void loadCards() {
+        try {
+            InputStream jsonStream = view.getContext().getAssets().open("mifare.json");
+
+            int size = jsonStream.available();
+            byte[] buffer = new byte[size];
+            jsonStream.read(buffer);
+            jsonStream.close();
+            String jsonString = new String(buffer, StandardCharsets.UTF_8);
+
+            Gson gson = new Gson();
+            Type listCardType = new TypeToken<List<MifareCard>>() { }.getType();
+            cards = gson.fromJson(jsonString, listCardType);
+
+            Utils.showToast(view.getContext(), "Cards has been successfully loaded (" + cards.size() + ")");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -194,7 +226,14 @@ public class SmartPOSControllerPresenter implements SmartPOSControllerContract.P
 
                 final int start = 0;
                 final int end = 44;
-                final String key = view.getKey(); //"2DF38FDF8581628C81CF54528039F80D";
+                String key = "5DE3D9C591CF4CA241E3E1482EC5AE04".toLowerCase(Locale.ROOT);
+
+
+                for(int i = 0; i < cards.size(); i++) {
+                    if(cards.get(i).uuid.toLowerCase().equals(Utils.bytes2HexStr(bytes).toLowerCase())) {
+                        key = cards.get(i).key;
+                    }
+                }
 
                 view.log("Start - " + start);
                 view.log("End - " + end);
@@ -468,5 +507,10 @@ public class SmartPOSControllerPresenter implements SmartPOSControllerContract.P
                 }
             }
         }).start();
+    }
+
+    private class MifareCard {
+        String uuid;
+        String key;
     }
 }

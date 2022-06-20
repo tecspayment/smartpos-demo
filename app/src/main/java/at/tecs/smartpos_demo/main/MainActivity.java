@@ -22,7 +22,6 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import at.tecs.smartpos_demo.main.adapter.MainAdapter;
@@ -158,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 connectionDialog.setHost(presenter.getHostname());
                 connectionDialog.setPort(presenter.getPort());
                 connectionDialog.setTID(presenter.getTerminalNum());
+                connectionDialog.setUUID(presenter.getUUID());
+                connectionDialog.setConnectionType(presenter.getConnectionType());
+                connectionDialog.setAddress(presenter.getAddress());
 
                 connectionDialog.show();
             }
@@ -371,8 +373,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     showNotification("NaTALI's interpreter has stopped!");
                 case SERVICE_RELOADING:
                     showNotification("NaTALI is reloading!");
-                    if(presenter.isConnected())
+                    if(presenter.isConnected()) {
                         presenter.disconnect();
+                    }
                     break;
             }
         }
@@ -444,7 +447,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private final at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback connectionSettingsDialogCallback = new at.tecs.smartpos_demo.main.dialog.Callback.ConnectionSettingsDialogCallback() {
         @Override
-        public void saveConnection(String tid, String hostname, String port) {
+        public void saveConnection(String tid, String hostname, String port, String connectionType, String UUID, String address) {
             if(!hostname.isEmpty()) {
                 preferences.edit().putString("hostname", hostname).commit();
                 presenter.saveHostName(hostname);
@@ -461,6 +464,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             presenter.setHostname(hostname);
             presenter.setTID(tid);
             presenter.setPort(port);
+
+            presenter.saveAddress(address);
+            presenter.saveUUID(UUID);
+            presenter.setConnectionType(connectionType);
 
             showTID(tid);
         }
