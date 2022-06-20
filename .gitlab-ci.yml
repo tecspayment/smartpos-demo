@@ -34,7 +34,7 @@ buildtag:
 deployment:
   stage: deployment
   script:
-    - git push --mirror https://tecs-at-publish:${GITHUB_TOKEN}@github.com/tecspayment/smartpos-demo
+    - git push --mirror --force https://tecs-at-publish:${GITHUB_TOKEN}@github.com/tecspayment/smartpos-demo
   tags:
     - linux
   only:
