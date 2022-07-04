@@ -1,5 +1,8 @@
 package at.tecs.smartpos_demo.main.dialog;
 
+import static at.tecs.smartpos_demo.main.MainPresenter.BLUETOOTH_CON;
+import static at.tecs.smartpos_demo.main.MainPresenter.TCP_CON;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
@@ -34,7 +37,7 @@ public class ConnectionSettingsDialog extends Dialog {
     private String TID = "";
     private String host = "";
     private String port = "";
-    private String connectionType = "TCP/IP";
+    private String connectionType = TCP_CON;
     private String address = "";
     private String uuid = "";
 
@@ -152,7 +155,7 @@ public class ConnectionSettingsDialog extends Dialog {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(adapterView.getSelectedItem().toString().equals("TCP/IP")) {
+                if(adapterView.getSelectedItem().toString().equals(TCP_CON)) {
                     uuidTextInputLayout.setVisibility(View.GONE);
                     pairedDevicesSpinner.setVisibility(View.GONE);
                     scannedDevicesSpinner.setVisibility(View.GONE);
@@ -160,12 +163,20 @@ public class ConnectionSettingsDialog extends Dialog {
                     scanTextView.setVisibility(View.GONE);
                     portTextInputLayout.setVisibility(View.VISIBLE);
                     hostTextInputLayout.setVisibility(View.VISIBLE);
-                } else {
+                } else if(adapterView.getSelectedItem().toString().equals(BLUETOOTH_CON)) {
                     uuidTextInputLayout.setVisibility(View.VISIBLE);
                     pairedDevicesSpinner.setVisibility(View.VISIBLE);
                     scannedDevicesSpinner.setVisibility(View.VISIBLE);
                     pairedTextView.setVisibility(View.VISIBLE);
                     scanTextView.setVisibility(View.VISIBLE);
+                    portTextInputLayout.setVisibility(View.GONE);
+                    hostTextInputLayout.setVisibility(View.GONE);
+                } else {
+                    uuidTextInputLayout.setVisibility(View.GONE);
+                    pairedDevicesSpinner.setVisibility(View.GONE);
+                    scannedDevicesSpinner.setVisibility(View.GONE);
+                    pairedTextView.setVisibility(View.GONE);
+                    scanTextView.setVisibility(View.GONE);
                     portTextInputLayout.setVisibility(View.GONE);
                     hostTextInputLayout.setVisibility(View.GONE);
                 }
@@ -225,7 +236,7 @@ public class ConnectionSettingsDialog extends Dialog {
                             tidEditText.getText().toString(),
                             hostEditText.getText().toString(),
                             portEditText.getText().toString(),
-                            connectionTypeSpinner.getSelectedItem() == null? "TCP/IP" : connectionTypeSpinner.getSelectedItem() .toString(),
+                            connectionTypeSpinner.getSelectedItem() == null? TCP_CON : connectionTypeSpinner.getSelectedItem() .toString(),
                             uuidEditText.getText().toString(),
                             pairedDevicesSpinner.getSelectedItem() == null? "" : pairedDevicesSpinner.getSelectedItem().toString()
                             );

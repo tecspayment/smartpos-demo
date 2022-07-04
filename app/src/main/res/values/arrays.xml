@@ -3,5 +3,6 @@
     <string-array name="connectionTypes">
         <item>TCP/IP</item>
         <item>Bluetooth</item>
+        <item>Serial</item>
     </string-array>
 </resources>

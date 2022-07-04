@@ -72,6 +72,11 @@ public class MainPresenter implements MainContract.Presenter {
 
     private String connectionType = "TCP/IP";
 
+    public final static String BLUETOOTH_CON = "Bluetooth";
+    public final static String TCP_CON = "TCP/IP";
+    public final static String SERIAL_CON = "Serial";
+
+
     MainPresenter() {
         paymentService = new PaymentService();
     }
@@ -188,6 +193,8 @@ public class MainPresenter implements MainContract.Presenter {
 
                     if(paymentService.getType() == TCP) {
                         view.showNotification("Connected to " + paymentService.getHostname() + ":" + paymentService.getPort());
+                    } else {
+                        view.showNotification("Connected to device!");
                     }
 
                     paymentService.listen(new ResponseListener() {
@@ -248,7 +255,7 @@ public class MainPresenter implements MainContract.Presenter {
                         @Override
                         public void onReadFailed() {
                             view.showNotification("Read Failed!");
-                            if(connectionType.equals("TCP/IP")) {
+                            if(connectionType.equals(TCP_CON)) {
                                 disconnect();
                             } else {
                                 disconnect();
@@ -413,15 +420,24 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void abort() {
-        if(connectionType.equals("TCP/IP")) {
+        if(connectionType.equals(TCP_CON)) {
             final PaymentService paymentService = new PaymentService();
             paymentService.setHostname(hostname);
             paymentService.setPort(Integer.parseInt(port));
-        } else {
+        } else if(connectionType.equals(BLUETOOTH_CON)) {
             BluetoothConnection bluetoothConnection = new BluetoothConnection();
             bluetoothConnection.setUUID(UUID.fromString(uuid));
             bluetoothConnection.setDeviceAddress(deviceAddress);
             paymentService = new PaymentService(bluetoothConnection);
+        } else if(connectionType.equals(SERIAL_CON)) {
+            SerialConnection serialConnection = SerialConnection.getInstance(view.getContext());
+
+            serialConnection.receiveTimeout = 70;
+            serialConnection.setBaudRate(19200);
+            serialConnection.setParity(0);
+            serialConnection.setDataBits(8);
+            serialConnection.setStopBit(1);
+            paymentService = new PaymentService(serialConnection);
         }
         paymentService.connect(new ConnectionListener() {
             @Override
@@ -495,14 +511,23 @@ public class MainPresenter implements MainContract.Presenter {
     public void setConnectionType(String connectionType) {
         this.connectionType = connectionType;
 
-        if(connectionType.equals("TCP/IP")) {
+        if(connectionType.equals(TCP_CON)) {
             paymentService = new PaymentService();
-        } else {
-            Log.e("TEST", "Creating Bluetooth connection! - " + deviceAddress);
+        } else if (connectionType.equals(BLUETOOTH_CON)) {
             BluetoothConnection bluetoothConnection = new BluetoothConnection();
             bluetoothConnection.setUUID(UUID.fromString(uuid));
             bluetoothConnection.setDeviceAddress(deviceAddress);
             paymentService = new PaymentService(bluetoothConnection);
+        } else if(connectionType.equals(SERIAL_CON)) {
+            SerialConnection serialConnection = SerialConnection.getInstance(view.getContext());
+
+            serialConnection.receiveTimeout = 70;
+            serialConnection.setBaudRate(19200);
+            serialConnection.setParity(0);
+            serialConnection.setDataBits(8);
+            serialConnection.setStopBit(1);
+
+            paymentService = new PaymentService(serialConnection);
         }
     }
 
