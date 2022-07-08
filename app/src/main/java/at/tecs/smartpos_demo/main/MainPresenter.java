@@ -330,15 +330,36 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setHostname(String hostname) {
-        paymentService.setHostname(hostname);
+        if(hostname != null && !hostname.isEmpty()) {
+            if(connectionType.equals(TCP_CON) && !paymentService.getHostname().equals(hostname)) {
+                try {
+                    paymentService.disconnect();
+                    paymentService.setHostname(hostname);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-        this.hostname = hostname;
+
+            Log.e("TEST", "Set hostname - " + hostname);
+
+            this.hostname = hostname;
+        }
     }
 
     @Override
     public void setPort(String port) {
         if(port != null && !port.isEmpty()) {
-            paymentService.setPort(Integer.parseInt(port));
+            if(connectionType.equals(TCP_CON) && !paymentService.getPort().equals(port)) {
+                try {
+                    paymentService.disconnect();
+                    paymentService.setPort(Integer.parseInt(port));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Log.e("TEST", "Set port - " + port);
 
             this.port = port;
         }
@@ -509,25 +530,27 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setConnectionType(String connectionType) {
-        this.connectionType = connectionType;
+        if(!connectionType.equals(this.connectionType)) {
+            this.connectionType = connectionType;
 
-        if(connectionType.equals(TCP_CON)) {
-            paymentService = new PaymentService();
-        } else if (connectionType.equals(BLUETOOTH_CON)) {
-            BluetoothConnection bluetoothConnection = new BluetoothConnection();
-            bluetoothConnection.setUUID(UUID.fromString(uuid));
-            bluetoothConnection.setDeviceAddress(deviceAddress);
-            paymentService = new PaymentService(bluetoothConnection);
-        } else if(connectionType.equals(SERIAL_CON)) {
-            SerialConnection serialConnection = SerialConnection.getInstance(view.getContext());
+            if (connectionType.equals(TCP_CON)) {
+                paymentService = new PaymentService();
+            } else if (connectionType.equals(BLUETOOTH_CON)) {
+                BluetoothConnection bluetoothConnection = new BluetoothConnection();
+                bluetoothConnection.setUUID(UUID.fromString(uuid));
+                bluetoothConnection.setDeviceAddress(deviceAddress);
+                paymentService = new PaymentService(bluetoothConnection);
+            } else if (connectionType.equals(SERIAL_CON)) {
+                SerialConnection serialConnection = SerialConnection.getInstance(view.getContext());
 
-            serialConnection.receiveTimeout = 70;
-            serialConnection.setBaudRate(19200);
-            serialConnection.setParity(0);
-            serialConnection.setDataBits(8);
-            serialConnection.setStopBit(1);
+                serialConnection.receiveTimeout = 70;
+                serialConnection.setBaudRate(19200);
+                serialConnection.setParity(0);
+                serialConnection.setDataBits(8);
+                serialConnection.setStopBit(1);
 
-            paymentService = new PaymentService(serialConnection);
+                paymentService = new PaymentService(serialConnection);
+            }
         }
     }
 
