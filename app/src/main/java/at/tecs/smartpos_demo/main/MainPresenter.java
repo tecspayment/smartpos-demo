@@ -340,8 +340,7 @@ public class MainPresenter implements MainContract.Presenter {
                 }
             }
 
-
-            Log.e("TEST", "Set hostname - " + hostname);
+            //Log.e("TEST", "Set hostname - " + hostname);
 
             this.hostname = hostname;
         }
@@ -359,7 +358,7 @@ public class MainPresenter implements MainContract.Presenter {
                 }
             }
 
-            Log.e("TEST", "Set port - " + port);
+            //Log.e("TEST", "Set port - " + port);
 
             this.port = port;
         }
