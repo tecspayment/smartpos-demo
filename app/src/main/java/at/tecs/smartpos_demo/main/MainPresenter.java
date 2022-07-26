@@ -18,8 +18,11 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import at.tecs.smartpos.PaymentService;
+import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
+import at.tecs.smartpos.data.PrinterPrintType;
+import at.tecs.smartpos.data.PrinterReturnCode;
 import at.tecs.smartpos.data.Response;
 import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos.exception.TransactionFieldException;
@@ -35,6 +38,10 @@ import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 import static at.tecs.smartpos.data.ConnectionType.TCP;
 import static at.tecs.smartpos_demo.Utils.showToast;
 import static at.tecs.smartpos_demo.main.MainActivity.SERVICE_READY_TO_PAY;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class MainPresenter implements MainContract.Presenter {
@@ -218,6 +225,10 @@ public class MainPresenter implements MainContract.Presenter {
                                             responseText.append(response.responseText.substring(0, i + 1));
                                             break;
                                         }
+                                    }
+
+                                    if(response.getReconciliationResponse() != null) {
+                                        printReconciliation(response);
                                     }
 
                                     int imageResource = -1;
@@ -730,6 +741,95 @@ public class MainPresenter implements MainContract.Presenter {
         } else {
             //deprecated in API 26
             vibrator.vibrate(500);
+        }
+    }
+
+    @Override
+    public void printReconciliation(Response response) {
+        String reconciliationResponse = response.getReconciliationResponse();
+        final StringBuilder receipt = new StringBuilder();
+        receipt.append("Reconciliation response:\n\n");
+
+        try {
+            JSONObject reconciliation = new JSONObject(reconciliationResponse);
+
+            JSONArray cardtypeData = reconciliation.getJSONArray("cardtypeData");
+
+            for(int i = 0; i < cardtypeData.length(); i++) {
+                JSONObject data = cardtypeData.getJSONObject(i);
+                String cardAID = data.getString("cardAID");
+                receipt.append("AID: ").append(cardAID).append("\n");
+
+                String cardProviderName = data.getString("cardProviderName");
+                receipt.append("Provider: ").append(cardProviderName).append("\n");
+
+                int numberOfDebit = data.getInt("numberOfDebit");
+                receipt.append("Debit number: ").append(numberOfDebit).append("\n");
+
+                double debitAmount = data.getDouble("debitAmount");
+                receipt.append("Debit amount:" ).append(debitAmount).append("\n");
+
+                double tip = data.getDouble("tip");
+                receipt.append("Tip amount: ").append(tip).append("\n");
+
+                double debitTotal = data.getDouble("debitAmount");
+                receipt.append("Debit total amount: ").append(debitTotal).append("\n");
+
+                int numberOfCredit = data.getInt("numberOfCredit");
+                receipt.append("Credit number: ").append(numberOfCredit).append("\n");
+
+                int creditTotal = data.getInt("creditTotal");
+                receipt.append("Credit total amount: ").append(creditTotal).append("\n");
+
+                receipt.append("\n\n");
+            }
+
+            receipt.append("Summarized:\n");
+            int numberOfDebitSum = reconciliation.getInt("numberOfDebitSum");
+            receipt.append("Debit number: ").append(numberOfDebitSum).append("\n");
+
+            double debitAmountSum = reconciliation.getDouble("debitAmountSum");
+            receipt.append("Debit amount: ").append(debitAmountSum).append("\n");
+
+            double tipSum = reconciliation.getDouble("tipSum");
+            receipt.append("Tip amount: ").append(tipSum).append("\n");
+
+            double debitSum = reconciliation.getDouble("debitSum");
+            receipt.append("Debit total amount: ").append(debitSum).append("\n");
+
+            int numberOfCreditSum = reconciliation.getInt("numberOfCreditSum");
+            receipt.append("Credit number: ").append(numberOfCreditSum).append("\n");
+
+            int creditAmountSum = reconciliation.getInt("creditAmountSum");
+            receipt.append("Credit amount:").append(creditAmountSum).append("\n");
+
+            Log.e("Reconciliation", receipt.toString());
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SmartPOSController smartPOSController = new SmartPOSController();
+                    int ret = smartPOSController.PrinterOpen();
+                    if (ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    int status = smartPOSController.PrinterGetStatus();
+                    if (status != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    ret = smartPOSController.PrinterPrint(receipt.toString(), PrinterPrintType.TEXT.value);
+                    if (ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                    }
+                }
+            }).start();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
