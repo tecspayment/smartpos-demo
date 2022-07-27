@@ -118,6 +118,8 @@ public interface MainContract {
 
         void abort();
 
+        void printReconciliation(Response response);
+
         String getHostname();
         String getPort();
         String getTerminalNum();
