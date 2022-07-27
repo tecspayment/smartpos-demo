@@ -11,6 +11,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -747,27 +748,63 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void printReconciliation(Response response) {
         String reconciliationResponse = response.getReconciliationResponse();
+
         final StringBuilder receipt = new StringBuilder();
-        receipt.append("Reconciliation response:\n\n");
 
         try {
+            @SuppressLint("SimpleDateFormat")
+            Date date = new SimpleDateFormat("yyyyMMddHHmmss").parse(response.transactionDateTime);
+
+            int day = date.getDay();
+            String dayString = String.valueOf(day);
+            if(day < 10) {
+                dayString = "0" + String.valueOf(day);
+            }
+
+            int month = date.getMonth();
+            String monthString = String.valueOf(month);
+            if(month < 10) {
+                monthString = "0" + String.valueOf(month);
+            }
+
+            int hours = date.getHours();
+            String hoursString = String.valueOf(hours);
+            if(hours < 10) {
+                hoursString = "0" + String.valueOf(hours);
+            }
+
+            int minutes = date.getMinutes();
+            String minutesString = String.valueOf(minutes);
+            if(minutes < 10) {
+                minutesString = "0" + String.valueOf(minutes);
+            }
+
+            int year = date.getYear();
+            String yearString = String.valueOf(year);
+            yearString = yearString.substring(1);
+
+            receipt.append("        RECONCILIATION\n\n\n");
+            receipt.append("TID: " + TID + "                 \nDate: " + dayString +"/"+ monthString +"/"+ yearString +"    Time: "+ hoursString +":" + minutesString + "\n\n\n");
+
             JSONObject reconciliation = new JSONObject(reconciliationResponse);
 
             JSONArray cardtypeData = reconciliation.getJSONArray("cardtypeData");
 
             for(int i = 0; i < cardtypeData.length(); i++) {
                 JSONObject data = cardtypeData.getJSONObject(i);
-                String cardAID = data.getString("cardAID");
-                receipt.append("AID: ").append(cardAID).append("\n");
+                if(!data.isNull("cardAID")) {
+                    String cardAID = data.getString("cardAID");
+                    receipt.append("AID: ").append(cardAID).append("\n");
+                }
 
                 String cardProviderName = data.getString("cardProviderName");
-                receipt.append("Provider: ").append(cardProviderName).append("\n");
+                receipt.append("Brand name: ").append(cardProviderName).append("\n");
 
                 int numberOfDebit = data.getInt("numberOfDebit");
-                receipt.append("Debit number: ").append(numberOfDebit).append("\n");
+                receipt.append("Debit count: ").append(numberOfDebit).append("\n");
 
                 double debitAmount = data.getDouble("debitAmount");
-                receipt.append("Debit amount:" ).append(debitAmount).append("\n");
+                receipt.append("Debit amount: ").append(debitAmount).append("\n");
 
                 double tip = data.getDouble("tip");
                 receipt.append("Tip amount: ").append(tip).append("\n");
@@ -776,17 +813,17 @@ public class MainPresenter implements MainContract.Presenter {
                 receipt.append("Debit total amount: ").append(debitTotal).append("\n");
 
                 int numberOfCredit = data.getInt("numberOfCredit");
-                receipt.append("Credit number: ").append(numberOfCredit).append("\n");
+                receipt.append("Credit count: ").append(numberOfCredit).append("\n");
 
                 int creditTotal = data.getInt("creditTotal");
                 receipt.append("Credit total amount: ").append(creditTotal).append("\n");
 
-                receipt.append("\n\n");
+                receipt.append("------------------------------------------\n\n");
             }
 
-            receipt.append("Summarized:\n");
+            receipt.append("=============================\nSummarized:\n");
             int numberOfDebitSum = reconciliation.getInt("numberOfDebitSum");
-            receipt.append("Debit number: ").append(numberOfDebitSum).append("\n");
+            receipt.append("Debit count: ").append(numberOfDebitSum).append("\n");
 
             double debitAmountSum = reconciliation.getDouble("debitAmountSum");
             receipt.append("Debit amount: ").append(debitAmountSum).append("\n");
@@ -798,10 +835,12 @@ public class MainPresenter implements MainContract.Presenter {
             receipt.append("Debit total amount: ").append(debitSum).append("\n");
 
             int numberOfCreditSum = reconciliation.getInt("numberOfCreditSum");
-            receipt.append("Credit number: ").append(numberOfCreditSum).append("\n");
+            receipt.append("Credit count: ").append(numberOfCreditSum).append("\n");
 
             int creditAmountSum = reconciliation.getInt("creditAmountSum");
-            receipt.append("Credit amount:").append(creditAmountSum).append("\n");
+            receipt.append("Credit amount: ").append(creditAmountSum).append("\n");
+            receipt.append("=============================\n");
+            receipt.append("          " + response.responseText);
 
             Log.e("Reconciliation", receipt.toString());
 
@@ -825,10 +864,18 @@ public class MainPresenter implements MainContract.Presenter {
                     if (ret != PrinterReturnCode.SUCCESS.value) {
                         smartPOSController.PrinterClose();
                     }
+
+                    ret = smartPOSController.PrinterFeedLine(8);
+                    if (ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                    }
+
                 }
             }).start();
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }
