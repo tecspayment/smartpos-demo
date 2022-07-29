@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,42 +51,30 @@ import org.json.JSONObject;
 
 public class MainPresenter implements MainContract.Presenter {
 
-    private MainContract.View view;
-    private MainContract.View.ResponseTab responseView;
-    private MainContract.View.ReceiptTab receiptView;
-
-    private static MainContract.Presenter instance;
-
-    private Repository repository;
-
-    private Timer timer;
-    private Incrementer incrementer;
-
-    private String transactionID;
-    private String dateTime;
-
-    private String TID = "";
-    private String hostname = "";
-    private String port = "";
-
-    private boolean autoConnect = true;
-    private boolean showDialog = false;
-    private boolean showAutoResponse = true;
-
-    private int nataliStatus = -1;
-
-    private Response lastResponse;
-
-    private String uuid = "d1a82d8d-933e-4f6a-8c79-ee13c6d010e2";
-    private String deviceAddress = "B4:36:A9:F9:78:BD";
-
-    private PaymentService paymentService;
-
-    private String connectionType = "TCP/IP";
-
     public final static String BLUETOOTH_CON = "Bluetooth";
     public final static String TCP_CON = "TCP/IP";
     public final static String SERIAL_CON = "Serial";
+    private static MainContract.Presenter instance;
+    private MainContract.View view;
+    private MainContract.View.ResponseTab responseView;
+    private MainContract.View.ReceiptTab receiptView;
+    private Repository repository;
+    private Timer timer;
+    private Incrementer incrementer;
+    private String transactionID;
+    private String dateTime;
+    private String TID = "";
+    private String hostname = "";
+    private String port = "";
+    private boolean autoConnect = true;
+    private boolean showDialog = false;
+    private boolean showAutoResponse = true;
+    private int nataliStatus = -1;
+    private Response lastResponse;
+    private String uuid = "d1a82d8d-933e-4f6a-8c79-ee13c6d010e2";
+    private String deviceAddress = "B4:36:A9:F9:78:BD";
+    private PaymentService paymentService;
+    private String connectionType = "TCP/IP";
 
 
     MainPresenter() {
@@ -228,10 +220,6 @@ public class MainPresenter implements MainContract.Presenter {
                                         }
                                     }
 
-                                    if(response.getReconciliationResponse() != null) {
-                                        printReconciliation(response);
-                                    }
-
                                     int imageResource = -1;
 
                                     if(response.responseCode.equals("0000")) {
@@ -248,6 +236,18 @@ public class MainPresenter implements MainContract.Presenter {
 
                             if(response.getScanData() != null && !response.getScanData().isEmpty()) {
                                 view.showMessage("Scan result", response.getScanData(), R.drawable.outline_qr_code_white_48dp, -1);
+                            }
+
+                            if(response.getReconciliationResponse() != null) {
+                                printReconciliation(response);
+                            } else {
+                                Log.e("Reconciliation", "No reconciliation!");
+                            }
+
+                            if(response.getEndOfDayResponse() != null) {
+                                printEndOfDay(response);
+                            } else {
+                                Log.e("End of Day", "No End of Day!");
                             }
 
                             Log.i("TEST", "Customer Receipt: " + response.getCustomerReceipt());
@@ -341,49 +341,8 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void setHostname(String hostname) {
-        if(hostname != null && !hostname.isEmpty()) {
-            if(connectionType.equals(TCP_CON) && !paymentService.getHostname().equals(hostname)) {
-                try {
-                    paymentService.disconnect();
-                    paymentService.setHostname(hostname);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            //Log.e("TEST", "Set hostname - " + hostname);
-
-            this.hostname = hostname;
-        }
-    }
-
-    @Override
-    public void setPort(String port) {
-        if(port != null && !port.isEmpty()) {
-            if(connectionType.equals(TCP_CON) && !paymentService.getPort().equals(port)) {
-                try {
-                    paymentService.disconnect();
-                    paymentService.setPort(Integer.parseInt(port));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            //Log.e("TEST", "Set port - " + port);
-
-            this.port = port;
-        }
-    }
-
-    @Override
     public void setTID(String TID) {
         this.TID = TID;
-    }
-
-    @Override
-    public void setAutoConnect(boolean autoConnect) {
-        this.autoConnect = autoConnect;
     }
 
     @Override
@@ -404,6 +363,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public boolean isAutoConnect() {
         return this.autoConnect;
+    }
+
+    @Override
+    public void setAutoConnect(boolean autoConnect) {
+        this.autoConnect = autoConnect;
     }
 
     @Override
@@ -441,8 +405,44 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void setHostname(String hostname) {
+        if(hostname != null && !hostname.isEmpty()) {
+            if(connectionType.equals(TCP_CON) && !paymentService.getHostname().equals(hostname)) {
+                try {
+                    paymentService.disconnect();
+                    paymentService.setHostname(hostname);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //Log.e("TEST", "Set hostname - " + hostname);
+
+            this.hostname = hostname;
+        }
+    }
+
+    @Override
     public String getPort() {
         return port;
+    }
+
+    @Override
+    public void setPort(String port) {
+        if(port != null && !port.isEmpty()) {
+            if(connectionType.equals(TCP_CON) && !paymentService.getPort().equals(port)) {
+                try {
+                    paymentService.disconnect();
+                    paymentService.setPort(Integer.parseInt(port));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //Log.e("TEST", "Set port - " + port);
+
+            this.port = port;
+        }
     }
 
     @Override
@@ -530,16 +530,6 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public String getUUID() {
-        return uuid;
-    }
-
-    @Override
-    public String getAddress() {
-        return deviceAddress;
-    }
-
-    @Override
     public void setConnectionType(String connectionType) {
         if(!connectionType.equals(this.connectionType)) {
             this.connectionType = connectionType;
@@ -563,6 +553,16 @@ public class MainPresenter implements MainContract.Presenter {
                 paymentService = new PaymentService(serialConnection);
             }
         }
+    }
+
+    @Override
+    public String getUUID() {
+        return uuid;
+    }
+
+    @Override
+    public String getAddress() {
+        return deviceAddress;
     }
 
     @Override
@@ -749,50 +749,83 @@ public class MainPresenter implements MainContract.Presenter {
     public void printReconciliation(Response response) {
         String reconciliationResponse = response.getReconciliationResponse();
 
+        Log.e("Reconciliation", reconciliationResponse);
+
         final StringBuilder receipt = new StringBuilder();
 
         try {
-            @SuppressLint("SimpleDateFormat")
-            Date date = new SimpleDateFormat("yyyyMMddHHmmss").parse(response.transactionDateTime);
+            //@SuppressLint("SimpleDateFormat")
+            //Date date = new SimpleDateFormat("yyyyMMddHHmmss").parse(response.transactionDateTime);
 
-            int day = date.getDay();
-            String dayString = String.valueOf(day);
-            if(day < 10) {
+            String dayString = "";
+            String monthString = "";
+            String hoursString = "";
+            String minutesString = "";
+            String yearString = "";
+
+            int day = 0;
+            int month = 0;
+            int hours = 0;
+            int minutes = 0;
+            int year = 0;
+
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                LocalDateTime parsedDate = LocalDateTime.parse(response.transactionDateTime, formatter);
+
+                day = parsedDate.getDayOfMonth();
+                month = parsedDate.getMonthValue();
+                hours = parsedDate.getHour();
+                minutes = parsedDate.getMinute();
+                year = parsedDate.getYear();
+            } else {
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date date = formatter.parse(response.transactionDateTime);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH) + 1;
+                hours = calendar.get(Calendar.HOUR_OF_DAY);
+                minutes = calendar.get(Calendar.MINUTE);
+                year = calendar.get(Calendar.YEAR);
+            }
+
+            dayString = String.valueOf(day);
+            if (day < 10) {
                 dayString = "0" + String.valueOf(day);
             }
 
-            int month = date.getMonth();
-            String monthString = String.valueOf(month);
-            if(month < 10) {
+            monthString = String.valueOf(month);
+            if (month < 10) {
                 monthString = "0" + String.valueOf(month);
             }
 
-            int hours = date.getHours();
-            String hoursString = String.valueOf(hours);
-            if(hours < 10) {
+            hoursString = String.valueOf(hours);
+            if (hours < 10) {
                 hoursString = "0" + String.valueOf(hours);
             }
 
-            int minutes = date.getMinutes();
-            String minutesString = String.valueOf(minutes);
-            if(minutes < 10) {
+            minutesString = String.valueOf(minutes);
+            if (minutes < 10) {
                 minutesString = "0" + String.valueOf(minutes);
             }
 
-            int year = date.getYear();
-            String yearString = String.valueOf(year);
-            yearString = yearString.substring(1);
+            yearString = String.valueOf(year);
+            yearString = yearString.substring(2);
 
             receipt.append("        RECONCILIATION\n\n\n");
-            receipt.append("TID: " + TID + "                 \nDate: " + dayString +"/"+ monthString +"/"+ yearString +"    Time: "+ hoursString +":" + minutesString + "\n\n\n");
+            receipt.append("TID: " + TID + "                 \nDate: " + dayString + "/" + monthString + "/" + yearString + "    Time: " + hoursString + ":" + minutesString + "\n\n\n");
 
             JSONObject reconciliation = new JSONObject(reconciliationResponse);
 
             JSONArray cardtypeData = reconciliation.getJSONArray("cardtypeData");
 
-            for(int i = 0; i < cardtypeData.length(); i++) {
+            for (int i = 0; i < cardtypeData.length(); i++) {
                 JSONObject data = cardtypeData.getJSONObject(i);
-                if(!data.isNull("cardAID")) {
+                if (!data.isNull("cardAID")) {
                     String cardAID = data.getString("cardAID");
                     receipt.append("AID: ").append(cardAID).append("\n");
                 }
@@ -844,6 +877,150 @@ public class MainPresenter implements MainContract.Presenter {
 
             Log.e("Reconciliation", receipt.toString());
 
+            receiptView.showReceipt(receipt.toString(), "", response.transactionDateTime);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SmartPOSController smartPOSController = new SmartPOSController();
+                    int ret = smartPOSController.PrinterOpen();
+                    if (ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    int status = smartPOSController.PrinterGetStatus();
+                    if (status != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                        return;
+                    }
+
+                    ret = smartPOSController.PrinterPrint(receipt.toString(), PrinterPrintType.TEXT.value);
+                    if (ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                    }
+
+                    ret = smartPOSController.PrinterFeedLine(8);
+                    if (ret != PrinterReturnCode.SUCCESS.value) {
+                        smartPOSController.PrinterClose();
+                    }
+
+                }
+            }).start();
+        } catch (JSONException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void printEndOfDay(Response response) {
+        String endOfDayResponse = response.getEndOfDayResponse();
+
+        Log.e("End of Day", endOfDayResponse);
+
+        final StringBuilder receipt = new StringBuilder();
+
+        String dayString = "";
+        String monthString = "";
+        String hoursString = "";
+        String minutesString = "";
+        String yearString = "";
+
+        int day = 0;
+        int month = 0;
+        int hours = 0;
+        int minutes = 0;
+        int year = 0;
+
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                LocalDateTime parsedDate = LocalDateTime.parse(response.transactionDateTime, formatter);
+
+                day = parsedDate.getDayOfMonth();
+                month = parsedDate.getMonthValue();
+                hours = parsedDate.getHour();
+                minutes = parsedDate.getMinute();
+                year = parsedDate.getYear();
+            } else {
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date date = formatter.parse(response.transactionDateTime);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH) + 1;
+                hours = calendar.get(Calendar.HOUR_OF_DAY);
+                minutes = calendar.get(Calendar.MINUTE);
+                year = calendar.get(Calendar.YEAR);
+            }
+
+            dayString = String.valueOf(day);
+            if (day < 10) {
+                dayString = "0" + String.valueOf(day);
+            }
+
+            monthString = String.valueOf(month);
+            if (month < 10) {
+                monthString = "0" + String.valueOf(month);
+            }
+
+            hoursString = String.valueOf(hours);
+            if (hours < 10) {
+                hoursString = "0" + String.valueOf(hours);
+            }
+
+            minutesString = String.valueOf(minutes);
+            if (minutes < 10) {
+                minutesString = "0" + String.valueOf(minutes);
+            }
+
+            yearString = String.valueOf(year);
+            yearString = yearString.substring(2);
+
+            receipt.append("        END OF DAY\n\n\n");
+            receipt.append("TID: " + TID + "                 \nDate: " + dayString + "/" + monthString + "/" + yearString + "    Time: " + hoursString + ":" + minutesString + "\n\n\n");
+
+            JSONObject reconciliation = new JSONObject(endOfDayResponse);
+
+            JSONArray cardtypeData = reconciliation.getJSONArray("cardtypeData");
+
+            for (int i = 0; i < cardtypeData.length(); i++) {
+                JSONObject data = cardtypeData.getJSONObject(i);
+                if (!data.isNull("cardAID")) {
+                    String cardAID = data.getString("cardAID");
+                    receipt.append("AID: ").append(cardAID).append("\n");
+                }
+
+                String cardProviderName = data.getString("cardProviderName");
+                receipt.append("Brand name: ").append(cardProviderName).append("\n");
+
+                int numberOfDebit = data.getInt("numberOfDebit");
+                receipt.append("Debit count: ").append(numberOfDebit).append("\n");
+
+                double debitAmount = data.getDouble("debitAmount");
+                receipt.append("Debit amount: ").append(debitAmount).append("\n");
+
+                double tip = data.getDouble("tip");
+                receipt.append("Tip amount: ").append(tip).append("\n");
+
+                double debitTotal = data.getDouble("debitAmount");
+                receipt.append("Debit total amount: ").append(debitTotal).append("\n");
+
+                int numberOfCredit = data.getInt("numberOfCredit");
+                receipt.append("Credit count: ").append(numberOfCredit).append("\n");
+
+                int creditTotal = data.getInt("creditTotal");
+                receipt.append("Credit total amount: ").append(creditTotal).append("\n");
+
+                receipt.append("------------------------------------------\n\n");
+            }
+
+            Log.e("End of Day", receipt.toString());
+
+            receiptView.showReceipt(receipt.toString(), "", response.transactionDateTime);
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -873,43 +1050,8 @@ public class MainPresenter implements MainContract.Presenter {
                 }
             }).start();
 
-        } catch (JSONException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private class Incrementer extends TimerTask {
-
-        private volatile boolean alive;
-
-        Incrementer() {
-            alive = true;
-        }
-
-        void terminate() {
-            alive = false;
-        }
-
-        void go() {
-            alive = true;
-        }
-
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        @Override
-        public void run() {
-            if (alive) {
-                Date date = new Date(System.currentTimeMillis());
-                transactionID = formatter.format(date);
-                dateTime = formatter.format(date);
-            }
-
-            if(autoConnect && !isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("") && nataliStatus == SERVICE_READY_TO_PAY) {
-                connect();
-            }
         }
     }
 
@@ -1033,5 +1175,37 @@ public class MainPresenter implements MainContract.Presenter {
         respHistoryEntity.exFee = response.exFee;
 
         return respHistoryEntity;
+    }
+
+    private class Incrementer extends TimerTask {
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        private volatile boolean alive;
+
+        Incrementer() {
+            alive = true;
+        }
+
+        void terminate() {
+            alive = false;
+        }
+
+        void go() {
+            alive = true;
+        }
+
+        @Override
+        public void run() {
+            if (alive) {
+                Date date = new Date(System.currentTimeMillis());
+                transactionID = formatter.format(date);
+                dateTime = formatter.format(date);
+            }
+
+            if(autoConnect && !isConnected() && !TID.equals("") && !hostname.equals("") && !port.equals("") && nataliStatus == SERVICE_READY_TO_PAY) {
+                connect();
+            }
+        }
     }
 }

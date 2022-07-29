@@ -119,6 +119,7 @@ public interface MainContract {
         void abort();
 
         void printReconciliation(Response response);
+        void printEndOfDay(Response response);
 
         String getHostname();
         String getPort();
