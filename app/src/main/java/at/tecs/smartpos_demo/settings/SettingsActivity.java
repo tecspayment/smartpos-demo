@@ -15,8 +15,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import at.tecs.smartpos.data.Transaction;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
+import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -41,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         Button clearTransactionButton = findViewById(R.id.clearTransactionButton);
         Button clearHostnamesButton = findViewById(R.id.clearHostnamesButton);
         Button clearPortsButton = findViewById(R.id.clearPortsButton);
+        Button defaultTransactionButton = findViewById(R.id.defaultTransactionButton);
 
         final Repository repository = Repository.getInstance(this);
 
@@ -123,6 +126,177 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 repository.deleteTransations();
                 showToast(context, "Transactions cleared!");
+                return true;
+            }
+        });
+
+        defaultTransactionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showToast(context, "Please hold the button.");
+            }
+        });
+
+        defaultTransactionButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                TransactionEntity transaction = new TransactionEntity();
+                transaction.name = "Sale";
+                transaction.amountVisibility = true;
+                transaction.currencyVisibility = true;
+                transaction.sourceIDVisibility = false;
+                transaction.cardNumVisibility = false;
+                transaction.cvc2Visibility = false;
+                transaction.receiptNumVisibility = false;
+                transaction.paymentReasonVisibility = false;
+                transaction.transPlaceVisibility = false;
+                transaction.authorNumVisibility = false;
+                transaction.originIndVisibility = false;
+                transaction.passwordVisibility = false;
+                transaction.userdataVisibility = false;
+                transaction.langCodeVisibility = false;
+                transaction.receiptLayoutVisibility = false;
+                transaction.desCurrencyVisibility = false;
+                transaction.txOriginVisibility = false;
+                transaction.personalIDVisibility = false;
+                transaction.msgType = Transaction.MessageType.SALE;
+                transaction.index = 0;
+                transaction.amount = "1";
+                transaction.currency = "EUR";
+                transaction.sourceID = "1";
+                transaction.receiptNum = "1";
+                transaction.originInd = "0";
+                transaction.langCode = "EN";
+                transaction.receiptLayout = "1";
+                transaction.desCurrency = "EUR";
+                transaction.txOrigin = "1";
+
+                repository.saveTransaction(transaction);
+
+                transaction = new TransactionEntity();
+                transaction.name = "Refund";
+                transaction.amountVisibility = true;
+                transaction.currencyVisibility = true;
+                transaction.sourceIDVisibility = false;
+                transaction.cardNumVisibility = false;
+                transaction.cvc2Visibility = false;
+                transaction.receiptNumVisibility = false;
+                transaction.paymentReasonVisibility = false;
+                transaction.transPlaceVisibility = false;
+                transaction.authorNumVisibility = false;
+                transaction.originIndVisibility = false;
+                transaction.passwordVisibility = false;
+                transaction.userdataVisibility = false;
+                transaction.langCodeVisibility = false;
+                transaction.receiptLayoutVisibility = false;
+                transaction.desCurrencyVisibility = false;
+                transaction.txOriginVisibility = false;
+                transaction.personalIDVisibility = false;
+                transaction.msgType = Transaction.MessageType.CREDIT_NOTE;
+                transaction.index = 1;
+                transaction.amount = "1";
+                transaction.currency = "EUR";
+                transaction.sourceID = "1";
+                transaction.receiptNum = "1";
+                transaction.originInd = "0";
+                transaction.langCode = "EN";
+                transaction.receiptLayout = "1";
+                transaction.desCurrency = "EUR";
+                transaction.txOrigin = "1";
+
+
+                repository.saveTransaction(transaction);
+
+                transaction = new TransactionEntity();
+                transaction.name = "Cancellation";
+                transaction.cardNumVisibility = true;
+                transaction.amountVisibility = true;
+                transaction.currencyVisibility = true;
+                transaction.amountVisibility = true;
+                transaction.currencyVisibility = true;
+                transaction.sourceIDVisibility = false;
+                transaction.cvc2Visibility = false;
+                transaction.receiptNumVisibility = false;
+                transaction.paymentReasonVisibility = false;
+                transaction.transPlaceVisibility = false;
+                transaction.authorNumVisibility = false;
+                transaction.originIndVisibility = false;
+                transaction.passwordVisibility = false;
+                transaction.userdataVisibility = false;
+                transaction.langCodeVisibility = false;
+                transaction.receiptLayoutVisibility = false;
+                transaction.desCurrencyVisibility = false;
+                transaction.txOriginVisibility = false;
+                transaction.personalIDVisibility = false;
+                transaction.msgType = Transaction.MessageType.CANCEL;
+                transaction.index = 2;
+                transaction.amount = "1";
+                transaction.currency = "EUR";
+                transaction.sourceID = "1";
+                transaction.cardNum = "TXID";
+                transaction.receiptNum = "1";
+                transaction.originInd = "2";
+                transaction.langCode = "EN";
+                transaction.receiptLayout = "1";
+                transaction.desCurrency = "EUR";
+                transaction.txOrigin = "2";
+
+
+                repository.saveTransaction(transaction);
+
+                transaction = new TransactionEntity();
+                transaction.name = "Connection status";
+                transaction.cardNumVisibility = false;
+                transaction.amountVisibility = false;
+                transaction.currencyVisibility = false;
+                transaction.amountVisibility = false;
+                transaction.currencyVisibility = false;
+                transaction.sourceIDVisibility = false;
+                transaction.cvc2Visibility = false;
+                transaction.receiptNumVisibility = false;
+                transaction.paymentReasonVisibility = false;
+                transaction.transPlaceVisibility = false;
+                transaction.authorNumVisibility = false;
+                transaction.originIndVisibility = false;
+                transaction.passwordVisibility = false;
+                transaction.userdataVisibility = false;
+                transaction.langCodeVisibility = false;
+                transaction.receiptLayoutVisibility = false;
+                transaction.desCurrencyVisibility = false;
+                transaction.txOriginVisibility = false;
+                transaction.personalIDVisibility = false;
+                transaction.index = 3;
+                transaction.msgType = Transaction.MessageType.CONNECTION_STATUS;
+
+                repository.saveTransaction(transaction);
+
+                transaction = new TransactionEntity();
+                transaction.cardNumVisibility = false;
+                transaction.amountVisibility = false;
+                transaction.currencyVisibility = false;
+                transaction.amountVisibility = false;
+                transaction.currencyVisibility = false;
+                transaction.sourceIDVisibility = false;
+                transaction.cvc2Visibility = false;
+                transaction.receiptNumVisibility = false;
+                transaction.paymentReasonVisibility = false;
+                transaction.transPlaceVisibility = false;
+                transaction.authorNumVisibility = false;
+                transaction.originIndVisibility = false;
+                transaction.passwordVisibility = false;
+                transaction.userdataVisibility = false;
+                transaction.langCodeVisibility = false;
+                transaction.receiptLayoutVisibility = false;
+                transaction.desCurrencyVisibility = false;
+                transaction.txOriginVisibility = false;
+                transaction.personalIDVisibility = false;
+                transaction.name = "Reconciliation request";
+                transaction.index = 4;
+                transaction.msgType = Transaction.MessageType.RECONCILIATION_REQUEST;
+
+                repository.saveTransaction(transaction);
+
+                showToast(context, "Default transactions loaded!");
                 return true;
             }
         });

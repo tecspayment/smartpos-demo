@@ -49,6 +49,19 @@ public class Repository {
     }
 
     public void saveTransaction(TransactionEntity transactionEntity) {
+        List<TransactionEntity> transactions = database.transactionDAO().getAllTransactions();
+
+        for (TransactionEntity transaction : transactions) {
+            if(transaction.name.equals(transactionEntity.name)) {
+                try {
+                    database.transactionDAO().updateTransaction(transactionEntity);
+                } catch (SQLiteConstraintException exception) {
+                    exception.printStackTrace();
+                }
+                return;
+            }
+        }
+
         try {
             database.transactionDAO().insertTransaction(transactionEntity);
         } catch (SQLiteConstraintException exception) {
