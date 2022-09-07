@@ -238,14 +238,11 @@ public class MainPresenter implements MainContract.Presenter {
                                 view.showMessage("Scan result", response.getScanData(), R.drawable.outline_qr_code_white_48dp, -1);
                             }
 
-                            /*
                             if(response.getReconciliationResponse() != null) {
                                 printReconciliation(response);
                             } else {
                                 Log.e("Reconciliation", "No reconciliation!");
                             }
-
-                             */
 
                             if(response.getEndOfDayResponse() != null) {
                                 printEndOfDay(response);
