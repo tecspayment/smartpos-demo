@@ -746,11 +746,41 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void printReconciliation(Response response) {
+    public void printReconciliation(final Response response) {
         String reconciliationResponse = response.getReconciliationResponse();
 
         Log.e("Reconciliation", reconciliationResponse);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SmartPOSController smartPOSController = new SmartPOSController();
+                int ret = smartPOSController.PrinterOpen();
+                if (ret != PrinterReturnCode.SUCCESS.value) {
+                    smartPOSController.PrinterClose();
+                    return;
+                }
+
+                int status = smartPOSController.PrinterGetStatus();
+                if (status != PrinterReturnCode.SUCCESS.value) {
+                    smartPOSController.PrinterClose();
+                    return;
+                }
+
+                ret = smartPOSController.PrinterPrint(response.getMerchantReceipt(), PrinterPrintType.TEXT.value);
+                if (ret != PrinterReturnCode.SUCCESS.value) {
+                    smartPOSController.PrinterClose();
+                }
+
+                ret = smartPOSController.PrinterFeedLine(8);
+                if (ret != PrinterReturnCode.SUCCESS.value) {
+                    smartPOSController.PrinterClose();
+                }
+
+            }
+        }).start();
+
+        /*
         final StringBuilder receipt = new StringBuilder();
 
         try {
@@ -910,6 +940,8 @@ public class MainPresenter implements MainContract.Presenter {
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
+
+         */
     }
 
     @Override
