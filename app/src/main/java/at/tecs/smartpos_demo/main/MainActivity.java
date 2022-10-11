@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.startAutomatic(true);
+
+        presenter.startConnectionChecker();
 
         if(preferences.getBoolean("firstRun", true)) {
             presenter.loadDefaults();   //Load default transactions

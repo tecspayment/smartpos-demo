@@ -58,6 +58,8 @@ public interface MainContract {
 
         void initialize();
 
+        void startConnectionChecker();
+
         void takeView(MainContract.View view);
 
         void setHostname(String hostname);
@@ -77,8 +79,6 @@ public interface MainContract {
         boolean isAutoConnect();
 
         boolean isConnected();
-
-        void startAutomatic(boolean automatic);
 
         void connect();
 
