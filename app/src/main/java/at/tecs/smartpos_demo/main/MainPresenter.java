@@ -192,7 +192,7 @@ public class MainPresenter implements MainContract.Presenter {
                         public void onResponseReceived(Response response) {     //Readed response
                             lastResponse = response;
 
-                            Log.e("Response", response.getResponse());
+                            //Log.e("Response", response.getResponse());
 
                             if(!response.msgType.equals("5747")) { //Ignore notification messages
                                 repository.saveResponse(convertResponse(response));
