@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.UUID;
 
 import at.tecs.smartpos.PaymentService;
+import at.tecs.smartpos.PrinterControl;
 import at.tecs.smartpos.SmartPOSController;
 import at.tecs.smartpos.connector.ConnectionListener;
 import at.tecs.smartpos.connector.ResponseListener;
@@ -755,28 +756,36 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void run() {
                 SmartPOSController smartPOSController = new SmartPOSController();
-                int ret = smartPOSController.PrinterOpen();
-                if (ret != PrinterReturnCode.SUCCESS.value) {
-                    smartPOSController.PrinterClose();
-                    return;
-                }
 
-                int status = smartPOSController.PrinterGetStatus();
-                if (status != PrinterReturnCode.SUCCESS.value) {
-                    smartPOSController.PrinterClose();
-                    return;
-                }
+                smartPOSController.openPrinter(new SmartPOSController.OpenPrinterListener() {
+                    @Override
+                    public void onOpened(PrinterControl printerControl) {
+                        PrinterReturnCode ret = printerControl.getStatus();
+                        if (ret != PrinterReturnCode.SUCCESS) {
+                            printerControl.close();
+                            return;
+                        }
 
-                ret = smartPOSController.PrinterPrint(response.getMerchantReceipt(), PrinterPrintType.TEXT.value);
-                if (ret != PrinterReturnCode.SUCCESS.value) {
-                    smartPOSController.PrinterClose();
-                }
+                        ret = printerControl.print(response.getMerchantReceipt(), PrinterPrintType.TEXT);
+                        if (ret != PrinterReturnCode.SUCCESS) {
+                            printerControl.close();
+                            return;
+                        }
 
-                ret = smartPOSController.PrinterFeedLine(8);
-                if (ret != PrinterReturnCode.SUCCESS.value) {
-                    smartPOSController.PrinterClose();
-                }
+                        ret = printerControl.feedLine(8);
+                        if (ret != PrinterReturnCode.SUCCESS) {
+                            printerControl.close();
+                            return;
+                        }
 
+                        printerControl.close();
+                    }
+
+                    @Override
+                    public void onError(PrinterReturnCode printerReturnCode) {
+                        smartPOSController.closePrinter();
+                    }
+                });
             }
         }).start();
     }
@@ -894,28 +903,35 @@ public class MainPresenter implements MainContract.Presenter {
                 @Override
                 public void run() {
                     SmartPOSController smartPOSController = new SmartPOSController();
-                    int ret = smartPOSController.PrinterOpen();
-                    if (ret != PrinterReturnCode.SUCCESS.value) {
-                        smartPOSController.PrinterClose();
-                        return;
-                    }
+                    smartPOSController.openPrinter(new SmartPOSController.OpenPrinterListener() {
+                        @Override
+                        public void onOpened(PrinterControl printerControl) {
+                            PrinterReturnCode ret = printerControl.getStatus();
+                            if (ret != PrinterReturnCode.SUCCESS) {
+                                printerControl.close();
+                                return;
+                            }
 
-                    int status = smartPOSController.PrinterGetStatus();
-                    if (status != PrinterReturnCode.SUCCESS.value) {
-                        smartPOSController.PrinterClose();
-                        return;
-                    }
+                            ret = printerControl.print(receipt.toString(), PrinterPrintType.TEXT);
+                            if (ret != PrinterReturnCode.SUCCESS) {
+                                printerControl.close();
+                                return;
+                            }
 
-                    ret = smartPOSController.PrinterPrint(receipt.toString(), PrinterPrintType.TEXT.value);
-                    if (ret != PrinterReturnCode.SUCCESS.value) {
-                        smartPOSController.PrinterClose();
-                    }
+                            ret = printerControl.feedLine(8);
+                            if (ret != PrinterReturnCode.SUCCESS) {
+                                printerControl.close();
+                                return;
+                            }
 
-                    ret = smartPOSController.PrinterFeedLine(8);
-                    if (ret != PrinterReturnCode.SUCCESS.value) {
-                        smartPOSController.PrinterClose();
-                    }
+                            printerControl.close();
+                        }
 
+                        @Override
+                        public void onError(PrinterReturnCode printerReturnCode) {
+                            smartPOSController.closePrinter();
+                        }
+                    });
                 }
             }).start();
 

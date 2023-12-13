@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 case TX_WAITING_FOR_REMOVE_CARD:
                     showNotification("Waiting for remove card");
                     break;
-                case TX_INITIALSE:
+                case TX_INITIALIZE:
                     showNotification("Transactions is in initialization state");
                     break;
                 case TX_FC_WAITING_FOR_CARD:
