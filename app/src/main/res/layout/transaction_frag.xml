@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,14 +37,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout17"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout17">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/currency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,9 +62,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sourceID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,9 +82,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cardNum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,9 +102,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cvc2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -122,9 +122,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/recieptNum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,9 +142,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/paymentReason"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -162,9 +162,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout7"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/transactionPlace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -182,9 +182,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout8"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/authNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -202,9 +202,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout9"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/originIndicator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -222,9 +222,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -233,7 +233,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout10"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout10">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -242,9 +242,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ecrData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -262,9 +262,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout13"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -273,7 +273,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout12"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout12">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/langCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -282,9 +282,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout14"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout13"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/receiptLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -302,9 +302,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -313,7 +313,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout14"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/destCurrency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -322,9 +322,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout15"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout15">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txOrigin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -342,9 +342,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/colorAccent"
@@ -352,7 +352,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout16">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/personalID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -361,9 +361,9 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout17"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -372,7 +372,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -381,8 +381,8 @@
                     android:textColor="@color/colorAccent"
                     android:textColorHighlight="@color/colorAccent"
                     android:textColorHint="@color/colorAccent" />
-            </android.support.design.widget.TextInputLayout>
-        </android.support.constraint.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

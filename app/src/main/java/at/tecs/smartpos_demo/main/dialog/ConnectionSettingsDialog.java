@@ -12,9 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import com.google.android.material.textfield.TextInputLayout;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;

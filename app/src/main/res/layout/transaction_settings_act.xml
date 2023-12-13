@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/master"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameEditLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="@+id/messageTypeEditLayout"
         app:layout_constraintTop_toBottomOf="@+id/textView14">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -54,9 +54,9 @@
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/messageTypeEditLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         app:layout_constraintStart_toStartOf="@+id/scrollView3"
         app:layout_constraintTop_toBottomOf="@+id/nameEditLayout">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/messageTypeEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,7 +85,7 @@
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -106,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@+id/visibilityCheckBox"
         app:layout_constraintVertical_bias="0.0">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/transactionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/amountEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="63dp"
@@ -133,7 +133,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/amountEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -144,9 +144,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/currencyEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/amountEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/currencyEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -174,9 +174,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/transSourceIDEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/currencyEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/transSourceIDEdit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -204,9 +204,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cardNumEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/transSourceIDEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cardNumEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -234,9 +234,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cvc2EditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/cardNumEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cvc2EditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -264,10 +264,10 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/receiptNumEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/cvc2EditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/receiptNumEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -295,9 +295,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/paymentReasonEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -314,7 +314,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/receiptNumEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/paymentReasonEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -325,9 +325,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/transPlaceEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -344,7 +344,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/paymentReasonEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/transPlaceEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -355,9 +355,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/authNumberEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -374,7 +374,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/transPlaceEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/authNumberEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -385,9 +385,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/originIndicatorEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -404,7 +404,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/authNumberEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/originIndicatorEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -415,9 +415,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -434,7 +434,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/originIndicatorEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -445,9 +445,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ecrDataEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -464,7 +464,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/passwordEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ecrDataEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -475,9 +475,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/languageCodeEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -494,7 +494,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/ecrDataEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/languageCodeEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -505,9 +505,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/receiptLayoutEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -524,7 +524,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/languageCodeEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/receiptLayoutEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -535,9 +535,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/destinationCurrencyEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -554,7 +554,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/receiptLayoutEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/destinationCurrencyEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -565,9 +565,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txOriginEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -584,7 +584,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/destinationCurrencyEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txOriginEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -595,9 +595,9 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/personalIDEditLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -614,7 +614,7 @@
                 app:layout_constraintStart_toStartOf="@+id/transactionContainer"
                 app:layout_constraintTop_toBottomOf="@+id/txOriginEditLayout">
 
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/personalIDEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -625,7 +625,7 @@
                     android:textColorHighlight="@android:color/white"
                     android:textColorHint="@android:color/white"
                     android:textColorLink="@android:color/white" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/amountVisibilityButton"
@@ -888,7 +888,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/personalIDEditLayout" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
@@ -913,4 +913,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/messageTypeEditLayout" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
