@@ -1,12 +1,11 @@
 package at.tecs.smartpos_demo.tx_history.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import at.tecs.smartpos_demo.data.repository.entity.RespHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;
-import at.tecs.smartpos_demo.main.fragments.ResponseFragment;
 import at.tecs.smartpos_demo.tx_history.fragments.RespHistoryFragment;
 import at.tecs.smartpos_demo.tx_history.fragments.TransHistoryFragment;
 

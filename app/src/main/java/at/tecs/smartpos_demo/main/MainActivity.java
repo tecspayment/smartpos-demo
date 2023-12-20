@@ -12,10 +12,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 case TX_WAITING_FOR_REMOVE_CARD:
                     showNotification("Waiting for remove card");
                     break;
-                case TX_INITIALSE:
+                case TX_INITIALIZE:
                     showNotification("Transactions is in initialization state");
                     break;
                 case TX_FC_WAITING_FOR_CARD:

@@ -1,22 +1,18 @@
 package at.tecs.smartpos_demo.history_list;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import at.tecs.smartpos.data.Transaction;
-import at.tecs.smartpos.exception.TransactionFieldException;
 import at.tecs.smartpos_demo.R;
 import at.tecs.smartpos_demo.data.repository.Repository;
 import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;

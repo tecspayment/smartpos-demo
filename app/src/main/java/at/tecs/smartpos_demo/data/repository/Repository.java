@@ -1,6 +1,6 @@
 package at.tecs.smartpos_demo.data.repository;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 

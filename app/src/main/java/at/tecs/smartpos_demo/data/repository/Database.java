@@ -1,6 +1,6 @@
 package at.tecs.smartpos_demo.data.repository;
 
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.RoomDatabase;
 
 import at.tecs.smartpos_demo.data.repository.dao.HostnameDAO;
 import at.tecs.smartpos_demo.data.repository.dao.PortDAO;
@@ -16,7 +16,7 @@ import at.tecs.smartpos_demo.data.repository.entity.TransHistoryEntity;
 import at.tecs.smartpos_demo.data.repository.entity.TransactionEntity;
 
 
-@android.arch.persistence.room.Database(entities = {HostnameEntity.class, PortEntity.class, TerminalNumberEntity.class, TransactionEntity.class, TransHistoryEntity.class, RespHistoryEntity.class}, version = 3, exportSchema = false)
+@androidx.room.Database(entities = {HostnameEntity.class, PortEntity.class, TerminalNumberEntity.class, TransactionEntity.class, TransHistoryEntity.class, RespHistoryEntity.class}, version = 3, exportSchema = false)
 public abstract class Database extends RoomDatabase {
     public abstract HostnameDAO hostnameDAO();
     public abstract PortDAO portDAO();

@@ -2,8 +2,8 @@ package at.tecs.smartpos_demo;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.os.Build;
-import android.support.v4.content.res.ResourcesCompat;
+
+import androidx.core.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +27,6 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 import at.tecs.smartpos_demo.utils.CRC;
 
